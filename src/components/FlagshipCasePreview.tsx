@@ -1,7 +1,10 @@
 'use client';
 
+import Link from 'next/link';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useCallback, useEffect, useRef, useState } from 'react';
+
+const MotionLink = motion.create(Link);
 
 const VB_W = 100;
 const VB_H = 100 / (21 / 9);
@@ -71,7 +74,7 @@ function useTypewriter(activeId: string | null, fullText: string) {
   return out;
 }
 
-export function FlagshipCasePreview() {
+export function FlagshipCasePreview({ href }: { href: string }) {
   const [hovered, setHovered] = useState<string | null>(null);
   const leaveTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
 
@@ -91,8 +94,8 @@ export function FlagshipCasePreview() {
   const typed = useTypewriter(hovered, active?.label ?? '');
 
   return (
-    <motion.a
-      href="#work"
+    <MotionLink
+      href={href}
       className="relative block aspect-[21/9] min-h-[200px] w-full cursor-pointer overflow-hidden rounded-lg outline-none ring-offset-0 focus-visible:ring-2 focus-visible:ring-[#58A6FF]/40 md:min-h-[280px] lg:min-h-[320px]"
       aria-label="Open GitHub Copilot flagship case study"
       whileTap={{ scale: 0.99 }}
@@ -243,6 +246,6 @@ export function FlagshipCasePreview() {
         </span>
         <span className="text-[10px] text-[#6E7681]">De-identified preview</span>
       </div>
-    </motion.a>
+    </MotionLink>
   );
 }

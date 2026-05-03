@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="720" viewBox="0 0 1200 720" role="img" aria-label="Placeholder centered">
+  <rect width="1200" height="720" fill="#161B22"/>
+  <rect x="140" y="140" width="920" height="440" rx="16" fill="#0D1117" stroke="#30363D"/>
+  <text x="50%" y="360" dominant-baseline="middle" text-anchor="middle" fill="#58A6FF" font-family="ui-monospace, monospace" font-size="24">Onboarding · centered</text>
+</svg>

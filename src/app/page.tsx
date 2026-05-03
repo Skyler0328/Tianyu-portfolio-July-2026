@@ -1,5 +1,6 @@
 'use client';
 
+import Link from 'next/link';
 import { motion } from 'framer-motion';
 
 import { FlagshipCasePreview } from '@/components/FlagshipCasePreview';
@@ -50,6 +51,7 @@ const gallerySection = {
 };
 
 type Project = {
+  id: string;
   title: string;
   description: string;
   tags: string[];
@@ -57,21 +59,25 @@ type Project = {
 
 const projects: Project[] = [
   {
+    id: 'agent-orchestration-console',
     title: 'Agent Orchestration Console',
     description: 'Control plane UX for multi-step AI workflows in enterprise SaaS.',
     tags: ['B2B', 'Design Systems', 'Research'],
   },
   {
+    id: 'ide-inline-assistance',
     title: 'IDE Inline Assistance',
     description: 'Latency-sensitive surfaces for suggestions, diffs, and trust signals.',
     tags: ['AI IDE', 'Interaction', 'Prototyping'],
   },
   {
+    id: 'compliance-audit-trails',
     title: 'Compliance & Audit Trails',
     description: 'Dense data tables and review flows for regulated operators.',
     tags: ['Complex Systems', 'IA', 'Content'],
   },
   {
+    id: 'onboarding-power-users',
     title: 'Onboarding for Power Users',
     description: 'Progressive disclosure without blocking expert shortcuts.',
     tags: ['Onboarding', 'Metrics', 'A/B'],
@@ -94,13 +100,17 @@ function Gallery() {
         </motion.p>
         <div className="grid grid-cols-1 gap-8 md:grid-cols-2">
           {projects.map((project) => (
-            <motion.article
-              key={project.title}
-              variants={pageItem}
-              whileHover={{ y: -4 }}
-              transition={{ duration: 0.35, ease: easeOut }}
-              className="group cursor-pointer rounded-lg border border-white/[0.08] bg-[#161B22]/55 p-6 shadow-[0_1px_0_rgba(255,255,255,0.04)_inset] backdrop-blur-md transition-[border-color,box-shadow] duration-300 hover:border-[#388BFD]/35 hover:shadow-[0_0_0_1px_rgba(56,139,253,0.12),0_24px_48px_-24px_rgba(0,0,0,0.65)]"
+            <Link
+              key={project.id}
+              href={`/work/${project.id}`}
+              className="block min-w-0 cursor-pointer no-underline"
             >
+              <motion.article
+                variants={pageItem}
+                whileHover={{ y: -4 }}
+                transition={{ duration: 0.35, ease: easeOut }}
+                className="group rounded-lg border border-white/[0.08] bg-[#161B22]/55 p-6 shadow-[0_1px_0_rgba(255,255,255,0.04)_inset] backdrop-blur-md transition-[border-color,box-shadow] duration-300 hover:border-[#388BFD]/35 hover:shadow-[0_0_0_1px_rgba(56,139,253,0.12),0_24px_48px_-24px_rgba(0,0,0,0.65)]"
+              >
               <div className="mb-6 aspect-video w-full overflow-hidden rounded-md border border-[#30363D] bg-[#0D1117]">
                 <div className="h-full w-full bg-gradient-to-br from-[#21262D] via-[#0D1117] to-[#161B22]" />
               </div>
@@ -120,7 +130,8 @@ function Gallery() {
                   </span>
                 ))}
               </div>
-            </motion.article>
+              </motion.article>
+            </Link>
           ))}
         </div>
       </div>
@@ -198,15 +209,22 @@ export default function HomePage() {
 
               <div className="mx-auto flex w-full min-w-0 justify-center lg:col-span-4 lg:mx-0 lg:justify-end">
                 <div
-                  className="aspect-square w-full max-w-[min(100%,17.5rem)] shrink-0 overflow-hidden rounded-xl border border-[#30363D] bg-[#161B22] shadow-[0_16px_48px_-24px_rgba(0,0,0,0.75)] sm:max-w-[18.5rem] lg:max-w-[min(100%,22.5rem)]"
-                  aria-label="Portrait placeholder"
+                  className="aspect-square w-full max-w-[min(100%,17.5rem)] shrink-0 overflow-hidden bg-[#0D1117] sm:max-w-[18.5rem] lg:max-w-[min(100%,22.5rem)]"
+                  aria-label="Portrait of Tianyu Wu"
                 >
-                  <div className="flex h-full w-full flex-col items-center justify-center gap-2 bg-gradient-to-b from-[#21262D]/80 to-[#0D1117] px-4 text-center">
-                    <span className="text-[11px] font-medium uppercase tracking-[0.14em] text-[#8B949E]">
-                      Photo
-                    </span>
-                    <span className="text-xs text-[#6E7681]">1:1 · replace</span>
-                  </div>
+                  <img
+                    src="/myphoto2.png"
+                    alt="Tianyu Wu — line portrait with flowers"
+                    className="h-full w-full object-cover object-top"
+                    style={{
+                      filter: 'invert(1)',
+                      mixBlendMode: 'screen',
+                      maskImage:
+                        'radial-gradient(ellipse 89% 93% at 50% 48%, black 48%, transparent 90%)',
+                      WebkitMaskImage:
+                        'radial-gradient(ellipse 89% 93% at 50% 48%, black 48%, transparent 90%)',
+                    }}
+                  />
                 </div>
               </div>
             </div>
@@ -232,7 +250,7 @@ export default function HomePage() {
               Flagship case — visual area
             </p>
             <div className="relative overflow-hidden rounded-lg border border-[#30363D] bg-[#161B22] shadow-[0_24px_64px_-32px_rgba(0,0,0,0.85)]">
-              <FlagshipCasePreview />
+              <FlagshipCasePreview href="/work/github-copilot" />
             </div>
           </motion.div>
         </motion.div>

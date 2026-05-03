@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="900" viewBox="0 0 1600 900" role="img" aria-label="Placeholder wide">
+  <rect width="1600" height="900" fill="#161B22"/>
+  <rect x="80" y="80" width="1440" height="740" rx="12" fill="#0D1117" stroke="#30363D"/>
+  <text x="50%" y="50%" dominant-baseline="middle" text-anchor="middle" fill="#58A6FF" font-family="ui-monospace, monospace" font-size="28">IDE inline · full width</text>
+</svg>

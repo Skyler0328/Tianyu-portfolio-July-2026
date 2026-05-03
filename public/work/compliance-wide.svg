@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="900" viewBox="0 0 1600 900" role="img" aria-label="Placeholder wide">
+  <rect width="1600" height="900" fill="#0D1117"/>
+  <g stroke="#30363D" stroke-width="1">
+    <line x1="120" y1="220" x2="1480" y2="220"/>
+    <line x1="120" y1="320" x2="1480" y2="320"/>
+    <line x1="120" y1="420" x2="1480" y2="420"/>
+  </g>
+  <text x="50%" y="120" dominant-baseline="middle" text-anchor="middle" fill="#58A6FF" font-family="ui-monospace, monospace" font-size="26">Compliance · audit overview</text>
+</svg>
