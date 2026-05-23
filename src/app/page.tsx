@@ -91,7 +91,7 @@ function Gallery() {
       variants={gallerySection}
       className="border-t border-[#30363D] py-16 md:py-24"
     >
-      <div className="mx-auto w-full max-w-6xl px-6 md:px-8">
+      <div className="mx-auto w-full max-w-[1248px] px-4 sm:px-6 md:px-8 lg:px-10">
         <motion.p
           variants={pageItem}
           className="mb-8 text-xs font-medium uppercase tracking-[0.12em] text-[#8B949E]"
@@ -109,7 +109,7 @@ function Gallery() {
                 variants={pageItem}
                 whileHover={{ y: -4 }}
                 transition={{ duration: 0.35, ease: easeOut }}
-                className="group rounded-lg border border-white/[0.08] bg-[#161B22]/55 p-6 shadow-[0_1px_0_rgba(255,255,255,0.04)_inset] backdrop-blur-md transition-[border-color,box-shadow] duration-300 hover:border-[#388BFD]/35 hover:shadow-[0_0_0_1px_rgba(56,139,253,0.12),0_24px_48px_-24px_rgba(0,0,0,0.65)]"
+                className="bg-noise group rounded-lg border border-white/[0.08] bg-[#161B22]/55 p-6 shadow-[0_1px_0_rgba(255,255,255,0.04)_inset] backdrop-blur-md transition-[border-color,box-shadow] duration-300 hover:border-[oklch(0.78_0.12_195)/35%] hover:shadow-[0_0_0_1px_oklch(0.78_0.12_195_/_0.12),0_24px_48px_-24px_rgba(0,0,0,0.65)]"
               >
               <div className="mb-6 aspect-video w-full overflow-hidden rounded-md border border-[#30363D] bg-[#0D1117]">
                 <div className="h-full w-full bg-gradient-to-br from-[#21262D] via-[#0D1117] to-[#161B22]" />
@@ -151,7 +151,7 @@ export default function HomePage() {
         variants={pageItem}
         className="fixed inset-x-0 top-0 z-50 border-b border-[#30363D] bg-[#0D1117]/85 backdrop-blur-md"
       >
-        <div className="mx-auto flex h-16 w-full max-w-6xl items-center justify-between px-6 md:px-8">
+        <div className="mx-auto flex h-16 w-full max-w-[1500px] items-center justify-between px-4 sm:px-6 md:px-7 lg:px-8">
           <span className="text-sm font-semibold tracking-tight text-[#F0F6FC]">
             Tianyu Wu
           </span>
@@ -175,7 +175,7 @@ export default function HomePage() {
       {/* Hero: full viewport shell + inner cascade */}
       <motion.div
         variants={pageItem}
-        className="mx-auto flex min-h-screen w-full max-w-6xl flex-col px-6 pb-16 pt-24 md:px-8 md:pb-24 md:pt-28"
+        className="mx-auto flex min-h-screen w-full max-w-[1248px] flex-col px-4 pb-16 pt-24 sm:px-6 md:px-8 md:pb-24 md:pt-28 lg:px-10"
       >
         <motion.div
           variants={heroInner}
@@ -184,46 +184,63 @@ export default function HomePage() {
           {/* Intro row */}
           <motion.div variants={pageItem} className="min-w-0 shrink-0">
             <div className="grid min-w-0 grid-cols-1 items-center gap-8 lg:grid-cols-12 lg:gap-12">
-              <div className="flex min-h-0 min-w-0 flex-col justify-center gap-6 lg:col-span-8">
-                <h2 className="text-balance text-3xl font-semibold leading-[1.1] tracking-[-0.02em] text-[#F0F6FC] md:text-4xl lg:text-[2.5rem] lg:leading-[1.08]">
-                  Hi, I&apos;m{' '}
-                  <span className="font-medium text-white">Tianyu Wu</span>
-                </h2>
-                <p className="text-balance text-lg leading-relaxed tracking-[-0.01em] text-[#8B949E] md:text-xl md:leading-relaxed">
-                  A{' '}
-                  <span className="font-medium text-[#58A6FF]">
-                    Product Designer
-                  </span>{' '}
-                  based in Shanghai. With a background in both landscape design
-                  and{' '}
-                  <span className="font-medium text-[#58A6FF]">
-                    digital systems
-                  </span>
-                  , I bring a unique perspective to{' '}
-                  <span className="font-medium text-[#58A6FF]">
-                    structuring complex environments
-                  </span>
-                  .
-                </p>
+              <div className="flex min-h-0 min-w-0 flex-col gap-10 lg:col-span-8 lg:h-[22.5rem] lg:justify-between">
+                <div className="space-y-6">
+                  <h2 className="text-balance text-3xl font-semibold leading-[1.1] tracking-[-0.02em] text-[#F0F6FC] md:text-4xl lg:text-[2.5rem] lg:leading-[1.08]">
+                    Hi, I&apos;m{' '}
+                    <span className="font-medium text-white">Tianyu Wu</span>
+                  </h2>
+                  <p className="text-balance text-lg leading-relaxed tracking-[-0.01em] text-[#8B949E] md:text-xl md:leading-relaxed">
+                    A Product designer focused on{' '}
+                    <span className="font-medium text-[#58A6FF]">
+                      Human-AI interaction
+                    </span>
+                    , intelligent workflows, and designing AI-native experiences
+                    for{' '}
+                    <span className="font-medium text-[#58A6FF]">
+                      complex systems
+                    </span>
+                    .
+                  </p>
+                </div>
+
+                  <dl className="grid max-w-3xl grid-cols-1 gap-6 bg-[#0B0F14]/45 p-6 font-mono shadow-[0_16px_48px_-32px_rgba(0,0,0,0.8)] sm:grid-cols-3">
+                    <div>
+                      <dt className="mb-3 font-mono text-3xl font-medium leading-none tracking-[-0.04em] text-[#F0F6FC] md:text-4xl">
+                        4+
+                      </dt>
+                      <dd className="text-[11px] font-medium uppercase leading-relaxed tracking-[0.16em] text-[#8B949E]">
+                        Years in tech
+                      </dd>
+                    </div>
+                    <div>
+                      <dt className="mb-3 font-mono text-3xl font-medium leading-none tracking-[-0.04em] text-[#58A6FF] md:text-4xl">
+                        AI
+                      </dt>
+                      <dd className="text-[11px] font-medium uppercase leading-relaxed tracking-[0.16em] text-[#8B949E]">
+                        Interaction systems
+                      </dd>
+                    </div>
+                    <div>
+                      <dt className="mb-3 font-mono text-3xl font-medium leading-none tracking-[-0.04em] text-[#F0F6FC] md:text-4xl">
+                        1
+                      </dt>
+                      <dd className="text-[11px] font-medium uppercase leading-relaxed tracking-[0.16em] text-[#8B949E]">
+                        Flagship AI product
+                      </dd>
+                    </div>
+                  </dl>
               </div>
 
               <div className="mx-auto flex w-full min-w-0 justify-center lg:col-span-4 lg:mx-0 lg:justify-end">
                 <div
-                  className="aspect-square w-full max-w-[min(100%,17.5rem)] shrink-0 overflow-hidden bg-[#0D1117] sm:max-w-[18.5rem] lg:max-w-[min(100%,22.5rem)]"
+                  className="aspect-[4/5] h-[17.5rem] w-auto shrink-0 overflow-hidden rounded-xl border border-[#30363D] bg-[#0D1117] shadow-[0_24px_64px_-32px_rgba(0,0,0,0.9)] sm:h-[18.5rem] lg:h-[22.5rem]"
                   aria-label="Portrait of Tianyu Wu"
                 >
                   <img
-                    src="/myphoto2.png"
-                    alt="Tianyu Wu — line portrait with flowers"
+                    src="/sucai-DSC06403_45.jpg"
+                    alt="Tianyu Wu portrait"
                     className="h-full w-full object-cover object-top"
-                    style={{
-                      filter: 'invert(1)',
-                      mixBlendMode: 'screen',
-                      maskImage:
-                        'radial-gradient(ellipse 89% 93% at 50% 48%, black 48%, transparent 90%)',
-                      WebkitMaskImage:
-                        'radial-gradient(ellipse 89% 93% at 50% 48%, black 48%, transparent 90%)',
-                    }}
                   />
                 </div>
               </div>
@@ -263,7 +280,7 @@ export default function HomePage() {
         variants={pageItem}
         className="border-t border-[#30363D] py-12"
       >
-        <div className="mx-auto w-full max-w-6xl px-6 text-sm text-[#8B949E] md:px-8">
+        <div className="mx-auto w-full max-w-[1500px] px-4 text-sm text-[#8B949E] sm:px-6 md:px-7 lg:px-8">
           About — placeholder anchor for navigation.
         </div>
       </motion.footer>

@@ -21,7 +21,12 @@ export type ProjectImageBlock = {
   height?: number;
 };
 
-export type ProjectContentItem = ProjectTextBlock | ProjectImageBlock;
+/** Interactive screenshot with three annotation nodes — used on github-copilot detail page. */
+export type ProjectNodesBlock = {
+  type: 'nodes';
+};
+
+export type ProjectContentItem = ProjectTextBlock | ProjectImageBlock | ProjectNodesBlock;
 
 export type ProjectData = {
   id: string;
@@ -33,7 +38,7 @@ export type ProjectData = {
 export const MOCK_PROJECTS: Record<string, ProjectData> = {
   'github-copilot': {
     id: 'github-copilot',
-    title: 'GitHub Copilot — Agent Console',
+    title: 'GitHub Copilot — multi-IDE platform',
     metadata: {
       role: 'Lead Product Designer',
       team: 'Copilot UX · 3 designers, 9 engineers',
@@ -41,6 +46,7 @@ export const MOCK_PROJECTS: Record<string, ProjectData> = {
       impact: 'De-identified preview · internal pilot cohort',
     },
     content: [
+      { type: 'nodes' },
       {
         type: 'text',
         body: 'A control surface for multi-step AI agent workflows inside GitHub. The challenge was balancing contextual grounding, inline suggestion coherence, and trust disclosure — three concerns that pull in different directions when operating at developer cadence.',

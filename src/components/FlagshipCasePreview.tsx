@@ -1,251 +1,188 @@
 'use client';
 
+/* eslint-disable @next/next/no-img-element */
+
 import Link from 'next/link';
-import { motion, AnimatePresence } from 'framer-motion';
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { motion } from 'framer-motion';
 
 const MotionLink = motion.create(Link);
 
-const VB_W = 100;
-const VB_H = 100 / (21 / 9);
-
 const easeOut = [0.22, 1, 0.36, 1] as const;
 
-type NodeConfig = {
-  id: string;
-  pathD: string;
-  dot: { x: number; y: number };
-  label: string;
-  panel: { left: string; top: string; transform?: string };
-};
-
-const NODES: NodeConfig[] = [
-  {
-    id: 'n1',
-    pathD: `M 16 ${VB_H * 0.36} L 28 ${VB_H * 0.36} L 28 ${VB_H * 0.12} L 44 ${VB_H * 0.12}`,
-    dot: { x: 16, y: VB_H * 0.36 },
-    label: '[01] Contextual grounding flow',
-    panel: { left: '44%', top: '6%', transform: 'translateX(-4px)' },
-  },
-  {
-    id: 'n2',
-    pathD: `M 48 ${VB_H * 0.52} L 48 ${VB_H * 0.72} L 68 ${VB_H * 0.72} L 68 ${VB_H * 0.58} L 82 ${VB_H * 0.58}`,
-    dot: { x: 48, y: VB_H * 0.52 },
-    label: '[02] Inline suggestion coherence',
-    panel: { left: '72%', top: '48%', transform: 'translate(-8px, -50%)' },
-  },
-  {
-    id: 'n3',
-    pathD: `M 82 ${VB_H * 0.34} L 92 ${VB_H * 0.34} L 92 ${VB_H * 0.14} L 58 ${VB_H * 0.14}`,
-    dot: { x: 82, y: VB_H * 0.34 },
-    label: '[03] Trust & disclosure layer',
-    panel: { left: '58%', top: '8%', transform: 'translateX(8px)' },
-  },
-];
-
-function useTypewriter(activeId: string | null, fullText: string) {
-  const [out, setOut] = useState('');
-  const timerRef = useRef<ReturnType<typeof setInterval> | null>(null);
-
-  useEffect(() => {
-    if (timerRef.current) {
-      clearInterval(timerRef.current);
-      timerRef.current = null;
-    }
-    if (!activeId || !fullText) {
-      setOut('');
-      return;
-    }
-    setOut('');
-    let i = 0;
-    timerRef.current = setInterval(() => {
-      i += 1;
-      setOut(fullText.slice(0, i));
-      if (i >= fullText.length && timerRef.current) {
-        clearInterval(timerRef.current);
-        timerRef.current = null;
-      }
-    }, 18);
-    return () => {
-      if (timerRef.current) clearInterval(timerRef.current);
-    };
-  }, [activeId, fullText]);
-
-  return out;
-}
+const TAGS = ['Agentic UX', 'Design Systems', '4px/8px Grid', 'Material Design'];
 
 export function FlagshipCasePreview({ href }: { href: string }) {
-  const [hovered, setHovered] = useState<string | null>(null);
-  const leaveTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
-
-  const clearLeaveTimer = useCallback(() => {
-    if (leaveTimer.current) {
-      clearTimeout(leaveTimer.current);
-      leaveTimer.current = null;
-    }
-  }, []);
-
-  const scheduleLeave = useCallback(() => {
-    clearLeaveTimer();
-    leaveTimer.current = setTimeout(() => setHovered(null), 200);
-  }, [clearLeaveTimer]);
-
-  const active = NODES.find((n) => n.id === hovered);
-  const typed = useTypewriter(hovered, active?.label ?? '');
-
   return (
     <MotionLink
       href={href}
-      className="relative block aspect-[21/9] min-h-[200px] w-full cursor-pointer overflow-hidden rounded-lg outline-none ring-offset-0 focus-visible:ring-2 focus-visible:ring-[#58A6FF]/40 md:min-h-[280px] lg:min-h-[320px]"
-      aria-label="Open GitHub Copilot flagship case study"
-      whileTap={{ scale: 0.99 }}
+      className="bg-noise group relative flex min-h-[300px] cursor-pointer flex-col overflow-hidden rounded-[10px] bg-[#0B0F14] outline-none focus-visible:ring-2 focus-visible:ring-[#58A6FF]/40 md:min-h-[390px] md:flex-row lg:min-h-[460px]"
+      whileTap={{ scale: 0.995 }}
       transition={{ type: 'tween', duration: 0.12, ease: easeOut }}
     >
 
-      {/* —— Base: gradient + grid + noise (B-side de-identified feel) —— */}
-      <div
-        className="pointer-events-none absolute inset-0 bg-[#0B0F14]"
-        style={{
-          backgroundImage: `
-            linear-gradient(165deg, #161B22 0%, #0D1117 42%, #0a0e14 100%),
-            linear-gradient(rgba(48,54,61,0.22) 1px, transparent 1px),
-            linear-gradient(90deg, rgba(48,54,61,0.18) 1px, transparent 1px)
-          `,
-          backgroundSize: '100% 100%, 24px 24px, 24px 24px',
-          backgroundPosition: '0 0, 0 0, 0 0',
-        }}
-      />
-
-      <svg
-        className="pointer-events-none absolute inset-0 h-full w-full opacity-[0.035]"
-        aria-hidden
-      >
-        <filter id="flagship-noise">
-          <feTurbulence
-            type="fractalNoise"
-            baseFrequency="0.9"
-            numOctaves="4"
-            stitchTiles="stitch"
-          />
-        </filter>
-        <rect width="100%" height="100%" filter="url(#flagship-noise)" />
-      </svg>
-
-      {/* Blurred “UI mass” + sharp silhouette overlay (selective readability) */}
-      <div className="pointer-events-none absolute inset-0 overflow-hidden">
-        <div
-          className="absolute inset-0 scale-[1.04] opacity-[0.55]"
-          style={{ filter: 'blur(7px)' }}
-        >
-          <div className="absolute left-[6%] top-[14%] h-[58%] w-[28%] rounded-md bg-[#21262D]" />
-          <div className="absolute right-[8%] top-[18%] h-[22%] w-[34%] rounded-md bg-[#30363D]" />
-          <div className="absolute bottom-[12%] left-[38%] h-[28%] w-[48%] rounded-md bg-[#161B22]" />
-          <div className="absolute right-[12%] top-[44%] h-[36%] w-[22%] rounded-sm bg-[#21262D]" />
+      {/* ── Left: text column ─────────────────────────────────── */}
+      <div className="relative z-10 flex w-full flex-col justify-between gap-6 p-7 md:w-[38%] md:shrink-0 md:gap-0 md:p-10 lg:p-12">
+        {/* Badge + company */}
+        <div className="flex items-center gap-3">
+          <span className="rounded-full border border-[#388BFD]/40 bg-[#1C2128] px-2.5 py-0.5 font-mono text-[10px] font-medium uppercase tracking-[0.1em] text-[#58A6FF]">
+            flagship
+          </span>
+          <span className="font-mono text-[11px] text-[#6E7681]">microsoft · 2025–now</span>
         </div>
-        <div className="absolute inset-0">
-          <div className="absolute left-[6%] top-[14%] h-[58%] w-[28%] rounded-md border border-[#484F58]/35 bg-transparent" />
-          <div className="absolute right-[8%] top-[18%] h-[22%] w-[34%] rounded-md border border-[#484F58]/30 bg-transparent" />
-          <div className="absolute bottom-[12%] left-[38%] h-[28%] w-[48%] rounded-md border border-[#484F58]/28 bg-transparent" />
-          <div className="absolute right-[12%] top-[44%] h-[36%] w-[22%] rounded-sm border border-[#484F58]/25 bg-transparent" />
+
+        {/* Title + description */}
+        <div className="md:my-6">
+          <h2 className="mb-5 text-[1.9rem] font-bold leading-[1.08] tracking-[-0.02em] text-[#F0F6FC] md:text-[2.35rem] lg:text-[2.85rem]">
+            GitHub Copilot<br />multi-IDE<br />platform
+          </h2>
+          <p className="text-[0.94rem] leading-relaxed text-[#8B949E] md:text-[1rem]">
+            End-to-end UX for Copilot&apos;s third-party IDE extensions.
+            Translating complex agentic patterns — Agent Sessions,
+            context-aware Ask Question flows — into intuitive,
+            developer-centric interfaces across JetBrains, Eclipse, Xcode.
+          </p>
         </div>
-      </div>
 
-      <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-[#58A6FF]/[0.06] via-transparent to-transparent" />
-
-      {/* —— SVG leads + hit overlay —— */}
-      <svg
-        className="pointer-events-none absolute inset-0 h-full w-full"
-        viewBox={`0 0 ${VB_W} ${VB_H}`}
-        preserveAspectRatio="none"
-        aria-hidden
-      >
-        <AnimatePresence>
-          {hovered && active && (
-            <motion.path
-              key={active.id}
-              d={active.pathD}
-              fill="none"
-              stroke="#C9D1D9"
-              strokeWidth={1}
-              vectorEffect="non-scaling-stroke"
-              strokeLinecap="square"
-              strokeLinejoin="miter"
-              initial={{ pathLength: 0, opacity: 0 }}
-              animate={{ pathLength: 1, opacity: 1 }}
-              exit={{ pathLength: 0, opacity: 0 }}
-              transition={{ pathLength: { type: 'tween', duration: 0.28, ease: [0.22, 1, 0.36, 1] }, opacity: { duration: 0.12 } }}
-            />
-          )}
-        </AnimatePresence>
-      </svg>
-
-      {/* Data nodes */}
-      {NODES.map((node) => {
-        const pctX = (node.dot.x / VB_W) * 100;
-        const pctY = (node.dot.y / VB_H) * 100;
-        return (
-          <div
-            key={node.id}
-            className="absolute z-20 -translate-x-1/2 -translate-y-1/2"
-            style={{ left: `${pctX}%`, top: `${pctY}%` }}
-            onMouseEnter={() => {
-              clearLeaveTimer();
-              setHovered(node.id);
-            }}
-            onMouseLeave={scheduleLeave}
-          >
-            <div className="flex h-12 w-12 cursor-default items-center justify-center">
-              <motion.div
-                className="h-1.5 w-1.5 rounded-full bg-white shadow-[0_0_10px_rgba(255,255,255,0.65)]"
-                animate={{
-                  scale: [1, 1.35, 1],
-                  opacity: [0.45, 0.9, 0.45],
-                }}
-                transition={{
-                  duration: 3.8,
-                  repeat: Infinity,
-                  ease: 'easeInOut',
-                }}
-              />
-            </div>
+        {/* Tags + CTA */}
+        <div>
+          <div className="mb-5 flex flex-wrap gap-2">
+            {TAGS.map((tag) => (
+              <span
+                key={tag}
+                className="rounded border border-[#30363D] bg-[#0D1117]/60 px-2.5 py-1 text-[12px] font-medium text-[#8B949E]"
+              >
+                {tag}
+              </span>
+            ))}
           </div>
-        );
-      })}
-
-      {/* Label panel */}
-      <AnimatePresence>
-        {hovered && active && (
-          <motion.div
-            key={active.id}
-            role="tooltip"
-            className="pointer-events-auto absolute z-30 max-w-[min(240px,42vw)] border border-[#30363D] bg-[#0D1117]/92 px-3 py-2 font-mono text-[11px] leading-snug tracking-wide text-[#8B949E] shadow-lg backdrop-blur-sm"
-            style={{
-              left: active.panel.left,
-              top: active.panel.top,
-              transform: active.panel.transform,
-            }}
-            initial={{ opacity: 0, y: 4 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: 2 }}
-            transition={{ duration: 0.15, ease: easeOut }}
-            onMouseEnter={clearLeaveTimer}
-            onMouseLeave={() => setHovered(null)}
-          >
-            <span className="text-[#E6EDF3]">{typed}</span>
-            {typed.length < active.label.length && (
-              <span className="inline-block w-px animate-pulse bg-[#58A6FF]" />
-            )}
-          </motion.div>
-        )}
-      </AnimatePresence>
-
-      {/* Corner meta */}
-      <div className="pointer-events-none absolute bottom-4 left-4 flex flex-col gap-1">
-        <span className="text-[10px] font-medium uppercase tracking-[0.14em] text-[#58A6FF]">
-          GitHub Copilot
-        </span>
-        <span className="text-[10px] text-[#6E7681]">De-identified preview</span>
+          <span className="font-mono text-base text-[#E6EDF3] transition-colors group-hover:text-white">
+            case study →
+          </span>
+        </div>
       </div>
+
+      {/* Vertical divider (md+) */}
+      <div className="pointer-events-none absolute bottom-0 left-[38%] top-0 z-10 hidden w-px bg-gradient-to-b from-transparent via-[#30363D] to-transparent md:block" />
+
+      {/* ── Right: screenshot container — uniform 10px rounded corners ─ */}
+      <motion.div
+        className="relative h-[200px] w-full overflow-hidden rounded-[10px] md:h-auto md:flex-1 sm:h-[240px]"
+        whileHover={{ scale: 1.018 }}
+        transition={{ duration: 0.45, ease: easeOut }}
+      >
+        {/*
+          Loop timeline (duration: 8.1s)
+          0.0s–3.0s   BEFORE
+          3.0s–4.5s   cursor moves to Continue
+          4.5s–5.1s   cursor stays + button darkens (PRESS)
+          5.1s–8.1s   AFTER
+        */}
+
+        {/* Layer 1 — BEFORE state (base) */}
+        <img
+          src="/copilot-before.png"
+          alt="GitHub Copilot in JetBrains IDE"
+          className="absolute inset-0 h-full w-full object-cover object-right"
+        />
+
+        {/* Layer 2 — PRESSED state (Continue button darkens to #375FAD) */}
+        <motion.img
+          src="/copilot-pressbutton.png"
+          alt=""
+          aria-hidden
+          className="absolute inset-0 h-full w-full object-cover object-right"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: [0, 0, 1, 1, 0, 0] }}
+          transition={{
+            duration: 8.1,
+            times: [0, 0.5556, 0.5557, 0.6296, 0.6297, 1],
+            ease: 'linear',
+            repeat: Infinity,
+            repeatDelay: 1,
+          }}
+        />
+
+        {/* Layer 3 — AFTER state (Run box collapsed + Processing) */}
+        <motion.img
+          src="/copilot-after.png"
+          alt=""
+          aria-hidden
+          className="absolute inset-0 h-full w-full object-cover object-right"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: [0, 0, 1, 1, 0] }}
+          transition={{
+            duration: 8.1,
+            times: [0, 0.6296, 0.6297, 0.999, 1],
+            ease: 'easeInOut',
+            repeat: Infinity,
+            repeatDelay: 1,
+          }}
+        />
+
+        {/* Cursor + blinking text caret — positioned over the Continue button center */}
+        <div
+          className="pointer-events-none absolute z-20"
+          style={{ top: '74%', right: '25%' }}
+          aria-hidden
+        >
+          <motion.div
+            initial={{ x: -24, y: -20, scale: 1 }}
+            animate={{
+              x: [-24, -24, 0, 0, -24],
+              y: [-20, -20, 0, 0, -20],
+              scale: [1, 1, 0.86, 1, 1],
+            }}
+            transition={{
+              x: {
+                duration: 8.1,
+                times: [0, 0.3704, 0.4321, 0.6296, 1],
+                ease: 'linear',
+                repeat: Infinity,
+                repeatDelay: 1,
+              },
+              y: {
+                duration: 8.1,
+                times: [0, 0.3704, 0.4321, 0.6296, 1],
+                ease: 'linear',
+                repeat: Infinity,
+                repeatDelay: 1,
+              },
+              scale: {
+                duration: 8.1,
+                times: [0, 0.5556, 0.5926, 0.6296, 1],
+                ease: 'linear',
+                repeat: Infinity,
+                repeatDelay: 1,
+              },
+            }}
+          >
+            <img
+              src="/cursor.png"
+              alt=""
+              aria-hidden
+              className="h-7 w-7 object-contain"
+              style={{ filter: 'drop-shadow(0 1px 2px rgba(0,0,0,0.6))' }}
+            />
+          </motion.div>
+        </div>
+
+        {/* Blinking text caret — fixed inside the chat input box at the bottom of the screenshot */}
+        <span
+          className="pointer-events-none absolute z-20"
+          aria-hidden
+          style={{
+            bottom: '10%',
+            left: '70.5%',
+            display: 'block',
+            width: '4px',
+            height: '18px',
+            borderRadius: '2px',
+            background: 'oklch(0.78 0.12 195)',
+            boxShadow: '0 0 6px oklch(0.78 0.12 195 / 0.7)',
+            animation: 'blink 1.1s steps(2, start) infinite',
+          }}
+        />
+      </motion.div>
     </MotionLink>
   );
 }

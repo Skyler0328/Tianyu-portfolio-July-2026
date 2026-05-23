@@ -6,6 +6,7 @@
 import Link from 'next/link';
 import { motion } from 'framer-motion';
 
+import { CopilotNodesHero } from '@/components/CopilotNodesHero';
 import type { ProjectData, ProjectImageBlock } from './project-data';
 
 const easeOut = [0.22, 1, 0.36, 1] as const;
@@ -115,6 +116,21 @@ export function WorkProjectView({ project }: { project: ProjectData }) {
       <div className="flex flex-col gap-12 pb-20 sm:gap-14 sm:pb-24 md:gap-16 md:pb-28">
         {project.content.map((item, index) => {
           const key = `${project.id}-${index}-${item.type}`;
+
+          if (item.type === 'nodes') {
+            return (
+              <motion.section
+                key={key}
+                initial={sectionMotion.initial}
+                whileInView={sectionMotion.whileInView}
+                viewport={sectionMotion.viewport}
+                transition={sectionMotion.transition}
+                className={`mx-auto w-full max-w-5xl ${pagePad}`}
+              >
+                <CopilotNodesHero />
+              </motion.section>
+            );
+          }
 
           if (item.type === 'text') {
             return (
