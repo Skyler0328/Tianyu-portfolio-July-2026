@@ -9,7 +9,12 @@ const MotionLink = motion.create(Link);
 
 const easeOut = [0.22, 1, 0.36, 1] as const;
 
-const TAGS = ['Agentic UX', 'Design Systems', '4px/8px Grid', 'Material Design'];
+const TAGS = [
+  'Agent UX',
+  'Developer Tools',
+  'Human-AI Collaboration',
+  'AI Product Design',
+];
 
 export function FlagshipCasePreview({ href }: { href: string }) {
   return (
@@ -32,14 +37,16 @@ export function FlagshipCasePreview({ href }: { href: string }) {
 
         {/* Title + description */}
         <div className="md:my-6">
-          <h2 className="mb-5 text-[1.9rem] font-bold leading-[1.08] tracking-[-0.02em] text-[#F0F6FC] md:text-[2.35rem] lg:text-[2.85rem]">
-            GitHub Copilot<br />multi-IDE<br />platform
+          <h2 className="mb-3 text-[1.9rem] font-bold leading-[1.08] tracking-[-0.02em] text-[#F0F6FC] md:text-[2.35rem] lg:text-[2.85rem]">
+            GitHub Copilot for IDEs
           </h2>
+          <p className="mb-5 max-w-md text-[1.05rem] font-medium leading-snug tracking-[-0.01em] text-[#E6EDF3] md:text-[1.18rem] lg:text-[1.28rem]">
+            Designing AI Coding Experiences Across Developer Workflows
+          </p>
           <p className="text-[0.94rem] leading-relaxed text-[#8B949E] md:text-[1rem]">
-            End-to-end UX for Copilot&apos;s third-party IDE extensions.
-            Translating complex agentic patterns — Agent Sessions,
-            context-aware Ask Question flows — into intuitive,
-            developer-centric interfaces across JetBrains, Eclipse, Xcode.
+            AI-assisted coding experience design for Eclipse &amp; IntelliJ,
+            focused on agent autonomy, context awareness, cost transparency,
+            and failure recovery.
           </p>
         </div>
 

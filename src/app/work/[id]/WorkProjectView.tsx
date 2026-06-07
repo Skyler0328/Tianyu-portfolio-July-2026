@@ -101,6 +101,11 @@ export function WorkProjectView({ project }: { project: ProjectData }) {
           <h1 className="text-balance text-3xl font-semibold tracking-[-0.02em] text-[#F0F6FC] sm:text-4xl md:text-[2.5rem] md:leading-[1.08]">
             {project.title}
           </h1>
+          {project.subtitle ? (
+            <p className="mt-4 max-w-2xl text-lg font-medium leading-snug tracking-[-0.01em] text-[#E6EDF3] sm:text-xl">
+              {project.subtitle}
+            </p>
+          ) : null}
 
           <dl
             className={`mt-8 grid max-w-3xl gap-4 border-t border-[#30363D] pt-8 font-mono sm:gap-5`}

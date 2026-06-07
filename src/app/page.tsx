@@ -152,10 +152,10 @@ export default function HomePage() {
         className="fixed inset-x-0 top-0 z-50 border-b border-[#30363D] bg-[#0D1117]/85 backdrop-blur-md"
       >
         <div className="mx-auto flex h-16 w-full max-w-[1500px] items-center justify-between px-4 sm:px-6 md:px-7 lg:px-8">
-          <span className="text-sm font-semibold tracking-tight text-[#F0F6FC]">
-            Tianyu Wu
+          <span className="font-mono text-sm font-medium tracking-[-0.01em] text-[#F0F6FC]">
+            tianyu-wu
           </span>
-          <nav className="flex items-center gap-8 text-sm text-[#8B949E]">
+          <nav className="flex items-center gap-8 font-mono text-sm text-[#8B949E]">
             <a
               href="#work"
               className="transition-colors duration-200 hover:text-[#E6EDF3]"
@@ -204,28 +204,31 @@ export default function HomePage() {
                   </p>
                 </div>
 
-                  <dl className="grid max-w-3xl grid-cols-1 gap-6 bg-[#0B0F14]/45 p-6 font-mono shadow-[0_16px_48px_-32px_rgba(0,0,0,0.8)] sm:grid-cols-3">
+                  <dl
+                    className="grid max-w-3xl grid-cols-1 gap-6 bg-[#0B0F14]/45 p-6 font-mono shadow-[0_16px_48px_-32px_rgba(0,0,0,0.8)] sm:grid-cols-3"
+                    style={{ fontFamily: 'var(--font-jetbrains-mono)' }}
+                  >
                     <div>
-                      <dt className="mb-3 font-mono text-3xl font-medium leading-none tracking-[-0.04em] text-[#F0F6FC] md:text-4xl">
+                      <dt className="mb-3 font-mono text-3xl font-medium leading-none tracking-[-0.02em] text-[#F0F6FC] md:text-4xl">
                         4+
                       </dt>
-                      <dd className="text-[11px] font-medium uppercase leading-relaxed tracking-[0.16em] text-[#8B949E]">
+                      <dd className="font-mono text-[11px] font-medium uppercase leading-relaxed tracking-[0.16em] text-[#8B949E]">
                         Years in tech
                       </dd>
                     </div>
                     <div>
-                      <dt className="mb-3 font-mono text-3xl font-medium leading-none tracking-[-0.04em] text-[#58A6FF] md:text-4xl">
+                      <dt className="mb-3 font-mono text-3xl font-medium leading-none tracking-[-0.02em] text-[#58A6FF] md:text-4xl">
                         AI
                       </dt>
-                      <dd className="text-[11px] font-medium uppercase leading-relaxed tracking-[0.16em] text-[#8B949E]">
+                      <dd className="font-mono text-[11px] font-medium uppercase leading-relaxed tracking-[0.16em] text-[#8B949E]">
                         Interaction systems
                       </dd>
                     </div>
                     <div>
-                      <dt className="mb-3 font-mono text-3xl font-medium leading-none tracking-[-0.04em] text-[#F0F6FC] md:text-4xl">
+                      <dt className="mb-3 font-mono text-3xl font-medium leading-none tracking-[-0.02em] text-[#F0F6FC] md:text-4xl">
                         1
                       </dt>
-                      <dd className="text-[11px] font-medium uppercase leading-relaxed tracking-[0.16em] text-[#8B949E]">
+                      <dd className="font-mono text-[11px] font-medium uppercase leading-relaxed tracking-[0.16em] text-[#8B949E]">
                         Flagship AI product
                       </dd>
                     </div>

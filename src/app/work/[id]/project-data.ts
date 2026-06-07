@@ -31,6 +31,7 @@ export type ProjectContentItem = ProjectTextBlock | ProjectImageBlock | ProjectN
 export type ProjectData = {
   id: string;
   title: string;
+  subtitle?: string;
   metadata: ProjectMetadata;
   content: ProjectContentItem[];
 };
@@ -38,7 +39,8 @@ export type ProjectData = {
 export const MOCK_PROJECTS: Record<string, ProjectData> = {
   'github-copilot': {
     id: 'github-copilot',
-    title: 'GitHub Copilot — multi-IDE platform',
+    title: 'GitHub Copilot for IDEs',
+    subtitle: 'Designing AI Coding Experiences Across Developer Workflows',
     metadata: {
       role: 'Lead Product Designer',
       team: 'Copilot UX · 3 designers, 9 engineers',
