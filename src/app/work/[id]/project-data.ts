@@ -26,7 +26,38 @@ export type ProjectNodesBlock = {
   type: 'nodes';
 };
 
-export type ProjectContentItem = ProjectTextBlock | ProjectImageBlock | ProjectNodesBlock;
+export type ProjectPlaceholderBlock = {
+  type: 'placeholder';
+  title: string;
+  description: string;
+};
+
+export type ProjectSectionBlock = {
+  type: 'section';
+  title: string;
+  description?: string;
+  items?: string[];
+};
+
+export type ProjectFinding = {
+  quote: string;
+  image: string;
+  imageAlt: string;
+};
+
+export type ProjectFindingsBlock = {
+  type: 'findings';
+  title: string;
+  findings: ProjectFinding[];
+};
+
+export type ProjectContentItem =
+  | ProjectTextBlock
+  | ProjectImageBlock
+  | ProjectNodesBlock
+  | ProjectPlaceholderBlock
+  | ProjectSectionBlock
+  | ProjectFindingsBlock;
 
 export type ProjectData = {
   id: string;
@@ -40,12 +71,13 @@ export const MOCK_PROJECTS: Record<string, ProjectData> = {
   'github-copilot': {
     id: 'github-copilot',
     title: 'GitHub Copilot for IDEs',
-    subtitle: 'Designing AI Coding Experiences Across Developer Workflows',
+    subtitle: 'Human-Agent Interaction Design for Cross-Platform Developer Workflows',
     metadata: {
-      role: 'Lead Product Designer',
-      team: 'Copilot UX · 3 designers, 9 engineers',
-      duration: 'Q3 2024 — Q2 2025',
-      impact: 'De-identified preview · internal pilot cohort',
+      role: 'UX Designer',
+      team: 'Cross-functional team of designers, researchers, PMs, and engineers',
+      duration: 'May 2025 – Present',
+      impact:
+        '· Defined cross-platform design strategy for Copilot experiences across Eclipse and IntelliJ\n· Owned UX design for GitHub Copilot in Eclipse\n· Contributed to IntelliJ experiences alongside fellow designers\n· Designed agent-driven workflows, context management, and failure recovery experiences\n· Partnered with engineers through implementation and launch.',
     },
     content: [
       { type: 'nodes' },
@@ -56,6 +88,63 @@ export const MOCK_PROJECTS: Record<string, ProjectData> = {
       {
         type: 'text',
         body: 'We structured the IA around three flows: contextual grounding (how the agent understands state), inline suggestion coherence (how it surfaces diffs without noise), and a trust & disclosure layer (how operators audit and override). Each flow maps to a distinct interaction mode, not a separate screen.',
+      },
+      {
+        type: 'placeholder',
+        title: 'Agent-Human Interaction',
+        description:
+          'Decision tree structure placeholder — future visual explaining my gained understanding of agent behavior, user intent, system confidence, and handoff moments.',
+      },
+      {
+        type: 'findings',
+        title: 'Findings from Real Users',
+        findings: [
+          {
+            quote:
+              '“User quote placeholder about when agent autonomy feels unclear.”',
+            image: '/copilot-before.png',
+            imageAlt: 'Problem screenshot placeholder for agent autonomy feedback',
+          },
+          {
+            quote:
+              '“User quote placeholder about cost, waiting time, or lack of transparency.”',
+            image: '/copilot-pressbutton.png',
+            imageAlt: 'Problem screenshot placeholder for cost transparency feedback',
+          },
+          {
+            quote:
+              '“User quote placeholder about recovery when the AI output is wrong or uncertain.”',
+            image: '/copilot-after.png',
+            imageAlt: 'Problem screenshot placeholder for failure recovery feedback',
+          },
+        ],
+      },
+      {
+        type: 'section',
+        title: 'Key Design Decisions',
+        items: [
+          'Agent Autonomy',
+          'Cost Transparency',
+          'Context Understanding',
+          'Failure & Uncertainty Handling',
+        ],
+      },
+      {
+        type: 'section',
+        title: 'System Quality',
+        items: ['Design System', 'UI Consistency', 'Accessibility'],
+      },
+      {
+        type: 'section',
+        title: 'First-Time Experience',
+        description:
+          'Placeholder for onboarding, initial trust building, first successful agent action, and user education moments.',
+      },
+      {
+        type: 'section',
+        title: 'Reflection',
+        description:
+          'Placeholder for the strong ending: what I learned, what I would improve next, and how I would evolve the experience in future iterations.',
       },
     ],
   },

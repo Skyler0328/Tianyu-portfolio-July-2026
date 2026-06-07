@@ -26,22 +26,14 @@ export function FlagshipCasePreview({ href }: { href: string }) {
     >
 
       {/* ── Left: text column ─────────────────────────────────── */}
-      <div className="relative z-10 flex w-full flex-col justify-between gap-6 p-7 md:w-[38%] md:shrink-0 md:gap-0 md:p-10 lg:p-12">
-        {/* Badge + company */}
-        <div className="flex items-center gap-3">
-          <span className="rounded-full border border-[#388BFD]/40 bg-[#1C2128] px-2.5 py-0.5 font-mono text-[10px] font-medium uppercase tracking-[0.1em] text-[#58A6FF]">
-            flagship
-          </span>
-          <span className="font-mono text-[11px] text-[#6E7681]">microsoft · 2025–now</span>
-        </div>
-
+      <div className="relative z-10 flex w-full -translate-y-2 flex-col justify-between gap-6 p-7 md:w-[38%] md:shrink-0 md:gap-0 md:p-10 lg:p-12">
         {/* Title + description */}
         <div className="md:my-6">
           <h2 className="mb-3 text-[1.9rem] font-bold leading-[1.08] tracking-[-0.02em] text-[#F0F6FC] md:text-[2.35rem] lg:text-[2.85rem]">
             GitHub Copilot for IDEs
           </h2>
           <p className="mb-5 max-w-md text-[1.05rem] font-medium leading-snug tracking-[-0.01em] text-[#E6EDF3] md:text-[1.18rem] lg:text-[1.28rem]">
-            Designing AI Coding Experiences Across Developer Workflows
+            Human-Agent Interaction Design for Cross-Platform Developer Workflows
           </p>
           <p className="text-[0.94rem] leading-relaxed text-[#8B949E] md:text-[1rem]">
             AI-assisted coding experience design for Eclipse &amp; IntelliJ,

@@ -266,8 +266,12 @@ export default function HomePage() {
 
           {/* Flagship */}
           <motion.div variants={pageItem} className="w-full shrink-0">
-            <p className="mb-4 text-xs font-medium uppercase tracking-[0.12em] text-[#8B949E]">
-              Flagship case — visual area
+            <p className="mb-4 flex items-center gap-2 font-mono text-xs font-medium tracking-[0.08em] text-[#8B949E]">
+              <span
+                className="h-1 w-1 rounded-full bg-[#58A6FF] shadow-[0_0_8px_rgba(88,166,255,0.75)]"
+                aria-hidden
+              />
+              <span>Flagship Case - GitHub Copilot @ Microsoft</span>
             </p>
             <div className="relative overflow-hidden rounded-lg border border-[#30363D] bg-[#161B22] shadow-[0_24px_64px_-32px_rgba(0,0,0,0.85)]">
               <FlagshipCasePreview href="/work/github-copilot" />
