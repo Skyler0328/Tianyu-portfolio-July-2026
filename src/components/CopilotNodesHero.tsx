@@ -5,6 +5,8 @@
 import { motion, AnimatePresence } from 'framer-motion';
 import { useCallback, useEffect, useRef, useState } from 'react';
 
+import { MacWindowTopBar } from './MacWindowTopBar';
+
 /**
  * Interactive screenshot overlay for the GitHub Copilot detail page.
  * Three pulsing nodes invite hover; on hover a drawn SVG path animates
@@ -97,6 +99,8 @@ export function CopilotNodesHero() {
     <div className="relative w-full overflow-hidden rounded-[8px] border border-[#30363D] shadow-sm"
       style={{ aspectRatio: `${VB_W} / ${VB_H}` }}
     >
+      <MacWindowTopBar />
+      <div className="absolute inset-x-0 bottom-0 top-7 overflow-hidden">
       {/* Screenshot */}
       <img
         src="/copilot-image1.png"
@@ -168,7 +172,7 @@ export function CopilotNodesHero() {
           <motion.div
             key={active.id}
             role="tooltip"
-            className="pointer-events-auto absolute z-30 max-w-[min(220px,38vw)] border border-[#30363D] bg-[#0D1117]/92 px-3 py-2 font-mono text-[11px] leading-snug tracking-wide text-[#8B949E] shadow-lg backdrop-blur-sm"
+            className="pointer-events-auto absolute z-30 max-w-[min(220px,38vw)] border border-[#30363D] bg-[#0D1117]/92 px-3 py-2 font-mono text-xs leading-snug tracking-wide text-[#8B949E] shadow-lg backdrop-blur-sm"
             style={{ left: active.panel.left, top: active.panel.top, transform: active.panel.transform }}
             initial={{ opacity: 0, y: 4 }}
             animate={{ opacity: 1, y: 0 }}
@@ -179,11 +183,12 @@ export function CopilotNodesHero() {
           >
             <span className="text-[#E6EDF3]">{typed}</span>
             {typed.length < (active?.label.length ?? 0) && (
-              <span className="inline-block w-px animate-pulse bg-[#58A6FF]" />
+              <span className="inline-block w-px animate-pulse bg-[var(--accent-teal)]" />
             )}
           </motion.div>
         )}
       </AnimatePresence>
+      </div>
     </div>
   );
 }

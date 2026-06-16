@@ -5,9 +5,9 @@
   --background: #0D1117;
   --foreground: #E6EDF3;
 
-  /* Accent teal — from Lovable palette (oklch 0.78 0.12 195) */
-  --accent-teal: #58A6FF;          /* mapped to our existing blue for consistency */
-  --accent-teal-raw: oklch(0.78 0.12 195);
+  /* Accent turquoise */
+  --accent-teal: #40E0D0;
+  --accent-teal-raw: #40E0D0;
 
   /* Legacy compat */
   --font-geist-sans: var(--font-inter);
@@ -42,9 +42,9 @@ body {
   text-rendering: optimizeLegibility;
 }
 
-/* Teal selection – from Lovable */
+/* Turquoise selection */
 ::selection {
-  background-color: oklch(0.78 0.12 195 / 25%);
+  background-color: rgb(64 224 208 / 25%);
   color: var(--foreground);
 }
 

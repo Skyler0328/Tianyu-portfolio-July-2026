@@ -5,6 +5,7 @@
 
 import Link from 'next/link';
 import { motion } from 'framer-motion';
+import { IconArrowLeft } from '@tabler/icons-react';
 
 import { CopilotNodesHero } from '@/components/CopilotNodesHero';
 import type {
@@ -27,12 +28,15 @@ const sectionMotion = {
 const pagePad = 'px-4 sm:px-6 md:px-8';
 const contentRail = 'mx-auto w-full max-w-5xl';
 const sectionTitle =
-  'text-[1.05rem] font-medium leading-snug tracking-[-0.01em] text-[#E6EDF3] sm:text-[1.18rem] lg:text-[1.28rem]';
+  'text-balance text-3xl font-semibold leading-[1.1] tracking-[-0.02em] text-[#F0F6FC] md:text-4xl lg:text-[2.5rem] lg:leading-[1.08]';
+const bodyText =
+  'text-lg leading-relaxed tracking-[-0.01em] md:text-xl md:leading-relaxed';
+const agentChallengesTitle = 'Four Challenges of Designing AI Agents';
 
 function MetadataRow({ label, value }: { label: string; value: string }) {
   return (
     <div className="grid min-w-0 grid-cols-1 gap-1 sm:grid-cols-[minmax(0,7rem)_1fr] sm:items-baseline sm:gap-6">
-      <dt className="shrink-0 font-mono text-[11px] font-medium uppercase tracking-[0.08em] text-[#58A6FF] sm:text-xs">
+      <dt className="shrink-0 font-mono text-xs font-medium uppercase tracking-[0.08em] text-[var(--accent-teal)]">
         {label}
       </dt>
       <dd className="min-w-0 whitespace-pre-line break-words font-mono text-sm leading-snug text-[#F0F6FC] sm:text-[0.8125rem]">
@@ -86,7 +90,7 @@ function ProjectPlaceholder({ block }: { block: ProjectPlaceholderBlock }) {
     <div className="w-full">
       <h2 className={sectionTitle}>{block.title}</h2>
       <div className="mt-6 rounded-[10px] border border-dashed border-[#30363D] bg-[#0B0F14]/70 p-6 sm:p-8">
-        <div className="flex min-h-[280px] items-center justify-center rounded-[8px] border border-[#30363D] bg-[linear-gradient(135deg,rgba(88,166,255,0.08),transparent_35%),linear-gradient(rgba(48,54,61,0.22)_1px,transparent_1px),linear-gradient(90deg,rgba(48,54,61,0.18)_1px,transparent_1px)] bg-[length:100%_100%,32px_32px,32px_32px] px-6 text-center">
+        <div className="flex min-h-[280px] items-center justify-center rounded-[8px] border border-[#30363D] bg-[linear-gradient(135deg,rgb(64_224_208_/_0.08),transparent_35%),linear-gradient(rgba(48,54,61,0.22)_1px,transparent_1px),linear-gradient(90deg,rgba(48,54,61,0.18)_1px,transparent_1px)] bg-[length:100%_100%,32px_32px,32px_32px] px-6 text-center">
           <p className="max-w-xl font-mono text-xs leading-relaxed tracking-[0.08em] text-[#8B949E]">
             {block.description}
           </p>
@@ -97,29 +101,80 @@ function ProjectPlaceholder({ block }: { block: ProjectPlaceholderBlock }) {
 }
 
 function ProjectSection({ block }: { block: ProjectSectionBlock }) {
+  const isAgentChallenges = block.title === agentChallengesTitle;
+
   return (
     <div className="w-full">
       <h2 className={sectionTitle}>{block.title}</h2>
       {block.description ? (
-        <p className="mt-4 text-[0.9375rem] leading-[1.6] text-[#8B949E] sm:text-base">
+        <p className={`mt-4 ${bodyText} text-[#8B949E]`}>
           {block.description}
         </p>
       ) : null}
-      {block.items ? (
+      {block.items && isAgentChallenges ? (
+        <ol className="mt-10 flex flex-col gap-10">
+          {block.items.map((item, index) => {
+            const title = typeof item === 'string' ? item : item.title;
+            const description =
+              typeof item === 'string' ? undefined : item.description;
+            const bullets = typeof item === 'string' ? undefined : item.bullets;
+
+            return (
+              <li
+                key={title}
+                className="grid gap-3 sm:grid-cols-[4rem_1fr] sm:gap-8"
+              >
+                <p className="font-mono text-xs font-medium uppercase tracking-[0.12em] text-[var(--accent-teal)]">
+                  {String(index + 1).padStart(2, '0')}
+                </p>
+                <div>
+                  <h3 className="text-xl font-medium leading-snug tracking-[-0.01em] text-[#F0F6FC] md:text-2xl">
+                    {title}
+                  </h3>
+                  {description ? (
+                    <p className={`mt-4 ${bodyText} text-[#8B949E]`}>
+                      {description}
+                    </p>
+                  ) : null}
+                  {bullets ? (
+                    <ul className="mt-6 flex flex-col gap-4">
+                      {bullets.map((bullet) => (
+                        <li key={bullet} className="flex gap-3">
+                          <span
+                            className="mt-[0.7em] h-1.5 w-1.5 shrink-0 rounded-full bg-[var(--accent-teal)]"
+                            aria-hidden
+                          />
+                          <h4 className="text-lg font-medium leading-snug tracking-[-0.01em] text-[#E6EDF3] md:text-xl">
+                            {bullet}
+                          </h4>
+                        </li>
+                      ))}
+                    </ul>
+                  ) : null}
+                </div>
+              </li>
+            );
+          })}
+        </ol>
+      ) : block.items ? (
         <div className="mt-6 grid gap-3 sm:grid-cols-2">
-          {block.items.map((item, index) => (
-            <div
-              key={item}
-              className="rounded-[8px] border border-[#30363D] bg-[#0B0F14]/70 p-4"
-            >
-              <p className="font-mono text-[11px] font-medium uppercase tracking-[0.12em] text-[#58A6FF]">
-                {String(index + 1).padStart(2, '0')}
-              </p>
-              <h3 className="mt-3 text-base font-medium tracking-[-0.01em] text-[#F0F6FC]">
-                {item}
-              </h3>
-            </div>
-          ))}
+          {block.items.map((item, index) => {
+            const title = typeof item === 'string' ? item : item.title;
+
+            return (
+              <div
+                key={title}
+                className="rounded-[8px] border border-[#30363D] bg-[#0B0F14]/70 p-4"
+              >
+                <p className="font-mono text-xs font-medium uppercase tracking-[0.12em] text-[var(--accent-teal)]">
+                  {String(index + 1).padStart(2, '0')}
+                </p>
+                <h3 className="mt-3 text-base font-medium tracking-[-0.01em] text-[#F0F6FC]">
+                  {title}
+                </h3>
+              </div>
+            );
+          })}
         </div>
       ) : null}
     </div>
@@ -176,7 +231,7 @@ function ProjectFindings({ block }: { block: ProjectFindingsBlock }) {
 
 export function WorkProjectView({ project }: { project: ProjectData }) {
   return (
-    <main className="min-h-screen overflow-x-hidden bg-[#0D1117] text-[#E6EDF3] selection:bg-[#388BFD]/25">
+    <main className="min-h-screen overflow-x-hidden bg-[#0D1117] text-[#E6EDF3] selection:bg-[var(--accent-teal)]/25">
       <header
         className={`${contentRail} pt-20 pb-10 sm:pt-24 ${pagePad}`}
       >
@@ -189,14 +244,13 @@ export function WorkProjectView({ project }: { project: ProjectData }) {
         >
           <Link
             href="/"
-            className="group mb-8 inline-flex items-center gap-1.5 font-mono text-sm text-[#58A6FF] transition-colors hover:text-[#79B8FF]"
+            className="group mb-8 inline-flex items-center gap-1.5 font-mono text-sm text-[var(--accent-teal)] transition-colors hover:text-[#72F3E8]"
           >
-            <span
-              className="inline-block transition-transform group-hover:-translate-x-0.5"
+            <IconArrowLeft
+              className="h-4 w-4 transition-transform group-hover:-translate-x-0.5"
+              stroke={1.8}
               aria-hidden
-            >
-              ←
-            </span>
+            />
             <span>Back to Work</span>
           </Link>
 
@@ -252,7 +306,7 @@ export function WorkProjectView({ project }: { project: ProjectData }) {
                 }}
                 className={`${contentRail} ${pagePad}`}
               >
-                <p className="text-[0.9375rem] leading-[1.6] text-[#E6EDF3] sm:text-base">
+                <p className={`${bodyText} text-[#E6EDF3]`}>
                   {item.body}
                 </p>
               </motion.section>

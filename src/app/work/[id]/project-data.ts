@@ -32,11 +32,19 @@ export type ProjectPlaceholderBlock = {
   description: string;
 };
 
+export type ProjectSectionItem =
+  | string
+  | {
+      title: string;
+      description?: string;
+      bullets?: string[];
+    };
+
 export type ProjectSectionBlock = {
   type: 'section';
   title: string;
   description?: string;
-  items?: string[];
+  items?: ProjectSectionItem[];
 };
 
 export type ProjectFinding = {
@@ -82,12 +90,14 @@ export const MOCK_PROJECTS: Record<string, ProjectData> = {
     content: [
       { type: 'nodes' },
       {
-        type: 'text',
-        body: 'A control surface for multi-step AI agent workflows inside GitHub. The challenge was balancing contextual grounding, inline suggestion coherence, and trust disclosure — three concerns that pull in different directions when operating at developer cadence.',
+        type: 'section',
+        title: 'the Paradoxy of Agency',
+        description:
+          'Designing AI agents is fundamentally an exercise in managing uncertainty. Traditional software often focuses on optimizing predictable workflows.',
       },
       {
         type: 'text',
-        body: 'We structured the IA around three flows: contextual grounding (how the agent understands state), inline suggestion coherence (how it surfaces diffs without noise), and a trust & disclosure layer (how operators audit and override). Each flow maps to a distinct interaction mode, not a separate screen.',
+        body: 'AI systems introduce ambiguity as part of everyday use, making trust, recovery, and transparency critical parts of the experience.',
       },
       {
         type: 'placeholder',
@@ -121,11 +131,20 @@ export const MOCK_PROJECTS: Record<string, ProjectData> = {
       },
       {
         type: 'section',
-        title: 'Key Design Decisions',
+        title: 'Four Challenges of Designing AI Agents',
         items: [
           'Agent Autonomy',
           'Cost Transparency',
-          'Context Understanding',
+          {
+            title: 'Context Understanding',
+            description:
+              'How should AI systems expose and manage context without overwhelming users or losing transparency?',
+            bullets: [
+              'Context Explainability',
+              'Context Window Awareness',
+              'Context control',
+            ],
+          },
           'Failure & Uncertainty Handling',
         ],
       },
@@ -136,9 +155,12 @@ export const MOCK_PROJECTS: Record<string, ProjectData> = {
       },
       {
         type: 'section',
-        title: 'First-Time Experience',
-        description:
-          'Placeholder for onboarding, initial trust building, first successful agent action, and user education moments.',
+        title: 'Beyond Product Interfaces',
+        items: ['Onboarding Experience', 'Blog Covers', 'Product Visuals'],
+      },
+      {
+        type: 'section',
+        title: 'Adapting AI Experiences Across IDEs',
       },
       {
         type: 'section',
