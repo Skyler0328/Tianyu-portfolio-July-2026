@@ -37,7 +37,50 @@ export type ProjectSectionItem =
   | {
       title: string;
       description?: string;
+      balance?: {
+        left: string;
+        right: string;
+      };
+      media?: {
+        before: ProjectChallengeImage;
+        after: ProjectChallengeImage[];
+      };
+      diagram?: ProjectChallengeImage;
+      mediaGroups?: ProjectChallengeMediaGroup[];
+      insight?: string;
       bullets?: string[];
+    };
+
+export type ProjectChallengeImage = {
+  src: string;
+  alt: string;
+  innerFrame?: {
+    x: number;
+    y: number;
+    width: number;
+    height: number;
+    canvasWidth: number;
+    canvasHeight: number;
+  };
+};
+
+export type ProjectChallengeMediaGroup =
+  | {
+      title: string;
+      variant: 'transition';
+      before: ProjectChallengeImage;
+      after: ProjectChallengeImage[];
+    }
+  | {
+      title: string;
+      variant: 'grid';
+      images: ProjectChallengeImage[];
+    }
+  | {
+      title: string;
+      variant: 'featuredGrid';
+      featured: ProjectChallengeImage;
+      images: ProjectChallengeImage[];
     };
 
 export type ProjectSectionBlock = {
@@ -79,7 +122,8 @@ export const MOCK_PROJECTS: Record<string, ProjectData> = {
   'github-copilot': {
     id: 'github-copilot',
     title: 'GitHub Copilot for IDEs',
-    subtitle: 'Human-Agent Interaction Design for Cross-Platform Developer Workflows',
+    subtitle:
+      'Human-Agent Interaction Design for Cross-Platform Developer Workflows',
     metadata: {
       role: 'UX Designer',
       team: 'Cross-functional team of designers, researchers, PMs, and engineers',
@@ -91,82 +135,139 @@ export const MOCK_PROJECTS: Record<string, ProjectData> = {
       { type: 'nodes' },
       {
         type: 'section',
-        title: 'the Paradoxy of Agency',
-        description:
-          'Designing AI agents is fundamentally an exercise in managing uncertainty. Traditional software often focuses on optimizing predictable workflows.',
-      },
-      {
-        type: 'text',
-        body: 'AI systems introduce ambiguity as part of everyday use, making trust, recovery, and transparency critical parts of the experience.',
-      },
-      {
-        type: 'placeholder',
-        title: 'Agent-Human Interaction',
-        description:
-          'Decision tree structure placeholder — future visual explaining my gained understanding of agent behavior, user intent, system confidence, and handoff moments.',
-      },
-      {
-        type: 'findings',
-        title: 'Findings from Real Users',
-        findings: [
-          {
-            quote:
-              '“User quote placeholder about when agent autonomy feels unclear.”',
-            image: '/copilot-before.png',
-            imageAlt: 'Problem screenshot placeholder for agent autonomy feedback',
-          },
-          {
-            quote:
-              '“User quote placeholder about cost, waiting time, or lack of transparency.”',
-            image: '/copilot-pressbutton.png',
-            imageAlt: 'Problem screenshot placeholder for cost transparency feedback',
-          },
-          {
-            quote:
-              '“User quote placeholder about recovery when the AI output is wrong or uncertain.”',
-            image: '/copilot-after.png',
-            imageAlt: 'Problem screenshot placeholder for failure recovery feedback',
-          },
-        ],
-      },
-      {
-        type: 'section',
         title: 'Four Challenges of Designing AI Agents',
         items: [
-          'Agent Autonomy',
-          'Cost Transparency',
+          {
+            title: 'Agent Autonomy',
+            description:
+              'How might we increase agent efficiency without making developers feel they had lost control?',
+            balance: {
+              left: 'More autonomy',
+              right: 'More predictability',
+            },
+            mediaGroups: [
+              {
+                title: 'Sub-agent Design',
+                variant: 'transition',
+                before: {
+                  src: '/work/subagent-old.png',
+                  alt: 'Previous sub-agent design before the redesign',
+                },
+                after: [
+                  {
+                    src: '/work/subagent-expand.png',
+                    alt: 'Expanded sub-agent design after the redesign',
+                  },
+                  {
+                    src: '/work/subagent-finished.png',
+                    alt: 'Finished sub-agent design after the redesign',
+                  },
+                ],
+              },
+              {
+                title: 'Thinking Process',
+                variant: 'grid',
+                images: [
+                  {
+                    src: '/work/thinking-finished.svg',
+                    alt: 'Collapsed thinking process after completion',
+                  },
+                  {
+                    src: '/work/thinking-expand.svg',
+                    alt: 'Expanded thinking process details',
+                  },
+                ],
+              },
+            ],
+            insight:
+              'We selectively reveal agent content to users: information that is not critical while the agent is running is collapsed to improve screen efficiency, while users can manually expand it to inspect details. When an error occurs, the full details expand by default so users can locate the issue.',
+          },
           {
             title: 'Context Understanding',
             description:
               'How should AI systems expose and manage context without overwhelming users or losing transparency?',
+            media: {
+              before: {
+                src: '/work/agent-autonomy-before.png',
+                alt: 'Previous file change experience before the Context Understanding redesign',
+              },
+              after: [
+                {
+                  src: '/work/agent-autonomy-after-1.svg',
+                  alt: 'Redesigned multi-file context experience, first state',
+                },
+                {
+                  src: '/work/agent-autonomy-after-2.svg',
+                  alt: 'Redesigned multi-file context experience, second state',
+                },
+                {
+                  src: '/work/agent-autonomy-after-3.svg',
+                  alt: 'Redesigned multi-file context experience, third state',
+                },
+              ],
+            },
             bullets: [
               'Context Explainability',
               'Context Window Awareness',
               'Context control',
             ],
           },
-          'Failure & Uncertainty Handling',
+          {
+            title: 'Cost Transparency',
+            diagram: {
+              src: '/work/tbb-diagram.png',
+              alt: 'TBB cost transparency diagram',
+            },
+            mediaGroups: [
+              {
+                title: 'Real time cost indicator',
+                variant: 'featuredGrid',
+                featured: {
+                  src: '/work/tbb-quota-flow.svg',
+                  alt: 'TBB quota flow for real-time cost indication',
+                },
+                images: [
+                  {
+                    src: '/work/tbb-context-size.svg',
+                    alt: 'TBB context size indicator',
+                    innerFrame: {
+                      x: 10,
+                      y: 12,
+                      width: 400,
+                      height: 890,
+                      canvasWidth: 463,
+                      canvasHeight: 916,
+                    },
+                  },
+                  {
+                    src: '/work/tbb-cost-per-session.svg',
+                    alt: 'TBB cost per session indicator',
+                    innerFrame: {
+                      x: 30,
+                      y: 43,
+                      width: 400,
+                      height: 890,
+                      canvasWidth: 642,
+                      canvasHeight: 967,
+                    },
+                  },
+                  {
+                    src: '/work/tbb-cost-per-session-2.svg',
+                    alt: 'TBB cost per session indicator expanded state',
+                    innerFrame: {
+                      x: 30,
+                      y: 26,
+                      width: 400,
+                      height: 890,
+                      canvasWidth: 460,
+                      canvasHeight: 950,
+                    },
+                  },
+                ],
+              },
+            ],
+          },
         ],
-      },
-      {
-        type: 'section',
-        title: 'System Quality',
-        items: ['Design System', 'UI Consistency', 'Accessibility'],
-      },
-      {
-        type: 'section',
-        title: 'Beyond Product Interfaces',
-        items: ['Onboarding Experience', 'Blog Covers', 'Product Visuals'],
-      },
-      {
-        type: 'section',
-        title: 'Adapting AI Experiences Across IDEs',
-      },
-      {
-        type: 'section',
-        title: 'Reflection',
-        description:
-          'Placeholder for the strong ending: what I learned, what I would improve next, and how I would evolve the experience in future iterations.',
       },
     ],
   },

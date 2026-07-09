@@ -96,7 +96,7 @@ export function CopilotNodesHero() {
   const typed = useTypewriter(hovered, active?.label ?? '');
 
   return (
-    <div className="relative w-full overflow-hidden rounded-[8px] border border-[#30363D] shadow-sm"
+    <div className="relative w-full overflow-hidden rounded-xl border border-[#E8E8E8] bg-white shadow-[0_12px_40px_-28px_rgba(0,0,0,0.35)]"
       style={{ aspectRatio: `${VB_W} / ${VB_H}` }}
     >
       <MacWindowTopBar />
@@ -172,7 +172,7 @@ export function CopilotNodesHero() {
           <motion.div
             key={active.id}
             role="tooltip"
-            className="pointer-events-auto absolute z-30 max-w-[min(220px,38vw)] border border-[#30363D] bg-[#0D1117]/92 px-3 py-2 font-mono text-xs leading-snug tracking-wide text-[#8B949E] shadow-lg backdrop-blur-sm"
+            className="pointer-events-auto absolute z-30 max-w-[min(220px,38vw)] rounded-lg border border-[#E8E8E8] bg-white/95 px-3 py-2 font-mono text-xs leading-snug tracking-wide text-[#555] shadow-[0_12px_40px_-28px_rgba(0,0,0,0.35)] backdrop-blur-sm"
             style={{ left: active.panel.left, top: active.panel.top, transform: active.panel.transform }}
             initial={{ opacity: 0, y: 4 }}
             animate={{ opacity: 1, y: 0 }}
@@ -181,9 +181,9 @@ export function CopilotNodesHero() {
             onMouseEnter={clearLeaveTimer}
             onMouseLeave={() => setHovered(null)}
           >
-            <span className="text-[#E6EDF3]">{typed}</span>
+            <span className="text-[#111]">{typed}</span>
             {typed.length < (active?.label.length ?? 0) && (
-              <span className="inline-block w-px animate-pulse bg-[var(--accent-teal)]" />
+              <span className="inline-block w-px animate-pulse bg-[#0D7C6F]" />
             )}
           </motion.div>
         )}
