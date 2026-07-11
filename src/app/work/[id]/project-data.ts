@@ -54,6 +54,16 @@ export type ProjectSectionItem =
 export type ProjectChallengeImage = {
   src: string;
   alt: string;
+  /** Fills transparent / missing card corners with the image canvas color. */
+  cardBg?: string;
+  /** Intrinsic pixel size of the asset. */
+  width?: number;
+  height?: number;
+  /**
+   * `natural` = keep asset at its own size (no content stretch); outer card
+   * can still fill the grid cell with matching background.
+   */
+  fit?: 'natural' | 'fill';
   innerFrame?: {
     x: number;
     y: number;
@@ -62,6 +72,12 @@ export type ProjectChallengeImage = {
     canvasWidth: number;
     canvasHeight: number;
   };
+};
+
+export type ProjectChallengeVideo = {
+  src: string;
+  alt: string;
+  cardBg?: string;
 };
 
 export type ProjectChallengeMediaGroup =
@@ -81,6 +97,16 @@ export type ProjectChallengeMediaGroup =
       variant: 'featuredGrid';
       featured: ProjectChallengeImage;
       images: ProjectChallengeImage[];
+    }
+  | {
+      title: string;
+      variant: 'videos';
+      /**
+       * Optional full-width video shown above the grid.
+       * `videos`: 1 = full-width row; 2 = equal-height side-by-side cards.
+       */
+      featured?: ProjectChallengeVideo;
+      videos: ProjectChallengeVideo[];
     };
 
 export type ProjectSectionBlock = {
@@ -150,17 +176,29 @@ export const MOCK_PROJECTS: Record<string, ProjectData> = {
                 title: 'Sub-agent Design',
                 variant: 'transition',
                 before: {
-                  src: '/work/subagent-old.png',
+                  src: '/work/subagent-old.png?v=2',
                   alt: 'Previous sub-agent design before the redesign',
+                  cardBg: '#CCE2E0',
+                  width: 1472,
+                  height: 858,
+                  fit: 'natural',
                 },
                 after: [
                   {
-                    src: '/work/subagent-expand.png',
+                    src: '/work/subagent-expand.png?v=2',
                     alt: 'Expanded sub-agent design after the redesign',
+                    cardBg: '#CCE2E0',
+                    width: 978,
+                    height: 1000,
+                    fit: 'natural',
                   },
                   {
-                    src: '/work/subagent-finished.png',
+                    src: '/work/subagent-finished.png?v=2',
                     alt: 'Finished sub-agent design after the redesign',
+                    cardBg: '#CCE2E0',
+                    width: 978,
+                    height: 1000,
+                    fit: 'natural',
                   },
                 ],
               },
@@ -214,54 +252,25 @@ export const MOCK_PROJECTS: Record<string, ProjectData> = {
           },
           {
             title: 'Cost Transparency',
-            diagram: {
-              src: '/work/tbb-diagram.png',
-              alt: 'TBB cost transparency diagram',
-            },
             mediaGroups: [
               {
                 title: 'Real time cost indicator',
-                variant: 'featuredGrid',
+                variant: 'videos',
                 featured: {
-                  src: '/work/tbb-quota-flow.svg',
-                  alt: 'TBB quota flow for real-time cost indication',
+                  src: '/work/record-usage-panel.mp4',
+                  alt: 'Usage panel recording showing real-time cost indication',
+                  cardBg: '#1E1E1E',
                 },
-                images: [
+                videos: [
                   {
-                    src: '/work/tbb-context-size.svg',
-                    alt: 'TBB context size indicator',
-                    innerFrame: {
-                      x: 10,
-                      y: 12,
-                      width: 400,
-                      height: 890,
-                      canvasWidth: 463,
-                      canvasHeight: 916,
-                    },
+                    src: '/work/record-session-usage.mp4',
+                    alt: 'Session usage recording for cost transparency',
+                    cardBg: '#1E1E1E',
                   },
                   {
-                    src: '/work/tbb-cost-per-session.svg',
-                    alt: 'TBB cost per session indicator',
-                    innerFrame: {
-                      x: 30,
-                      y: 43,
-                      width: 400,
-                      height: 890,
-                      canvasWidth: 642,
-                      canvasHeight: 967,
-                    },
-                  },
-                  {
-                    src: '/work/tbb-cost-per-session-2.svg',
-                    alt: 'TBB cost per session indicator expanded state',
-                    innerFrame: {
-                      x: 30,
-                      y: 26,
-                      width: 400,
-                      height: 890,
-                      canvasWidth: 460,
-                      canvasHeight: 950,
-                    },
+                    src: '/work/record-session-view.mp4',
+                    alt: 'Session view recording for cost transparency',
+                    cardBg: '#1E1E1E',
                   },
                 ],
               },

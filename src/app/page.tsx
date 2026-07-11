@@ -6,8 +6,6 @@ import Link from 'next/link';
 import { motion } from 'framer-motion';
 import { IconArrowRight, IconDownload } from '@tabler/icons-react';
 
-import { HeroDotField } from '@/components/HeroDotField';
-
 const easeOut = [0.22, 1, 0.36, 1] as const;
 
 const pageItem = {
@@ -271,26 +269,17 @@ export default function HomePage() {
 
       <motion.section
         variants={pageItem}
-        className="relative mx-auto w-full max-w-[1180px] overflow-hidden px-4 pb-16 pt-20 sm:px-6 md:px-8 md:pb-24 md:pt-28 lg:px-10"
+        className="mx-auto w-full max-w-[1180px] px-4 pb-16 pt-20 sm:px-6 md:px-8 md:pb-24 md:pt-28 lg:px-10"
       >
-        <div
-          className="pointer-events-none absolute left-1/2 top-0 aspect-square w-full max-w-[1080px] -translate-x-1/2"
-          aria-hidden
-        >
-          <HeroDotField />
-        </div>
-
-        <div className="relative z-10">
-          <h1 className="max-w-4xl text-balance text-4xl font-medium leading-[1.08] tracking-[-0.03em] text-[#111] md:text-6xl lg:text-[4.5rem]">
-            Hello! Welcome to my corner of the Web.
-          </h1>
-          <p className="mt-8 max-w-3xl text-lg leading-relaxed text-[#555] md:text-xl md:leading-relaxed">
-            I&apos;m a Product Designer focused on Human-AI interaction,
-            intelligent workflows, and designing AI-native experiences for
-            complex systems — with a belief in the impact of well-crafted
-            experiences.
-          </p>
-        </div>
+        <h1 className="max-w-4xl text-balance text-4xl font-medium leading-[1.08] tracking-[-0.03em] text-[#111] md:text-6xl lg:text-[4.5rem]">
+          Hello! Welcome to my corner of the Web.
+        </h1>
+        <p className="mt-8 max-w-3xl text-lg leading-relaxed text-[#555] md:text-xl md:leading-relaxed">
+          I&apos;m a Product Designer focused on Human-AI interaction,
+          intelligent workflows, and designing AI-native experiences for
+          complex systems — with a belief in the impact of well-crafted
+          experiences.
+        </p>
       </motion.section>
 
       <motion.section id="work" variants={pageItem} className="border-t border-[#E8E8E8]">

@@ -5,12 +5,13 @@
 
 import Link from 'next/link';
 import { motion } from 'framer-motion';
-import { IconArrowLeft, IconArrowRight } from '@tabler/icons-react';
+import { IconArrowLeft } from '@tabler/icons-react';
 
 import { CopilotNodesHero } from '@/components/CopilotNodesHero';
 import type {
   ProjectChallengeImage,
   ProjectChallengeMediaGroup,
+  ProjectChallengeVideo,
   ProjectData,
   ProjectFindingsBlock,
   ProjectImageBlock,
@@ -36,7 +37,7 @@ const bodyText = 'text-base leading-relaxed text-[#555] md:text-lg';
 const labelText =
   'font-mono text-xs font-medium uppercase tracking-[0.14em] text-[#888]';
 const imageCard =
-  'overflow-hidden rounded-xl border border-[#E8E8E8] bg-white shadow-[0_12px_40px_-28px_rgba(0,0,0,0.35)]';
+  'overflow-hidden rounded-2xl border border-[#E8E8E8] bg-white shadow-[0_12px_40px_-28px_rgba(0,0,0,0.35)]';
 const agentChallengesTitle = 'Four Challenges of Designing AI Agents';
 
 function MetadataRow({ label, value }: { label: string; value: string }) {
@@ -53,11 +54,17 @@ function MetadataRow({ label, value }: { label: string; value: string }) {
 function ImageCard({
   children,
   className = '',
+  style,
 }: {
   children: React.ReactNode;
   className?: string;
+  style?: React.CSSProperties;
 }) {
-  return <div className={`${imageCard} ${className}`}>{children}</div>;
+  return (
+    <div className={`${imageCard} ${className}`} style={style}>
+      {children}
+    </div>
+  );
 }
 
 function ProjectImage({ block }: { block: ProjectImageBlock }) {
@@ -81,10 +88,19 @@ function ProjectImage({ block }: { block: ProjectImageBlock }) {
 function ChallengeImageFrame({
   image,
   className = '',
+  fillHeight = false,
+  /** When true, card fills the grid cell; image stays natural-sized inside. */
+  fillCard = false,
 }: {
   image: ProjectChallengeImage;
   className?: string;
+  /** Stretch to row height and center the image (for 2-up aligned cards). */
+  fillHeight?: boolean;
+  fillCard?: boolean;
 }) {
+  const cardBg = image.cardBg ?? '#F3F3F3';
+  const naturalFit = image.fit === 'natural' || fillCard;
+
   const inner = image.innerFrame ? (
     (() => {
       const { x, y, width, height, canvasWidth } = image.innerFrame!;
@@ -94,8 +110,8 @@ function ChallengeImageFrame({
 
       return (
         <div
-          className="relative overflow-hidden bg-[#F3F3F3]"
-          style={{ aspectRatio: `${width} / ${height}` }}
+          className="relative overflow-hidden"
+          style={{ aspectRatio: `${width} / ${height}`, backgroundColor: cardBg }}
         >
           <img
             src={image.src}
@@ -112,11 +128,49 @@ function ChallengeImageFrame({
         </div>
       );
     })()
-  ) : (
-    <div className="overflow-hidden bg-[#F3F3F3]">
+  ) : naturalFit ? (
+    <div
+      className={`flex items-center justify-center overflow-hidden ${
+        fillHeight ? 'h-full min-h-0' : ''
+      }`}
+      style={{ backgroundColor: cardBg }}
+    >
       <img
         src={image.src}
         alt={image.alt}
+        width={image.width}
+        height={image.height}
+        className="h-auto w-auto max-w-full object-contain"
+        style={
+          image.width
+            ? { width: 'auto', maxWidth: `min(100%, ${image.width}px)` }
+            : undefined
+        }
+        loading="lazy"
+        decoding="async"
+      />
+    </div>
+  ) : fillHeight ? (
+    <div
+      className="grid h-full min-h-0 overflow-hidden"
+      style={{ backgroundColor: cardBg }}
+    >
+      <img
+        src={image.src}
+        alt={image.alt}
+        className="h-full w-full object-contain object-center"
+        style={{ backgroundColor: cardBg }}
+        loading="lazy"
+        decoding="async"
+      />
+    </div>
+  ) : (
+    <div className="overflow-hidden" style={{ backgroundColor: cardBg }}>
+      <img
+        src={image.src}
+        alt={image.alt}
+        width={image.width}
+        height={image.height}
         className="h-auto w-full object-contain"
         loading="lazy"
         decoding="async"
@@ -124,7 +178,16 @@ function ChallengeImageFrame({
     </div>
   );
 
-  return <ImageCard className={className}>{inner}</ImageCard>;
+  return (
+    <ImageCard
+      className={`${fillHeight || naturalFit ? 'flex flex-col' : ''} ${
+        fillHeight ? 'h-full min-h-0' : ''
+      } ${className}`}
+      style={{ backgroundColor: cardBg }}
+    >
+      {inner}
+    </ImageCard>
+  );
 }
 
 function ChallengeDocumentFrame({ document }: { document: ProjectChallengeImage }) {
@@ -151,23 +214,103 @@ function ChallengeDocumentFrame({ document }: { document: ProjectChallengeImage 
   );
 }
 
+function ChallengeVideoFrame({
+  video,
+  className = '',
+  fillHeight = false,
+}: {
+  video: ProjectChallengeVideo;
+  className?: string;
+  fillHeight?: boolean;
+}) {
+  const cardBg = video.cardBg ?? '#1E1E1E';
+
+  return (
+    <ImageCard
+      className={`${fillHeight ? 'grid h-full min-h-0' : ''} ${className}`}
+      style={{ backgroundColor: cardBg }}
+    >
+      <div
+        className={`overflow-hidden ${fillHeight ? 'grid h-full min-h-0' : ''}`}
+        style={{ backgroundColor: cardBg }}
+      >
+        <video
+          src={video.src}
+          aria-label={video.alt}
+          className={
+            fillHeight
+              ? 'h-full w-full object-contain object-center'
+              : 'h-auto w-full object-contain'
+          }
+          style={{ backgroundColor: cardBg }}
+          autoPlay
+          muted
+          loop
+          playsInline
+          preload="metadata"
+        />
+      </div>
+    </ImageCard>
+  );
+}
+
 function ChallengeMediaGroup({ group }: { group: ProjectChallengeMediaGroup }) {
   if (group.variant === 'transition') {
     return (
       <div className="space-y-4">
         <h4 className={groupTitle}>{group.title}</h4>
-        <div className="grid items-center gap-4 lg:grid-cols-[minmax(0,1fr)_auto_minmax(0,2fr)]">
-          <ChallengeImageFrame image={group.before} />
-          <IconArrowRight
-            className="mx-auto h-6 w-6 rotate-90 text-[#888] lg:rotate-0"
-            stroke={1.8}
-            aria-hidden
+        <div className="flex flex-col gap-4 md:gap-5">
+          <ChallengeImageFrame
+            image={group.before}
+            className="w-full"
+            fillCard
           />
-          <div className="grid gap-4 md:grid-cols-2">
+          <div className="grid grid-cols-1 items-stretch gap-4 md:grid-cols-2 md:gap-5">
             {group.after.map((image) => (
-              <ChallengeImageFrame key={image.src} image={image} />
+              <ChallengeImageFrame
+                key={image.src}
+                image={image}
+                className="w-full"
+                fillCard
+                fillHeight
+              />
             ))}
           </div>
+        </div>
+      </div>
+    );
+  }
+
+  if (group.variant === 'videos') {
+    const isPair = group.videos.length === 2;
+
+    return (
+      <div className="space-y-4">
+        {group.title ? <h4 className={groupTitle}>{group.title}</h4> : null}
+        <div className="flex flex-col gap-4 md:gap-5">
+          {group.featured ? (
+            <ChallengeVideoFrame video={group.featured} className="w-full" />
+          ) : null}
+          {isPair ? (
+            <div className="grid grid-cols-1 items-stretch gap-4 md:grid-cols-2 md:gap-5">
+              {group.videos.map((video) => (
+                <ChallengeVideoFrame
+                  key={video.src}
+                  video={video}
+                  className="w-full"
+                  fillHeight
+                />
+              ))}
+            </div>
+          ) : (
+            group.videos.map((video) => (
+              <ChallengeVideoFrame
+                key={video.src}
+                video={video}
+                className="w-full"
+              />
+            ))
+          )}
         </div>
       </div>
     );
