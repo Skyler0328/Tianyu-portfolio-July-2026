@@ -78,6 +78,14 @@ export type ProjectChallengeVideo = {
   src: string;
   alt: string;
   cardBg?: string;
+  /** Intrinsic pixel size of the recording. */
+  width?: number;
+  height?: number;
+  /**
+   * `natural` = keep recording at its own size (no content stretch); outer
+   * card can still fill the row with matching background.
+   */
+  fit?: 'natural' | 'fill';
 };
 
 export type ProjectChallengeMediaGroup =
@@ -106,7 +114,14 @@ export type ProjectChallengeMediaGroup =
        * `videos`: 1 = full-width row; 2 = equal-height side-by-side cards.
        */
       featured?: ProjectChallengeVideo;
+      /** Full-width static images shown after `featured`, before the video grid. */
+      images?: ProjectChallengeImage[];
       videos: ProjectChallengeVideo[];
+    }
+  | {
+      title?: string;
+      variant: 'stack';
+      images: ProjectChallengeImage[];
     };
 
 export type ProjectSectionBlock = {
@@ -114,6 +129,8 @@ export type ProjectSectionBlock = {
   title: string;
   description?: string;
   items?: ProjectSectionItem[];
+  /** Top-level media for gallery-style sections (no numbered challenge items). */
+  mediaGroups?: ProjectChallengeMediaGroup[];
 };
 
 export type ProjectFinding = {
@@ -176,11 +193,11 @@ export const MOCK_PROJECTS: Record<string, ProjectData> = {
                 title: 'Sub-agent Design',
                 variant: 'transition',
                 before: {
-                  src: '/work/subagent-old.png?v=2',
+                  src: '/work/subagent-old.png?v=3',
                   alt: 'Previous sub-agent design before the redesign',
-                  cardBg: '#CCE2E0',
-                  width: 1472,
-                  height: 858,
+                  cardBg: '#D9D9D9',
+                  width: 2944,
+                  height: 1716,
                   fit: 'natural',
                 },
                 after: [
@@ -244,6 +261,22 @@ export const MOCK_PROJECTS: Record<string, ProjectData> = {
                 },
               ],
             },
+            mediaGroups: [
+              {
+                title: 'Context Window Awareness',
+                variant: 'videos',
+                videos: [
+                  {
+                    src: '/work/record-context-window.mp4',
+                    alt: 'Context window awareness recording showing token usage breakdown',
+                    cardBg: '#DCE8E7',
+                    width: 782,
+                    height: 1474,
+                    fit: 'natural',
+                  },
+                ],
+              },
+            ],
             bullets: [
               'Context Explainability',
               'Context Window Awareness',
@@ -261,6 +294,15 @@ export const MOCK_PROJECTS: Record<string, ProjectData> = {
                   alt: 'Usage panel recording showing real-time cost indication',
                   cardBg: '#1E1E1E',
                 },
+                images: [
+                  {
+                    src: '/work/indicator-explore.png',
+                    alt: 'Usage indicator design exploration and in-product mockup',
+                    cardBg: '#F7F8F8',
+                    width: 1100,
+                    height: 582,
+                  },
+                ],
                 videos: [
                   {
                     src: '/work/record-session-usage.mp4',
@@ -273,6 +315,48 @@ export const MOCK_PROJECTS: Record<string, ProjectData> = {
                     cardBg: '#1E1E1E',
                   },
                 ],
+              },
+            ],
+          },
+          {
+            title: 'Failure & Uncertainty',
+          },
+        ],
+      },
+      {
+        type: 'section',
+        title: 'UI System Design & Visual',
+        mediaGroups: [
+          {
+            variant: 'stack',
+            images: [
+              {
+                src: '/work/eclipse-icons.png',
+                alt: 'Eclipse Copilot icon system',
+                cardBg: '#D9D9D9',
+                width: 1100,
+                height: 582,
+              },
+              {
+                src: '/work/eclipse-ui-levelup.png',
+                alt: 'Eclipse Copilot UI level-up screens',
+                cardBg: '#E1EAE9',
+                width: 2200,
+                height: 1164,
+              },
+              {
+                src: '/work/eclipse-ui-dark-theme.jpg',
+                alt: 'Eclipse Copilot UI dark theme',
+                cardBg: '#1E1E1E',
+                width: 1200,
+                height: 652,
+              },
+              {
+                src: '/work/eclipse-poster.png',
+                alt: 'Eclipse Copilot visual poster',
+                cardBg: '#0C022F',
+                width: 2560,
+                height: 1440,
               },
             ],
           },

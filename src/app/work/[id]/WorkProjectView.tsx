@@ -224,25 +224,43 @@ function ChallengeVideoFrame({
   fillHeight?: boolean;
 }) {
   const cardBg = video.cardBg ?? '#1E1E1E';
+  const naturalFit = video.fit === 'natural';
 
   return (
     <ImageCard
-      className={`${fillHeight ? 'grid h-full min-h-0' : ''} ${className}`}
+      className={`${
+        fillHeight || naturalFit ? 'flex flex-col' : ''
+      } ${fillHeight ? 'h-full min-h-0' : ''} ${className}`}
       style={{ backgroundColor: cardBg }}
     >
       <div
-        className={`overflow-hidden ${fillHeight ? 'grid h-full min-h-0' : ''}`}
+        className={`overflow-hidden ${
+          naturalFit
+            ? 'flex items-center justify-center'
+            : fillHeight
+              ? 'grid h-full min-h-0'
+              : ''
+        }`}
         style={{ backgroundColor: cardBg }}
       >
         <video
           src={video.src}
           aria-label={video.alt}
+          width={video.width}
+          height={video.height}
           className={
-            fillHeight
-              ? 'h-full w-full object-contain object-center'
-              : 'h-auto w-full object-contain'
+            naturalFit
+              ? 'h-auto w-auto max-w-full object-contain'
+              : fillHeight
+                ? 'h-full w-full object-contain object-center'
+                : 'h-auto w-full object-contain'
           }
-          style={{ backgroundColor: cardBg }}
+          style={{
+            backgroundColor: cardBg,
+            ...(naturalFit && video.width
+              ? { width: 'auto', maxWidth: `min(100%, ${video.width}px)` }
+              : undefined),
+          }}
           autoPlay
           muted
           loop
@@ -291,6 +309,13 @@ function ChallengeMediaGroup({ group }: { group: ProjectChallengeMediaGroup }) {
           {group.featured ? (
             <ChallengeVideoFrame video={group.featured} className="w-full" />
           ) : null}
+          {group.images?.map((image) => (
+            <ChallengeImageFrame
+              key={image.src}
+              image={image}
+              className="w-full"
+            />
+          ))}
           {isPair ? (
             <div className="grid grid-cols-1 items-stretch gap-4 md:grid-cols-2 md:gap-5">
               {group.videos.map((video) => (
@@ -311,6 +336,23 @@ function ChallengeMediaGroup({ group }: { group: ProjectChallengeMediaGroup }) {
               />
             ))
           )}
+        </div>
+      </div>
+    );
+  }
+
+  if (group.variant === 'stack') {
+    return (
+      <div className="space-y-4">
+        {group.title ? <h4 className={groupTitle}>{group.title}</h4> : null}
+        <div className="flex flex-col gap-4 md:gap-5">
+          {group.images.map((image) => (
+            <ChallengeImageFrame
+              key={image.src}
+              image={image}
+              className="w-full"
+            />
+          ))}
         </div>
       </div>
     );
@@ -353,8 +395,10 @@ function ChallengeMediaGroup({ group }: { group: ProjectChallengeMediaGroup }) {
 
 function ProjectSection({ block }: { block: ProjectSectionBlock }) {
   const isAgentChallenges = block.title === agentChallengesTitle;
+  const hasItems = Boolean(block.items?.length);
+  const hasMediaGroups = Boolean(block.mediaGroups?.length);
 
-  if (!isAgentChallenges || !block.items) {
+  if (!hasItems && !hasMediaGroups) {
     return null;
   }
 
@@ -365,103 +409,119 @@ function ProjectSection({ block }: { block: ProjectSectionBlock }) {
         <p className={`mt-4 max-w-3xl ${bodyText}`}>{block.description}</p>
       ) : null}
 
-      <ol className="mt-12 flex flex-col gap-16 md:gap-20">
-        {block.items.map((item, index) => {
-          if (typeof item === 'string') return null;
+      {hasMediaGroups && !hasItems ? (
+        <div className="mt-10 space-y-10 md:mt-12">
+          {block.mediaGroups!.map((group, index) => (
+            <ChallengeMediaGroup
+              key={group.title ?? `media-group-${index}`}
+              group={group}
+            />
+          ))}
+        </div>
+      ) : null}
 
-          const {
-            title,
-            description,
-            balance,
-            media,
-            diagram,
-            mediaGroups,
-            insight,
-            bullets,
-          } = item;
+      {isAgentChallenges && hasItems ? (
+        <ol className="mt-12 flex flex-col gap-16 md:gap-20">
+          {block.items!.map((item, index) => {
+            if (typeof item === 'string') return null;
 
-          return (
-            <li key={title} className="border-t border-[#E8E8E8] pt-12 md:pt-16">
-              <h3 className={challengeTitle}>
-                <span className="mr-3 font-mono text-xs font-medium uppercase tracking-[0.12em] text-[#888]">
-                  {String(index + 1).padStart(2, '0')}
-                </span>
-                {title}
-              </h3>
+            const {
+              title,
+              description,
+              balance,
+              media,
+              diagram,
+              mediaGroups,
+              insight,
+              bullets,
+            } = item;
 
-              {description ? (
-                <p className={`mt-4 max-w-3xl ${bodyText}`}>{description}</p>
-              ) : null}
+            return (
+              <li key={title} className="border-t border-[#E8E8E8] pt-12 md:pt-16">
+                <h3 className={challengeTitle}>
+                  <span className="mr-3 font-mono text-xs font-medium uppercase tracking-[0.12em] text-[#888]">
+                    {String(index + 1).padStart(2, '0')}
+                  </span>
+                  {title}
+                </h3>
 
-              {balance ? (
-                <div
-                  className={`mt-6 flex max-w-2xl flex-col gap-2 rounded-xl border border-[#E8E8E8] bg-white px-5 py-4 text-base text-[#333] sm:flex-row sm:items-center sm:justify-center sm:gap-5 md:text-lg`}
-                >
-                  <span>{balance.left}</span>
-                  <span className="text-[#888]">vs</span>
-                  <span>{balance.right}</span>
-                </div>
-              ) : null}
+                {description ? (
+                  <p className={`mt-4 max-w-3xl ${bodyText}`}>{description}</p>
+                ) : null}
 
-              {diagram ? (
-                <div className="mt-8 space-y-4">
-                  <h4 className={groupTitle}>Overview</h4>
-                  <ChallengeDocumentFrame document={diagram} />
-                </div>
-              ) : null}
-
-              {media ? (
-                <div className="mt-8 space-y-8">
-                  <div className="space-y-4">
-                    <h4 className={groupTitle}>Before</h4>
-                    <ChallengeImageFrame
-                      image={media.before}
-                      className="mx-auto max-w-md lg:max-w-sm"
-                    />
+                {balance ? (
+                  <div
+                    className={`mt-6 flex max-w-2xl flex-col gap-2 rounded-xl border border-[#E8E8E8] bg-white px-5 py-4 text-base text-[#333] sm:flex-row sm:items-center sm:justify-center sm:gap-5 md:text-lg`}
+                  >
+                    <span>{balance.left}</span>
+                    <span className="text-[#888]">vs</span>
+                    <span>{balance.right}</span>
                   </div>
-                  <div className="space-y-4">
-                    <h4 className={groupTitle}>After</h4>
-                    <div className="grid gap-4 md:grid-cols-3">
-                      {media.after.map((image) => (
-                        <ChallengeImageFrame key={image.src} image={image} />
-                      ))}
+                ) : null}
+
+                {diagram ? (
+                  <div className="mt-8 space-y-4">
+                    <h4 className={groupTitle}>Overview</h4>
+                    <ChallengeDocumentFrame document={diagram} />
+                  </div>
+                ) : null}
+
+                {media ? (
+                  <div className="mt-8 space-y-8">
+                    <div className="space-y-4">
+                      <h4 className={groupTitle}>Before</h4>
+                      <ChallengeImageFrame
+                        image={media.before}
+                        className="mx-auto max-w-md lg:max-w-sm"
+                      />
+                    </div>
+                    <div className="space-y-4">
+                      <h4 className={groupTitle}>After</h4>
+                      <div className="grid gap-4 md:grid-cols-3">
+                        {media.after.map((image) => (
+                          <ChallengeImageFrame key={image.src} image={image} />
+                        ))}
+                      </div>
                     </div>
                   </div>
-                </div>
-              ) : null}
+                ) : null}
 
-              {mediaGroups ? (
-                <div className="mt-8 space-y-10">
-                  {mediaGroups.map((group) => (
-                    <ChallengeMediaGroup key={group.title} group={group} />
-                  ))}
-                </div>
-              ) : null}
+                {bullets ? (
+                  <ul className="mt-8 flex flex-col gap-3">
+                    {bullets.map((bullet) => (
+                      <li
+                        key={bullet}
+                        className="flex gap-3 text-base font-medium text-[#333] md:text-lg"
+                      >
+                        <span
+                          className="mt-[0.65em] h-1.5 w-1.5 shrink-0 rounded-full bg-[#0D7C6F]"
+                          aria-hidden
+                        />
+                        {bullet}
+                      </li>
+                    ))}
+                  </ul>
+                ) : null}
 
-              {insight ? (
-                <p className={`mt-8 max-w-3xl ${bodyText}`}>{insight}</p>
-              ) : null}
-
-              {bullets ? (
-                <ul className="mt-8 flex flex-col gap-3">
-                  {bullets.map((bullet) => (
-                    <li
-                      key={bullet}
-                      className="flex gap-3 text-base font-medium text-[#333] md:text-lg"
-                    >
-                      <span
-                        className="mt-[0.65em] h-1.5 w-1.5 shrink-0 rounded-full bg-[#0D7C6F]"
-                        aria-hidden
+                {mediaGroups ? (
+                  <div className="mt-8 space-y-10">
+                    {mediaGroups.map((group) => (
+                      <ChallengeMediaGroup
+                        key={group.title ?? group.variant}
+                        group={group}
                       />
-                      {bullet}
-                    </li>
-                  ))}
-                </ul>
-              ) : null}
-            </li>
-          );
-        })}
-      </ol>
+                    ))}
+                  </div>
+                ) : null}
+
+                {insight ? (
+                  <p className={`mt-8 max-w-3xl ${bodyText}`}>{insight}</p>
+                ) : null}
+              </li>
+            );
+          })}
+        </ol>
+      ) : null}
     </div>
   );
 }
