@@ -392,131 +392,465 @@ export const MOCK_PROJECTS: Record<string, ProjectData> = {
       },
     ],
   },
-  'agent-orchestration-console': {
-    id: 'agent-orchestration-console',
-    title: 'Agent Orchestration Console',
+  'raymics-cloud': {
+    id: 'raymics-cloud',
+    title: 'Raymics Cloud',
+    subtitle: 'Research-led redesign for a medical AI SaaS',
+    description:
+      'A radiomics platform for doctors and researchers — redesigned around activation, conversion, and clearer workflows for complex medical AI tasks.',
     metadata: {
-      role: 'Lead Product Designer',
-      team: 'Platform · 4 designers, 12 engineers',
-      duration: 'Q2 2025 — Q1 2026',
-      impact: '−38% time-to-first successful run (pilot cohort)',
+      role: 'UX Design Lead',
+      team: 'Cross-functional · PM, AI engineers, SDEs, operations',
+      duration: '2023 – 2024',
+      impact:
+        '· Led iterative user research and post-launch usability testing\n· Diagnosed low retention (15%) and payment completion (0.5%)\n· Redesigned onboarding, navigation, membership, and payment flows\n· Anchored a design system later extended to on-prem and federated products',
     },
     content: [
       {
-        type: 'text',
-        body: 'Enterprise teams needed a single control plane to author, review, and ship multi-step agent workflows without losing traceability. The surface had to feel fast under load and legible for operators who live in logs.',
-      },
-      {
         type: 'image',
-        src: '/work/agent-console-wide.svg',
-        alt: 'Wide mock frame for the orchestration console',
+        src: '/work/raymics-cloud-hero.png',
+        alt: 'Raymics Cloud medical AI SaaS hero on laptop and phone',
         layout: 'full',
-        width: 1600,
-        height: 900,
+        width: 3840,
+        height: 2160,
+      },
+      {
+        type: 'section',
+        title: 'Overview',
+        description:
+          'Raymics uses AI to analyze medical images (CT, MRI, PET) and offers zero-code paths for radiomics processing. I led UX across product lines — personas, research, usability testing, wireframes, and prototyping — with Raymics Cloud as the primary SaaS surface for doctors.',
+        mediaGroups: [
+          {
+            variant: 'stack',
+            images: [
+              {
+                src: '/work/raymics-cloud-ecosystem.png',
+                alt: 'Raymics product ecosystem, timeline, and stakeholder map',
+                cardBg: '#F7F8FA',
+                width: 3840,
+                height: 2160,
+              },
+            ],
+          },
+        ],
+      },
+      {
+        type: 'section',
+        title: 'Finding the problem',
+        description:
+          'After launch, retention sat at 15% and payment completion at 0.5%. A funnel from site visits → register → train model → pay showed the steepest drop between registration and finishing a training run. I led usability testing one month post-launch to find why customers would not convert.',
+        mediaGroups: [
+          {
+            variant: 'stack',
+            images: [
+              {
+                src: '/work/raymics-cloud-research.png',
+                alt: 'Personas, journey maps, and post-launch funnel metrics',
+                cardBg: '#FFFFFF',
+                width: 3840,
+                height: 3672,
+              },
+              {
+                src: '/work/raymics-cloud-usability.png',
+                alt: 'Usability test process, tasks, and affinity mapping',
+                cardBg: '#F7F8FA',
+                width: 3840,
+                height: 2160,
+              },
+              {
+                src: '/work/raymics-cloud-findings.png',
+                alt: 'Usability test conclusions prioritized by severity',
+                cardBg: '#FFFFFF',
+                width: 3840,
+                height: 2160,
+              },
+            ],
+          },
+        ],
+      },
+      {
+        type: 'section',
+        title: 'Design strategy',
+        description:
+          'We focused on four moves: shorten onboarding to raise activation, improve ease of use for expert-dense screens, clarify payment and membership, and ship feedback-driven features that made model results more trustworthy.',
+        mediaGroups: [
+          {
+            variant: 'stack',
+            images: [
+              {
+                src: '/work/raymics-cloud-strategy.png',
+                alt: 'Design strategy across onboarding, ease of use, payment, and new features',
+                cardBg: '#F3F5F8',
+                width: 3840,
+                height: 7394,
+              },
+            ],
+          },
+        ],
+      },
+      {
+        type: 'section',
+        title: 'Ease of use & membership',
+        description:
+          'Horizontal navigation gave way to a vertical rail better suited to a multi-module tool, with critical membership and resource info brought above the fold. Membership cards use color and avatar frames to make Basic vs Premium and active / expired / not-purchased states scannable.',
+        mediaGroups: [
+          {
+            variant: 'stack',
+            images: [
+              {
+                src: '/work/raymics-cloud-ease-nav.png',
+                alt: 'Before and after dashboard navigation and resource cards',
+                cardBg: '#FFFFFF',
+                width: 3840,
+                height: 2160,
+              },
+              {
+                src: '/work/raymics-cloud-membership.png',
+                alt: 'Membership system states: not purchased, active, and expired',
+                cardBg: '#F7F8FA',
+                width: 3840,
+                height: 2160,
+              },
+            ],
+          },
+        ],
       },
       {
         type: 'text',
-        body: 'We anchored the IA on three verbs — compose, validate, deploy — and pushed advanced configuration behind progressive disclosure. Dense tables used monospace numerics for scanability while narrative context stayed in the sans stack at 1.6 line height.',
-      },
-      {
-        type: 'image',
-        src: '/work/agent-console-center.svg',
-        alt: 'Centered mock frame for detail states',
-        layout: 'centered',
-        width: 1600,
-        height: 1000,
+        body: 'Cloud became the design-language anchor for the rest of the Raymics suite — including hospital on-premises deployment and federated learning — so researchers could move between products without relearning the system.',
       },
     ],
   },
-  'ide-inline-assistance': {
-    id: 'ide-inline-assistance',
-    title: 'IDE Inline Assistance',
+  'raymics-enterprise': {
+    id: 'raymics-enterprise',
+    title: 'Raymics On-Prem & Federated Learning',
+    subtitle:
+      'Extending the SaaS design system to hospital deployment and multi-institution collaboration',
+    description:
+      'A 0–1 B2B platform for department directors and IT — multi-role permissions on-premises, plus federated learning across institutions without moving raw data.',
     metadata: {
-      role: 'Product Designer (IC)',
-      team: 'Editor · 2 PMs, 8 engineers',
-      duration: '10 weeks (sprint contract)',
-      impact: 'Higher acceptance on “diff-first” suggestions in lab sessions',
+      role: 'UX Designer',
+      team: 'Product · research, workflow, demo, and design-system reuse',
+      duration: '2024',
+      impact:
+        '· Smooth interaction and design concepts supported million-level hospital contracts\n· Batch operations improved efficiency and reduced errors\n· Reused SaaS components to shorten development',
     },
     content: [
       {
-        type: 'text',
-        body: 'Latency-sensitive UI for inline suggestions, partial diffs, and trust cues. The challenge was to keep the editor calm: every extra pixel competes with code.',
-      },
-      {
         type: 'image',
-        src: '/work/ide-inline-wide.svg',
-        alt: 'Wide mock frame for inline assistance',
+        src: '/work/raymics-enterprise-hero.png',
+        alt: 'Raymics Fusion on-premises and federated learning platform hero',
         layout: 'full',
-        width: 1600,
-        height: 900,
+        width: 3840,
+        height: 2160,
       },
       {
-        type: 'text',
-        body: 'Motion is intentionally restrained. Enter/exit uses short fades; the primary affordance is spatial continuity between suggestion and insertion point.',
+        type: 'section',
+        title: 'Overview',
+        description:
+          'Hospitals needed local deployment for data control, and multi-institution research needed federated learning so models could train without sharing raw patient data. Building on Raymics Cloud, I designed the on-prem research platform and federated collaboration flows as one enterprise story — not two disconnected products.',
       },
       {
-        type: 'image',
-        src: '/work/ide-inline-center.svg',
-        alt: 'Centered mock frame for trust disclosure',
-        layout: 'centered',
-        width: 1200,
-        height: 800,
+        type: 'section',
+        title: 'Complex stakeholder system',
+        description:
+          'Directors create cooperation projects and open permissions; doctors participate and work with public or shared data; information departments monitor authority changes; Fusion nodes accept desensitized uploads from each institution and return a shared model. The UX had to make roles, permissions, and data paths legible.',
+        mediaGroups: [
+          {
+            variant: 'stack',
+            images: [
+              {
+                src: '/work/raymics-enterprise-stakeholders.png',
+                alt: 'Complex stakeholder system across on-prem, Fusion nodes, and permissions',
+                cardBg: '#FFFFFF',
+                width: 3840,
+                height: 2160,
+              },
+            ],
+          },
+        ],
+      },
+      {
+        type: 'section',
+        title: 'IA & workflows',
+        description:
+          'Information architecture covered data upload and checks, research topics and tasks, AI model training, public-data permissions, and setup — with a process spine from upload through training. The on-prem front page kept Cloud interaction patterns while adding denser data visualization for hospital operators.',
+        mediaGroups: [
+          {
+            variant: 'stack',
+            images: [
+              {
+                src: '/work/raymics-enterprise-ia.png',
+                alt: 'Information architecture wireframes and process flowchart',
+                cardBg: '#F7F8FA',
+                width: 3840,
+                height: 2160,
+              },
+              {
+                src: '/work/raymics-enterprise-frontpage.png',
+                alt: 'On-premises front page with data warehouse, workflow, and training table',
+                cardBg: '#FFFFFF',
+                width: 3840,
+                height: 2160,
+              },
+            ],
+          },
+        ],
+      },
+      {
+        type: 'section',
+        title: 'Design system reuse',
+        description:
+          'Card sizes, navigation, and status colors stayed aligned with Cloud so users could adapt quickly. Differentiation came through specialized data cards, federated institution pickers, and batch operations for doctors running multi-source training.',
+        mediaGroups: [
+          {
+            variant: 'stack',
+            images: [
+              {
+                src: '/work/raymics-enterprise-ds-reuse.png',
+                alt: 'Design system reuse across on-prem dashboard and federated learning batch flows',
+                cardBg: '#F3F5F8',
+                width: 3840,
+                height: 3362,
+              },
+            ],
+          },
+        ],
+      },
+      {
+        type: 'section',
+        title: 'Results',
+        description:
+          'Locally deployed products supported million-level hospital contracts. Batch processing improved operation efficiency and reduced errors. Reusing Cloud components shortened development.',
+        mediaGroups: [
+          {
+            variant: 'stack',
+            images: [
+              {
+                src: '/work/raymics-enterprise-results.png',
+                alt: 'Feedback and key results for on-prem and federated products',
+                cardBg: '#FFFFFF',
+                width: 3840,
+                height: 2160,
+              },
+            ],
+          },
+        ],
       },
     ],
   },
-  'compliance-audit-trails': {
-    id: 'compliance-audit-trails',
-    title: 'Compliance & Audit Trails',
+  'rou-water': {
+    id: 'rou-water',
+    title: 'ROU Water Customize Mini Program',
+    subtitle: 'Market-driven UX for custom bottled water on WeChat',
+    description:
+      'A consumer mini program that lowers MOQ and price barriers for personalized water — from scenario research through customize, checkout, and referral growth.',
     metadata: {
-      role: 'Senior UX / Systems',
-      team: 'Risk · design + content + eng',
-      duration: '6 months',
-      impact: 'Review tasks consolidated into one queue per operator role',
+      role: 'UX Designer',
+      team: '5-person product team + Canvas (outsourcing materials/interfaces)',
+      duration: 'Oct 2021 – 2023',
+      impact:
+        '· Researched real demand: high MOQ and price blocked willingness to pay\n· Defined core flows: DIY label, referral community, cart, and order edit\n· Designed lo-fi through hi-fi, motion demos, and expandable packaging types',
     },
     content: [
       {
-        type: 'text',
-        body: 'Regulated operators needed auditability without turning every screen into a spreadsheet. We introduced a review spine: immutable events, role-scoped filters, and export paths that mirror legal language.',
-      },
-      {
         type: 'image',
-        src: '/work/compliance-wide.svg',
-        alt: 'Wide mock frame for audit overview',
+        src: '/work/rou-water-hero.png',
+        alt: 'ROU Water customize mini program hero on two phones',
         layout: 'full',
-        width: 1600,
-        height: 900,
+        width: 2400,
+        height: 1350,
       },
       {
-        type: 'text',
-        body: 'Tables are the hero. We standardized column density, sticky identity columns, and monospace timestamps for cross-system reconciliation.',
+        type: 'section',
+        title: 'Overview',
+        description:
+          'Existing custom-water services asked for large minimum orders at prices users would not pay. ROU Soft Water targeted a lower MOQ and clearer DIY path in a WeChat mini program. I joined early research and owned detailed process design, high-fidelity screens, and motion demos.',
+        mediaGroups: [
+          {
+            variant: 'stack',
+            images: [
+              {
+                src: '/work/rou-water-overview.png',
+                alt: 'Project overview, problem framing, and role',
+                cardBg: '#F5F9FC',
+                width: 2400,
+                height: 1351,
+              },
+              {
+                src: '/work/rou-water-stakeholders.png',
+                alt: 'Stakeholder map including water company, users, and Canvas',
+                cardBg: '#FFFFFF',
+                width: 2400,
+                height: 1350,
+              },
+            ],
+          },
+        ],
+      },
+      {
+        type: 'section',
+        title: 'Scenarios & personas',
+        description:
+          'Without rich C-end data, we explored party, exhibition, reunion, and meeting scenarios, then validated with questionnaires. Two personas — B2B event buyer and family celebration — shaped goals around customization, checkout friction, and sharing.',
+        mediaGroups: [
+          {
+            variant: 'stack',
+            images: [
+              {
+                src: '/work/rou-water-scenarios.png',
+                alt: 'User scenario mapping to product functions',
+                cardBg: '#FFFFFF',
+                width: 2400,
+                height: 1350,
+              },
+              {
+                src: '/work/rou-water-personas.png',
+                alt: 'Personas and key points for customize, checkout, and sharing',
+                cardBg: '#F5F9FC',
+                width: 2032,
+                height: 2400,
+              },
+            ],
+          },
+        ],
+      },
+      {
+        type: 'section',
+        title: 'Flow & customize experience',
+        description:
+          'Hand sketches became wireframes for home and bottle selection, then a hi-fi path: pick bottle type with 3D rotate preview → design label → confirm order → share after pay. Referral “helping water” and coupon loops supported acquisition.',
+        mediaGroups: [
+          {
+            variant: 'stack',
+            images: [
+              {
+                src: '/work/rou-water-flow.png',
+                alt: 'UX flow sketches and wireframes for home and bottle selection',
+                cardBg: '#FFFFFF',
+                width: 2400,
+                height: 1350,
+              },
+              {
+                src: '/work/rou-water-customize.png',
+                alt: 'Customize, checkout, and purchase-success screens',
+                cardBg: '#F7F8FA',
+                width: 2400,
+                height: 1350,
+              },
+            ],
+          },
+        ],
+      },
+      {
+        type: 'section',
+        title: 'Scalability',
+        description:
+          'The same customize spine can expand to other packaging — candy, cans, and beyond — so the company can grow SKUs without teaching users a new process.',
+        mediaGroups: [
+          {
+            variant: 'stack',
+            images: [
+              {
+                src: '/work/rou-water-scalability.png',
+                alt: 'Expanded product types and home page for scalable customization',
+                cardBg: '#FFFFFF',
+                width: 2400,
+                height: 1350,
+              },
+            ],
+          },
+        ],
       },
     ],
   },
-  'onboarding-power-users': {
-    id: 'onboarding-power-users',
-    title: 'Onboarding for Power Users',
+  'daily-more': {
+    id: 'daily-more',
+    title: 'Daily More Brand IP & VI',
+    subtitle: 'Vintage cartoon identity for a Thai street food & milk tea restaurant in Florida',
+    description:
+      'Logo, character IP, and visual system applied across cups, neon, interiors, stickers, and staff uniforms — built for a real Orlando restaurant.',
     metadata: {
-      role: 'Product Designer',
-      team: 'Growth + Core',
-      duration: '8 weeks',
-      impact: 'Reduced “skip setup” while preserving expert shortcuts',
+      role: 'Brand & Visual Designer',
+      team: 'Independent brand work for Daily More',
+      duration: '2022',
+      impact:
+        '· Designed logo and dual IP characters from dish/bottle metaphors\n· Defined orange–green–peach palette tied to Thai / Florida tropical cues\n· Shipped applications on packaging, neon, menus, and store environment',
     },
     content: [
       {
-        type: 'text',
-        body: 'Power users resent blocking tours. We reframed onboarding as optional accelerators: defaults that respect muscle memory, with reversible bulk actions.',
-      },
-      {
         type: 'image',
-        src: '/work/onboarding-center.svg',
-        alt: 'Centered mock frame for onboarding cards',
-        layout: 'centered',
-        width: 1200,
-        height: 720,
+        src: '/work/daily-more-hero.png',
+        alt: 'Daily More brand IP hero with character and packaging context',
+        layout: 'full',
+        width: 2400,
+        height: 1350,
       },
       {
-        type: 'text',
-        body: 'Each module explains the payoff in one line, then gets out of the way. Keyboard-first flows were tested against screen reader order to avoid silent regressions.',
+        type: 'section',
+        title: 'Overview',
+        description:
+          'Daily More needed a vivid vintage-cartoon logo and identity for website, milk-tea bottles, wrap bags, and interior. Characters are playful deformations of a plate and a milk-tea cup — memorable IP for Thai street food & milk tea in Florida.',
+      },
+      {
+        type: 'section',
+        title: 'Logo design exploration',
+        description:
+          'Sketches tested character poses, palm-tree framing, and type arches. Final mark pairs the plate character with a sleeping cup companion under “DAILY MORE / Thai Street Food & Milk Tea.” Orange, green, and peach reference Thai cuisine color and Florida tropical context.',
+        mediaGroups: [
+          {
+            variant: 'stack',
+            images: [
+              {
+                src: '/work/daily-more-logo.png',
+                alt: 'Logo sketches, iterations, color palette, and final mark',
+                cardBg: '#FFF8F0',
+                width: 2400,
+                height: 1350,
+              },
+            ],
+          },
+        ],
+      },
+      {
+        type: 'section',
+        title: 'In-store applications',
+        description:
+          'The identity lands on cups, matcha and Thai tea packaging, neon signage, and interior walls — mixing studio shots with customer Instagram photos from the Orlando location.',
+        mediaGroups: [
+          {
+            variant: 'stack',
+            images: [
+              {
+                src: '/work/daily-more-applications.png',
+                alt: 'Logo applied on cups, food, neon, and restaurant interior',
+                cardBg: '#FFFFFF',
+                width: 2400,
+                height: 1350,
+              },
+            ],
+          },
+        ],
+      },
+      {
+        type: 'section',
+        title: 'Derivative design',
+        description:
+          'Festival stickers put the two IP characters in lively scenes for customer giveaways. A simplified mark scales to staff uniforms and food packaging without losing recognition.',
+        mediaGroups: [
+          {
+            variant: 'stack',
+            images: [
+              {
+                src: '/work/daily-more-derivatives.png',
+                alt: 'Sticker set and simplified logo on staff uniform',
+                cardBg: '#FFF8F0',
+                width: 2400,
+                height: 1350,
+              },
+            ],
+          },
+        ],
       },
     ],
   },

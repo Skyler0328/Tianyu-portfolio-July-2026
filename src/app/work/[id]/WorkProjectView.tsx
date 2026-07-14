@@ -376,7 +376,7 @@ function ProjectSection({ block }: { block: ProjectSectionBlock }) {
   const hasItems = Boolean(block.items?.length);
   const hasMediaGroups = Boolean(block.mediaGroups?.length);
 
-  if (!hasItems && !hasMediaGroups) {
+  if (!hasItems && !hasMediaGroups && !block.description) {
     return null;
   }
 

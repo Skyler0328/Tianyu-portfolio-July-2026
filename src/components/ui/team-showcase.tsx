@@ -45,9 +45,9 @@ const ITEMS: ShowcaseItem[] = [
   },
   {
     id: 'brand',
-    name: 'Brand Design',
-    role: 'Identity, menus & printed matter',
-    image: '/beyond/brand-menu.jpg',
+    name: 'SIXSEEDS Festival',
+    role: 'Bread Bank pop-up · +70% day sales',
+    image: '/beyond/sixseeds-festival.png',
   },
 ];
 

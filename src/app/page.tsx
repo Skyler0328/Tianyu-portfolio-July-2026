@@ -46,10 +46,9 @@ const featuredCase: FeaturedCase = {
   company: 'Microsoft',
   role: 'UX Designer, GitHub Copilot for IDEs',
   period: 'May 2025 → Present',
-  headline:
-    'Designing human-agent interaction for cross-platform developer workflows',
+  headline: 'Designing AI experiences for developers',
   description:
-    'GitHub Copilot experiences across Eclipse and IntelliJ, focused on agent autonomy, context awareness, cost transparency, and failure recovery for developers who need clarity without losing speed.',
+    'Designed GitHub Copilot across Eclipse and IntelliJ, improving how developers collaborate with AI through intuitive interaction patterns, transparent feedback, and resilient workflows.',
   disciplines: [
     'UI/UX Design',
     'Prototyping',
@@ -58,7 +57,7 @@ const featuredCase: FeaturedCase = {
     'Research',
   ],
   myRole:
-    'Owned UX design for Copilot in Eclipse and contributed to IntelliJ experiences, partnering with PM, research, and engineering from strategy through launch.',
+    'Owned UX design for GitHub Copilot in Eclipse and contributed to IntelliJ experiences, partnering closely with PMs, researchers, and engineers from strategy through launch.',
   href: '/work/github-copilot',
   previews: [
     {
@@ -81,44 +80,44 @@ const featuredCase: FeaturedCase = {
 
 const projectCards: ProjectCard[] = [
   {
-    id: 'agent-orchestration-console',
-    title: 'Agent Orchestration Console',
-    category: 'B2B · Design Systems',
-    year: '2025',
+    id: 'raymics-cloud',
+    title: 'Raymics Cloud',
+    category: 'B2B SaaS · Medical AI',
+    year: '2023–2024',
     description:
-      'Control plane UX for multi-step AI workflows in enterprise SaaS.',
-    href: '/work/agent-orchestration-console',
-    image: '/work/agent-console-wide.svg',
+      'Research-led redesign for activation and conversion in a radiomics SaaS.',
+    href: '/work/raymics-cloud',
+    image: '/work/raymics-cloud-hero.png',
   },
   {
-    id: 'ide-inline-assistance',
-    title: 'IDE Inline Assistance',
-    category: 'AI IDE · Interaction',
-    year: '2025',
+    id: 'raymics-enterprise',
+    title: 'Raymics On-Prem & Federated Learning',
+    category: 'Enterprise · On-Prem · Federated',
+    year: '2024',
     description:
-      'Latency-sensitive surfaces for suggestions, diffs, and trust signals.',
-    href: '/work/ide-inline-assistance',
-    image: '/work/ide-inline-wide.svg',
+      'Extending the SaaS design system to hospital deployment and multi-institution AI.',
+    href: '/work/raymics-enterprise',
+    image: '/work/raymics-enterprise-hero.png',
   },
   {
-    id: 'compliance-audit-trails',
-    title: 'Compliance & Audit Trails',
-    category: 'Complex Systems · IA',
-    year: '2025',
+    id: 'rou-water',
+    title: 'ROU Water Customize Mini Program',
+    category: 'Consumer · WeChat Mini Program',
+    year: '2021–2023',
     description:
-      'Dense data tables and review flows for regulated operators.',
-    href: '/work/compliance-audit-trails',
-    image: '/work/compliance-wide.svg',
+      'Market-driven UX for custom bottled water — lower MOQ, DIY labels, and referral growth.',
+    href: '/work/rou-water',
+    image: '/work/rou-water-hero.png',
   },
   {
-    id: 'onboarding-power-users',
-    title: 'Onboarding for Power Users',
-    category: 'Onboarding · Metrics',
-    year: '2025',
+    id: 'daily-more',
+    title: 'Daily More Brand IP & VI',
+    category: 'Brand · Identity · Florida',
+    year: '2022',
     description:
-      'Progressive disclosure without blocking expert shortcuts.',
-    href: '/work/onboarding-power-users',
-    image: '/work/onboarding-center.svg',
+      'Vintage cartoon logo and visual system for a Thai street food & milk tea restaurant.',
+    href: '/work/daily-more',
+    image: '/work/daily-more-hero.png',
   },
 ];
 
@@ -356,14 +355,19 @@ export default function HomePage() {
         className="mx-auto w-full max-w-[1180px] px-4 pb-16 pt-20 sm:px-6 md:px-8 md:pb-24 md:pt-28 lg:px-10"
       >
         <h1 className="max-w-4xl text-balance text-4xl font-medium leading-[1.08] tracking-[-0.03em] text-[#111] md:text-6xl lg:text-[4.5rem]">
-          Hello! Welcome to my corner of the Web.
+          Hi! I&apos;m Tianyu.
         </h1>
-        <p className="mt-8 max-w-3xl text-lg leading-relaxed text-[#555] md:text-xl md:leading-relaxed">
-          I&apos;m a Product Designer focused on Human-AI interaction,
-          intelligent workflows, and designing AI-native experiences for
-          complex systems — with a belief in the impact of well-crafted
-          experiences.
-        </p>
+        <div className="mt-8 max-w-3xl space-y-6 text-lg leading-relaxed text-[#555] md:text-xl md:leading-relaxed">
+          <p>
+            I&apos;m a Product Designer with 4+ years experience. My work
+            focuses on human-AI interaction, intelligent workflows, and
+            AI-native experiences for complex systems.
+          </p>
+          <p>
+            I enjoy turning complex ideas into products people can understand,
+            trust, and love to use.
+          </p>
+        </div>
       </motion.section>
 
       <motion.div variants={pageItem}>
@@ -396,13 +400,9 @@ export default function HomePage() {
           <p className="mb-3 font-mono text-xs font-medium uppercase tracking-[0.14em] text-[#888]">
             Beyond UX
           </p>
-          <h2 className="max-w-2xl text-3xl font-semibold tracking-[-0.02em] text-[#111] md:text-4xl">
-            Other paths, hobbies &amp; earlier chapters
-          </h2>
-          <p className="mt-4 max-w-2xl text-base leading-relaxed text-[#555] md:text-lg">
-            Sketches, diving, landscape architecture, and brand work from before
-            and beside the product design path — the things that still shape how
-            I see.
+          <p className="max-w-2xl text-base leading-relaxed text-[#555] md:text-lg">
+            Sketches, diving, and earlier work—experiences that continue to
+            shape how I think and design.
           </p>
           <div className="mt-10 md:mt-14">
             <TeamShowcase />
@@ -420,7 +420,7 @@ export default function HomePage() {
             Thanks for stopping by, come back soon.
           </h2>
           <p className="mt-4 text-base text-[#555]">
-            Product designer · Human-AI interaction · Seattle / Remote
+            Product designer · Human-AI interaction · Shanghai / Remote
           </p>
         </div>
       </motion.footer>
