@@ -166,6 +166,26 @@ body {
   animation: fade-up 0.7s ease-out both;
 }
 
+/* Infinite horizontal role marquee */
+@keyframes role-marquee {
+  from { transform: translate3d(0, 0, 0); }
+  to { transform: translate3d(-50%, 0, 0); }
+}
+.role-marquee-track {
+  animation: role-marquee 224s linear infinite;
+  will-change: transform;
+}
+.role-marquee-track-sm {
+  animation: role-marquee 180s linear infinite;
+  will-change: transform;
+}
+@media (prefers-reduced-motion: reduce) {
+  .role-marquee-track,
+  .role-marquee-track-sm {
+    animation: none;
+  }
+}
+
 .perspective-1000 {
   perspective: 1000px;
 }

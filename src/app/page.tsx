@@ -5,6 +5,7 @@
 import Link from 'next/link';
 import { motion } from 'framer-motion';
 import { IconArrowRight, IconDownload } from '@tabler/icons-react';
+import TeamShowcase from '@/components/ui/team-showcase';
 
 const easeOut = [0.22, 1, 0.36, 1] as const;
 
@@ -125,7 +126,7 @@ function FeaturedWorkCard({ project }: { project: FeaturedCase }) {
   return (
     <Link
       href={project.href}
-      className="group block border-t border-[#E8E8E8] py-14 transition-colors hover:bg-[#F7F7F7]/60 md:py-20"
+      className="group block py-14 transition-colors hover:bg-[#F7F7F7]/60 md:py-20"
     >
       <div className="mx-auto w-full max-w-[1180px] px-4 sm:px-6 md:px-8 lg:px-10">
         <div className="mb-8 flex flex-col gap-2 md:mb-10">
@@ -196,6 +197,89 @@ function FeaturedWorkCard({ project }: { project: FeaturedCase }) {
         </span>
       </div>
     </Link>
+  );
+}
+
+function MarqueeStrip({
+  items,
+  size = 'lg',
+  durationClass = 'role-marquee-track',
+  className = '',
+  separator = false,
+}: {
+  items: string[];
+  size?: 'lg' | 'sm';
+  durationClass?: string;
+  className?: string;
+  separator?: boolean;
+}) {
+  const isLg = size === 'lg';
+  const gap = isLg ? 'gap-10 md:gap-14' : 'gap-6 md:gap-8';
+  const cycleCount = separator ? 8 : 12;
+
+  return (
+    <div
+      className={`pointer-events-none select-none overflow-hidden bg-white ${
+        isLg ? 'py-4 md:py-5' : 'py-2 md:py-2.5'
+      } ${className}`}
+      aria-hidden="true"
+      role="presentation"
+    >
+      <div className={`${durationClass} flex w-max items-center ${separator ? 'gap-0' : gap}`}>
+        {[0, 1].map((copy) => (
+          <div
+            key={copy}
+            className={`flex shrink-0 items-center ${separator ? 'gap-0' : gap}`}
+          >
+            {Array.from({ length: cycleCount }, (_, cycle) =>
+              separator
+                ? items.map((item, itemIndex) => (
+                    <span
+                      key={`${copy}-${cycle}-${itemIndex}`}
+                      className="inline-flex shrink-0 items-center whitespace-nowrap text-base font-semibold text-black md:text-lg"
+                    >
+                      <span>{item}</span>
+                      <span className="inline-block px-[1.125em]" aria-hidden>
+                        ·
+                      </span>
+                    </span>
+                  ))
+                : (
+                    <span
+                      key={`${copy}-${cycle}`}
+                      className={`shrink-0 whitespace-nowrap font-semibold tracking-[-0.02em] text-black ${
+                        isLg ? 'text-2xl md:text-3xl' : 'text-base md:text-lg'
+                      }`}
+                    >
+                      {items[0]}
+                    </span>
+                  ),
+            )}
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+function RoleMarquees() {
+  return (
+    <div className="border-y border-[#E8E8E8]">
+      <MarqueeStrip items={['Product Designer']} size="lg" />
+      <MarqueeStrip
+        items={[
+          'GitHub Copilot',
+          'SaaS',
+          'Vibe Coding Tool',
+          'Brand Design',
+          'Web',
+        ]}
+        size="sm"
+        separator
+        durationClass="role-marquee-track-sm"
+        className="border-t border-[#E8E8E8]"
+      />
+    </div>
   );
 }
 
@@ -282,7 +366,11 @@ export default function HomePage() {
         </p>
       </motion.section>
 
-      <motion.section id="work" variants={pageItem} className="border-t border-[#E8E8E8]">
+      <motion.div variants={pageItem}>
+        <RoleMarquees />
+      </motion.div>
+
+      <motion.section id="work" variants={pageItem}>
         <FeaturedWorkCard project={featuredCase} />
 
         <div className="border-t border-[#E8E8E8] py-14 md:py-20">
@@ -295,6 +383,29 @@ export default function HomePage() {
                 <CompactProjectCard key={project.id} project={project} />
               ))}
             </div>
+          </div>
+        </div>
+      </motion.section>
+
+      <motion.section
+        id="beyond"
+        variants={pageItem}
+        className="border-t border-[#E8E8E8] py-14 md:py-20"
+      >
+        <div className="mx-auto w-full max-w-[1180px] px-4 sm:px-6 md:px-8 lg:px-10">
+          <p className="mb-3 font-mono text-xs font-medium uppercase tracking-[0.14em] text-[#888]">
+            Beyond UX
+          </p>
+          <h2 className="max-w-2xl text-3xl font-semibold tracking-[-0.02em] text-[#111] md:text-4xl">
+            Other paths, hobbies &amp; earlier chapters
+          </h2>
+          <p className="mt-4 max-w-2xl text-base leading-relaxed text-[#555] md:text-lg">
+            Sketches, diving, landscape architecture, and brand work from before
+            and beside the product design path — the things that still shape how
+            I see.
+          </p>
+          <div className="mt-10 md:mt-14">
+            <TeamShowcase />
           </div>
         </div>
       </motion.section>
