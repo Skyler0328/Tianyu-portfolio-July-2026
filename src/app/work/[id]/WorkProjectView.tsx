@@ -7,7 +7,6 @@ import Link from 'next/link';
 import { motion } from 'framer-motion';
 import { IconArrowLeft } from '@tabler/icons-react';
 
-import { CopilotNodesHero } from '@/components/CopilotNodesHero';
 import type {
   ProjectChallengeImage,
   ProjectChallengeMediaGroup,
@@ -190,30 +189,6 @@ function ChallengeImageFrame({
   );
 }
 
-function ChallengeDocumentFrame({ document }: { document: ProjectChallengeImage }) {
-  if (!document.src.toLowerCase().endsWith('.pdf')) {
-    return <ChallengeImageFrame image={document} className="w-full" />;
-  }
-
-  return (
-    <ImageCard className="w-full">
-      <object
-        data={`${document.src}#toolbar=0&navpanes=0`}
-        type="application/pdf"
-        aria-label={document.alt}
-        className="h-[420px] w-full bg-[#F3F3F3] sm:h-[560px] lg:h-[680px]"
-      >
-        <a
-          href={document.src}
-          className="block p-6 text-sm text-[#0D7C6F]"
-        >
-          Open {document.alt}
-        </a>
-      </object>
-    </ImageCard>
-  );
-}
-
 function ChallengeVideoFrame({
   video,
   className = '',
@@ -328,13 +303,16 @@ function ChallengeMediaGroup({ group }: { group: ProjectChallengeMediaGroup }) {
               ))}
             </div>
           ) : (
-            group.videos.map((video) => (
-              <ChallengeVideoFrame
-                key={video.src}
-                video={video}
-                className="w-full"
-              />
-            ))
+            // Match Sub-agent expand/finished column width (one cell of the 2-up grid).
+            <div className="grid grid-cols-1 gap-4 md:grid-cols-2 md:gap-5">
+              {group.videos.map((video) => (
+                <ChallengeVideoFrame
+                  key={video.src}
+                  video={video}
+                  className="w-full"
+                />
+              ))}
+            </div>
           )}
         </div>
       </div>
@@ -460,9 +438,16 @@ function ProjectSection({ block }: { block: ProjectSectionBlock }) {
                 ) : null}
 
                 {diagram ? (
-                  <div className="mt-8 space-y-4">
-                    <h4 className={groupTitle}>Overview</h4>
-                    <ChallengeDocumentFrame document={diagram} />
+                  <div className="mt-8 w-full">
+                    <img
+                      src={diagram.src}
+                      alt={diagram.alt}
+                      width={diagram.width}
+                      height={diagram.height}
+                      className="h-auto w-full object-contain"
+                      loading="lazy"
+                      decoding="async"
+                    />
                   </div>
                 ) : null}
 
@@ -595,8 +580,13 @@ export function WorkProjectView({ project }: { project: ProjectData }) {
             {project.title}
           </h1>
           {project.subtitle ? (
-            <p className="mt-5 max-w-3xl text-lg leading-relaxed text-[#555] md:text-xl">
+            <p className="mt-5 text-lg leading-relaxed text-[#555] md:text-xl">
               {project.subtitle}
+            </p>
+          ) : null}
+          {project.description ? (
+            <p className="mt-1 text-lg leading-relaxed text-[#555] md:text-xl md:whitespace-nowrap">
+              {project.description}
             </p>
           ) : null}
 
@@ -612,21 +602,6 @@ export function WorkProjectView({ project }: { project: ProjectData }) {
       <div className="flex flex-col gap-16 pb-20 md:gap-20 md:pb-28">
         {project.content.map((item, index) => {
           const key = `${project.id}-${index}-${item.type}`;
-
-          if (item.type === 'nodes') {
-            return (
-              <motion.section
-                key={key}
-                initial={sectionMotion.initial}
-                whileInView={sectionMotion.whileInView}
-                viewport={sectionMotion.viewport}
-                transition={sectionMotion.transition}
-                className={pageRail}
-              >
-                <CopilotNodesHero />
-              </motion.section>
-            );
-          }
 
           if (item.type === 'text') {
             return (

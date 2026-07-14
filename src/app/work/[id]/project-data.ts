@@ -21,11 +21,6 @@ export type ProjectImageBlock = {
   height?: number;
 };
 
-/** Interactive screenshot with three annotation nodes — used on github-copilot detail page. */
-export type ProjectNodesBlock = {
-  type: 'nodes';
-};
-
 export type ProjectPlaceholderBlock = {
   type: 'placeholder';
   title: string;
@@ -148,7 +143,6 @@ export type ProjectFindingsBlock = {
 export type ProjectContentItem =
   | ProjectTextBlock
   | ProjectImageBlock
-  | ProjectNodesBlock
   | ProjectPlaceholderBlock
   | ProjectSectionBlock
   | ProjectFindingsBlock;
@@ -157,6 +151,8 @@ export type ProjectData = {
   id: string;
   title: string;
   subtitle?: string;
+  /** Supporting line shown under the subtitle. */
+  description?: string;
   metadata: ProjectMetadata;
   content: ProjectContentItem[];
 };
@@ -167,6 +163,8 @@ export const MOCK_PROJECTS: Record<string, ProjectData> = {
     title: 'GitHub Copilot for IDEs',
     subtitle:
       'Human-Agent Interaction Design for Cross-Platform Developer Workflows',
+    description:
+      'I worked on the Copilot plugins for Eclipse and IntelliJ, and will walk through the design process across both.',
     metadata: {
       role: 'UX Designer',
       team: 'Cross-functional team of designers, researchers, PMs, and engineers',
@@ -175,7 +173,32 @@ export const MOCK_PROJECTS: Record<string, ProjectData> = {
         '· Defined cross-platform design strategy for Copilot experiences across Eclipse and IntelliJ\n· Owned UX design for GitHub Copilot in Eclipse\n· Contributed to IntelliJ experiences alongside fellow designers\n· Designed agent-driven workflows, context management, and failure recovery experiences\n· Partnered with engineers through implementation and launch.',
     },
     content: [
-      { type: 'nodes' },
+      {
+        type: 'image',
+        src: '/work/hero-image.png',
+        alt: 'GitHub Copilot for IDEs hero',
+        layout: 'full',
+        width: 3968,
+        height: 2518,
+      },
+      {
+        type: 'section',
+        title: "Collecting User's Feedback",
+        mediaGroups: [
+          {
+            variant: 'stack',
+            images: [
+              {
+                src: '/work/users-pain-point.png',
+                alt: "User pain points from research interviews",
+                cardBg: '#1A1A1A',
+                width: 3300,
+                height: 2367,
+              },
+            ],
+          },
+        ],
+      },
       {
         type: 'section',
         title: 'Four Challenges of Designing AI Agents',
@@ -221,15 +244,14 @@ export const MOCK_PROJECTS: Record<string, ProjectData> = {
               },
               {
                 title: 'Thinking Process',
-                variant: 'grid',
+                variant: 'stack',
                 images: [
                   {
-                    src: '/work/thinking-finished.svg',
-                    alt: 'Collapsed thinking process after completion',
-                  },
-                  {
-                    src: '/work/thinking-expand.svg',
-                    alt: 'Expanded thinking process details',
+                    src: '/work/thinking-process.png',
+                    alt: 'Thinking process states: running, finished, and expand on click',
+                    cardBg: '#E1EAE9',
+                    width: 6534,
+                    height: 3456,
                   },
                 ],
               },
@@ -285,6 +307,12 @@ export const MOCK_PROJECTS: Record<string, ProjectData> = {
           },
           {
             title: 'Cost Transparency',
+            diagram: {
+              src: '/work/cost-token-billing-ux-flow.png',
+              alt: 'Cost changed to token-based billing UX flow diagram',
+              width: 2578,
+              height: 1630,
+            },
             mediaGroups: [
               {
                 title: 'Real time cost indicator',
@@ -334,8 +362,8 @@ export const MOCK_PROJECTS: Record<string, ProjectData> = {
                 src: '/work/eclipse-icons.png',
                 alt: 'Eclipse Copilot icon system',
                 cardBg: '#D9D9D9',
-                width: 1100,
-                height: 582,
+                width: 3300,
+                height: 1746,
               },
               {
                 src: '/work/eclipse-ui-levelup.png',
