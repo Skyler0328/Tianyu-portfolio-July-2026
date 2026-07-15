@@ -49,6 +49,18 @@ const ITEMS: ShowcaseItem[] = [
     role: 'Bread Bank pop-up · +70% day sales',
     image: '/beyond/sixseeds-festival.png',
   },
+  {
+    id: 'lemur',
+    name: 'Me & Lemur',
+    role: 'A quiet moment with good company',
+    image: '/beyond/me-and-lemur.jpg',
+  },
+  {
+    id: 'charrette',
+    name: 'Study in America',
+    role: 'Wayfinding charrette · graduate school years',
+    image: '/beyond/charrette.jpg',
+  },
 ];
 
 const COLS = [
