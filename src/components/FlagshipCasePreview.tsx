@@ -1,14 +1,14 @@
 'use client';
 
-/* eslint-disable @next/next/no-img-element */
-
 import Link from 'next/link';
+import Image from 'next/image';
 import { motion } from 'framer-motion';
 import { IconArrowRight } from '@tabler/icons-react';
 
 import { MacWindowTopBar } from './MacWindowTopBar';
 
 const MotionLink = motion.create(Link);
+const MotionImage = motion.create(Image);
 
 const easeOut = [0.22, 1, 0.36, 1] as const;
 
@@ -89,18 +89,23 @@ export function FlagshipCasePreview({ href }: { href: string }) {
             */}
 
             {/* Layer 1 — BEFORE state (base) */}
-            <img
+            <Image
               src="/copilot-before.png"
               alt="GitHub Copilot in JetBrains IDE"
-              className="absolute inset-0 h-full w-full object-contain object-right"
+              fill
+              className="object-contain object-right"
+              sizes="(max-width: 768px) 100vw, 60vw"
+              priority
             />
 
             {/* Layer 2 — PRESSED state (Continue button darkens to #375FAD) */}
-            <motion.img
+            <MotionImage
               src="/copilot-pressbutton.png"
               alt=""
               aria-hidden
-              className="absolute inset-0 h-full w-full object-contain object-right"
+              fill
+              className="object-contain object-right"
+              sizes="(max-width: 768px) 100vw, 60vw"
               initial={{ opacity: 0 }}
               animate={{ opacity: [0, 0, 1, 1, 0, 0] }}
               transition={{
@@ -113,11 +118,13 @@ export function FlagshipCasePreview({ href }: { href: string }) {
             />
 
             {/* Layer 3 — AFTER state (Run box collapsed + Processing) */}
-            <motion.img
+            <MotionImage
               src="/copilot-after.png"
               alt=""
               aria-hidden
-              className="absolute inset-0 h-full w-full object-contain object-right"
+              fill
+              className="object-contain object-right"
+              sizes="(max-width: 768px) 100vw, 60vw"
               initial={{ opacity: 0 }}
               animate={{ opacity: [0, 0, 1, 1, 0] }}
               transition={{
@@ -150,10 +157,12 @@ export function FlagshipCasePreview({ href }: { href: string }) {
                   },
                 }}
               >
-                <img
+                <Image
                   src="/cursor.png"
                   alt=""
                   aria-hidden
+                  width={28}
+                  height={28}
                   className="h-7 w-7 object-contain"
                   style={{ filter: 'drop-shadow(0 1px 2px rgba(0,0,0,0.6))' }}
                 />

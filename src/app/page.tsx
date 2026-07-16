@@ -1,11 +1,18 @@
 'use client';
 
-/* eslint-disable @next/next/no-img-element */
-
 import Link from 'next/link';
 import { motion } from 'framer-motion';
-import { IconArrowRight, IconDownload } from '@tabler/icons-react';
+import {
+  IconArrowRight,
+  IconBrandGithubFilled,
+  IconBrandLinkedinFilled,
+  IconDownload,
+  IconDownloadFilled,
+  IconMailFilled,
+} from '@tabler/icons-react';
+import { MediaImage } from '@/components/ui/media-image';
 import TeamShowcase from '@/components/ui/team-showcase';
+import { PortraitHero } from '@/components/PortraitHero';
 
 const easeOut = [0.22, 1, 0.36, 1] as const;
 
@@ -39,6 +46,7 @@ type ProjectCard = {
   description: string;
   href: string;
   image: string;
+  videoUrl?: string;
 };
 
 const featuredCase: FeaturedCase = {
@@ -108,6 +116,7 @@ const projectCards: ProjectCard[] = [
       'Market-driven UX for custom bottled water — lower MOQ, DIY labels, and referral growth.',
     href: '/work/rou-water',
     image: '/work/rou-water-hero.png',
+    videoUrl: 'https://vimeo.com/805996585',
   },
   {
     id: 'daily-more',
@@ -171,12 +180,13 @@ function FeaturedWorkCard({ project }: { project: FeaturedCase }) {
               key={preview.label}
               className="overflow-hidden rounded-xl border border-[#E8E8E8] bg-white shadow-[0_12px_40px_-28px_rgba(0,0,0,0.35)]"
             >
-              <div className="aspect-[16/10] overflow-hidden bg-[#F3F3F3]">
-                <img
+              <div className="relative aspect-[16/10] overflow-hidden bg-[#F3F3F3]">
+                <MediaImage
                   src={preview.src}
                   alt={preview.alt}
-                  className="h-full w-full object-cover object-right transition-transform duration-500 group-hover:scale-[1.02]"
-                  loading="lazy"
+                  fill
+                  className="object-cover object-right transition-transform duration-500 group-hover:scale-[1.02]"
+                  sizes="(max-width: 768px) 100vw, 33vw"
                 />
               </div>
               <p className="px-4 py-3 text-sm font-medium text-[#333]">
@@ -284,34 +294,50 @@ function RoleMarquees() {
 
 function CompactProjectCard({ project }: { project: ProjectCard }) {
   return (
-    <Link
-      href={project.href}
-      className="group flex h-full flex-col overflow-hidden rounded-2xl border border-[#E8E8E8] bg-white shadow-[0_16px_48px_-36px_rgba(0,0,0,0.45)] transition-transform duration-300 hover:-translate-y-1"
-    >
-      <div className="aspect-[4/3] overflow-hidden bg-[#F3F3F3]">
-        <img
-          src={project.image}
-          alt={project.title}
-          className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-[1.03]"
-          loading="lazy"
-        />
-      </div>
-      <div className="flex flex-1 flex-col p-5 md:p-6">
-        <p className="mb-2 font-mono text-xs uppercase tracking-[0.12em] text-[#888]">
-          {project.category} · {project.year}
-        </p>
-        <h4 className="mb-3 text-xl font-semibold tracking-[-0.02em] text-[#111]">
-          {project.title}
-        </h4>
-        <p className="mb-5 flex-1 text-sm leading-relaxed text-[#555]">
-          {project.description}
-        </p>
-        <span className="inline-flex items-center gap-1.5 text-sm font-medium text-[#111] transition-colors group-hover:text-[#0D7C6F]">
+    <article className="group flex h-full flex-col overflow-hidden rounded-2xl border border-[#E8E8E8] bg-white shadow-[0_16px_48px_-36px_rgba(0,0,0,0.45)] transition-transform duration-300 hover:-translate-y-1">
+      <Link href={project.href} className="flex min-h-0 flex-1 flex-col">
+        <div className="relative aspect-[4/3] overflow-hidden bg-[#F3F3F3]">
+          <MediaImage
+            src={project.image}
+            alt={project.title}
+            fill
+            className="object-cover transition-transform duration-500 group-hover:scale-[1.03]"
+            sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+          />
+        </div>
+        <div className="flex flex-1 flex-col p-5 pb-3 md:p-6 md:pb-3">
+          <p className="mb-2 font-mono text-xs uppercase tracking-[0.12em] text-[#888]">
+            {project.category} · {project.year}
+          </p>
+          <h4 className="mb-3 text-xl font-semibold tracking-[-0.02em] text-[#111]">
+            {project.title}
+          </h4>
+          <p className="flex-1 text-sm leading-relaxed text-[#555]">
+            {project.description}
+          </p>
+        </div>
+      </Link>
+      <div className="flex flex-col gap-2 px-5 pb-5 md:px-6 md:pb-6">
+        <Link
+          href={project.href}
+          className="inline-flex items-center gap-1.5 text-sm font-medium text-[#111] transition-colors hover:text-[#0D7C6F]"
+        >
           View project
           <IconArrowRight className="h-4 w-4" stroke={1.8} aria-hidden />
-        </span>
+        </Link>
+        {project.videoUrl ? (
+          <a
+            href={project.videoUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-1.5 text-sm font-medium text-[#0D7C6F] transition-colors hover:text-[#0A5F55]"
+          >
+            View video
+            <IconArrowRight className="h-4 w-4" stroke={1.8} aria-hidden />
+          </a>
+        ) : null}
       </div>
-    </Link>
+    </article>
   );
 }
 
@@ -354,19 +380,25 @@ export default function HomePage() {
         variants={pageItem}
         className="mx-auto w-full max-w-[1180px] px-4 pb-16 pt-20 sm:px-6 md:px-8 md:pb-24 md:pt-28 lg:px-10"
       >
-        <h1 className="max-w-4xl text-balance text-4xl font-medium leading-[1.08] tracking-[-0.03em] text-[#111] md:text-6xl lg:text-[4.5rem]">
-          Hi! I&apos;m Tianyu.
-        </h1>
-        <div className="mt-8 max-w-3xl space-y-6 text-lg leading-relaxed text-[#555] md:text-xl md:leading-relaxed">
-          <p>
-            I&apos;m a Product Designer with 4+ years experience. My work
-            focuses on human-AI interaction, intelligent workflows, and
-            AI-native experiences for complex systems.
-          </p>
-          <p>
-            I enjoy turning complex ideas into products people can understand,
-            trust, and love to use.
-          </p>
+        <div className="grid items-start gap-10 md:grid-cols-[minmax(0,1fr)_minmax(220px,280px)] md:gap-12 lg:grid-cols-[minmax(0,1fr)_minmax(240px,300px)] lg:gap-16">
+          <div className="min-w-0">
+            <h1 className="max-w-4xl text-balance text-4xl font-medium leading-[1.08] tracking-[-0.03em] text-[#111] md:text-6xl lg:text-[4.5rem]">
+              Hi, I&apos;m Tianyu.
+            </h1>
+            <div className="mt-8 max-w-3xl space-y-6 text-lg leading-relaxed text-[#555] md:text-xl md:leading-relaxed">
+              <p>
+                I&apos;m a Product Designer with 4+ years experience. My work
+                focuses on human-AI interaction, intelligent workflows, and
+                AI-native experiences for complex systems.
+              </p>
+              <p>
+                I enjoy turning complex ideas into products people can
+                understand, trust, and love to use.
+              </p>
+            </div>
+          </div>
+
+          <PortraitHero />
         </div>
       </motion.section>
 
@@ -413,14 +445,48 @@ export default function HomePage() {
       <motion.footer
         id="contact"
         variants={pageItem}
-        className="border-t border-[#E8E8E8] py-16 md:py-20"
+        className="border-t border-[#E8E8E8] py-14 md:py-16"
       >
-        <div className="mx-auto w-full max-w-[1180px] px-4 sm:px-6 md:px-8 lg:px-10">
-          <h2 className="text-3xl font-semibold tracking-[-0.02em] text-[#111] md:text-4xl">
-            Thanks for stopping by, come back soon.
-          </h2>
-          <p className="mt-4 text-base text-[#555]">
-            Product designer · Human-AI interaction · Shanghai / Remote
+        <div className="mx-auto flex w-full max-w-[1180px] flex-col items-center gap-8 px-4 sm:px-6 md:px-8 lg:px-10">
+          <div className="flex flex-wrap items-center justify-center gap-x-12 gap-y-5 md:gap-x-16">
+            <a
+              href="https://github.com/Skyler0328"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-2 text-sm font-medium text-[#111] transition-opacity hover:opacity-60"
+            >
+              <IconBrandGithubFilled className="h-5 w-5" aria-hidden />
+              GitHub
+            </a>
+            <a
+              href="https://www.linkedin.com/in/tianyuwu-adventure/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-2 text-sm font-medium text-[#111] transition-opacity hover:opacity-60"
+            >
+              <IconBrandLinkedinFilled className="h-5 w-5" aria-hidden />
+              LinkedIn
+            </a>
+            <a
+              href="mailto:wutianyu156@gmail.com"
+              className="inline-flex items-center gap-2 text-sm font-medium text-[#111] transition-opacity hover:opacity-60"
+            >
+              <IconMailFilled className="h-5 w-5" aria-hidden />
+              Email
+            </a>
+            <a
+              href="/resume.pdf"
+              download="Tianyu-Wu-Resume.pdf"
+              className="inline-flex items-center gap-2 text-sm font-medium text-[#111] transition-opacity hover:opacity-60"
+            >
+              <IconDownloadFilled className="h-5 w-5" aria-hidden />
+              Resume
+            </a>
+          </div>
+          <p className="text-center text-sm leading-relaxed text-[#888]">
+            © 2026 Tianyu Wu
+            <br />
+            Designed &amp; Built by Tianyu.
           </p>
         </div>
       </motion.footer>

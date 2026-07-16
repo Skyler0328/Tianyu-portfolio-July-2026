@@ -1,12 +1,10 @@
 'use client';
 
-/* Local SVG placeholders: native <img> avoids rare next/image + SVG/SSR issues. */
-/* eslint-disable @next/next/no-img-element */
-
 import Link from 'next/link';
 import { motion } from 'framer-motion';
-import { IconArrowLeft } from '@tabler/icons-react';
+import { IconArrowLeft, IconArrowRight } from '@tabler/icons-react';
 
+import { MediaImage } from '@/components/ui/media-image';
 import type {
   ProjectChallengeImage,
   ProjectChallengeMediaGroup,
@@ -39,6 +37,66 @@ const imageCard =
   'overflow-hidden rounded-2xl border border-[#E8E8E8] bg-white shadow-[0_12px_40px_-28px_rgba(0,0,0,0.35)]';
 const agentChallengesTitle = 'Four Challenges of Designing AI Agents';
 
+function vimeoEmbedSrc(url: string) {
+  const match = url.match(/vimeo\.com\/(?:video\/)?(\d+)/);
+  return match ? `https://player.vimeo.com/video/${match[1]}` : null;
+}
+
+function ProjectVideoDemo({
+  videoUrl,
+  label,
+}: {
+  videoUrl: string;
+  label?: string;
+}) {
+  const embedSrc = vimeoEmbedSrc(videoUrl);
+
+  return (
+    <div className="w-full">
+      <div className="mb-4 flex flex-wrap items-end justify-between gap-3">
+        <div>
+          <p className={labelText}>Motion demo</p>
+          <p className="mt-1 text-base font-medium text-[#111] md:text-lg">
+            {label ?? 'Figma prototype walkthrough'}
+          </p>
+        </div>
+        <a
+          href={videoUrl}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="inline-flex items-center gap-1.5 text-sm font-medium text-[#0D7C6F] transition-colors hover:text-[#0A5F55]"
+        >
+          Open on Vimeo
+          <IconArrowRight className="h-4 w-4" stroke={1.8} aria-hidden />
+        </a>
+      </div>
+      {embedSrc ? (
+        <div
+          className={`${imageCard} relative aspect-video w-full bg-[#111]`}
+        >
+          <iframe
+            src={`${embedSrc}?title=0&byline=0&portrait=0`}
+            title={label ?? 'Project motion demo'}
+            className="absolute inset-0 h-full w-full"
+            allow="autoplay; fullscreen; picture-in-picture"
+            allowFullScreen
+          />
+        </div>
+      ) : (
+        <a
+          href={videoUrl}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="inline-flex items-center gap-1.5 text-base font-medium text-[#0D7C6F]"
+        >
+          View video
+          <IconArrowRight className="h-4 w-4" stroke={1.8} aria-hidden />
+        </a>
+      )}
+    </div>
+  );
+}
+
 function MetadataRow({ label, value }: { label: string; value: string }) {
   return (
     <div className="grid min-w-0 grid-cols-1 gap-1 sm:grid-cols-[minmax(0,7rem)_1fr] sm:items-baseline sm:gap-6">
@@ -70,14 +128,13 @@ function ProjectImage({ block }: { block: ProjectImageBlock }) {
   return (
     <ImageCard className={block.layout === 'centered' ? 'mx-auto max-w-3xl' : ''}>
       <div className="overflow-hidden bg-[#F3F3F3]">
-        <img
+        <MediaImage
           src={block.src}
           alt={block.alt}
           width={block.width ?? 1600}
           height={block.height ?? 900}
           className="h-auto w-full object-cover"
-          loading="lazy"
-          decoding="async"
+          sizes="(max-width: 768px) 100vw, 1180px"
         />
       </div>
     </ImageCard>
@@ -112,6 +169,7 @@ function ChallengeImageFrame({
           className="relative overflow-hidden"
           style={{ aspectRatio: `${width} / ${height}`, backgroundColor: cardBg }}
         >
+          {/* eslint-disable-next-line @next/next/no-img-element -- inner-frame crop uses percentage offsets */}
           <img
             src={image.src}
             alt={image.alt}
@@ -134,45 +192,43 @@ function ChallengeImageFrame({
       }`}
       style={{ backgroundColor: cardBg }}
     >
-      <img
+      <MediaImage
         src={image.src}
         alt={image.alt}
-        width={image.width}
-        height={image.height}
+        width={image.width ?? 1600}
+        height={image.height ?? 900}
         className="h-auto w-auto max-w-full object-contain"
         style={
           image.width
             ? { width: 'auto', maxWidth: `min(100%, ${image.width}px)` }
             : undefined
         }
-        loading="lazy"
-        decoding="async"
+        sizes="(max-width: 768px) 100vw, 540px"
       />
     </div>
   ) : fillHeight ? (
     <div
-      className="grid h-full min-h-0 overflow-hidden"
+      className="relative h-full min-h-0 overflow-hidden"
       style={{ backgroundColor: cardBg }}
     >
-      <img
+      <MediaImage
         src={image.src}
         alt={image.alt}
-        className="h-full w-full object-contain object-center"
+        fill
+        className="object-contain object-center"
         style={{ backgroundColor: cardBg }}
-        loading="lazy"
-        decoding="async"
+        sizes="(max-width: 768px) 100vw, 540px"
       />
     </div>
   ) : (
     <div className="overflow-hidden" style={{ backgroundColor: cardBg }}>
-      <img
+      <MediaImage
         src={image.src}
         alt={image.alt}
-        width={image.width}
-        height={image.height}
+        width={image.width ?? 1600}
+        height={image.height ?? 900}
         className="h-auto w-full object-contain"
-        loading="lazy"
-        decoding="async"
+        sizes="(max-width: 768px) 100vw, 1180px"
       />
     </div>
   );
@@ -439,14 +495,13 @@ function ProjectSection({ block }: { block: ProjectSectionBlock }) {
 
                 {diagram ? (
                   <div className="mt-8 w-full">
-                    <img
+                    <MediaImage
                       src={diagram.src}
                       alt={diagram.alt}
-                      width={diagram.width}
-                      height={diagram.height}
+                      width={diagram.width ?? 1600}
+                      height={diagram.height ?? 900}
                       className="h-auto w-full object-contain"
-                      loading="lazy"
-                      decoding="async"
+                      sizes="(max-width: 768px) 100vw, 1180px"
                     />
                   </div>
                 ) : null}
@@ -527,13 +582,13 @@ function ProjectFindings({ block }: { block: ProjectFindingsBlock }) {
               </p>
             </blockquote>
             <ImageCard>
-              <div className="aspect-square overflow-hidden bg-[#F3F3F3]">
-                <img
+              <div className="relative aspect-square overflow-hidden bg-[#F3F3F3]">
+                <MediaImage
                   src={finding.image}
                   alt={finding.imageAlt}
-                  className="h-full w-full object-cover object-right"
-                  loading="lazy"
-                  decoding="async"
+                  fill
+                  className="object-cover object-right"
+                  sizes="12rem"
                 />
               </div>
             </ImageCard>
@@ -600,6 +655,20 @@ export function WorkProjectView({ project }: { project: ProjectData }) {
       </div>
 
       <div className="flex flex-col gap-16 pb-20 md:gap-20 md:pb-28">
+        {project.videoUrl ? (
+          <motion.section
+            initial={sectionMotion.initial}
+            whileInView={sectionMotion.whileInView}
+            viewport={sectionMotion.viewport}
+            transition={sectionMotion.transition}
+            className={pageRail}
+          >
+            <ProjectVideoDemo
+              videoUrl={project.videoUrl}
+              label={project.videoLabel}
+            />
+          </motion.section>
+        ) : null}
         {project.content.map((item, index) => {
           const key = `${project.id}-${index}-${item.type}`;
 

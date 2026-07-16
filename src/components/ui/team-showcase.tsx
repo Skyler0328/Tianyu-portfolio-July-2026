@@ -1,9 +1,8 @@
 'use client';
 
-/* eslint-disable @next/next/no-img-element */
-
 import { useState } from 'react';
 import { cn } from '@/lib/utils';
+import { MediaImage } from '@/components/ui/media-image';
 
 export type ShowcaseItem = {
   id: string;
@@ -90,21 +89,22 @@ export default function TeamShowcase({ members = ITEMS }: { members?: ShowcaseIt
                     key={item.id}
                     type="button"
                     className={cn(
-                      'shrink-0 overflow-hidden rounded-xl p-0 transition-opacity duration-150',
+                      'relative shrink-0 overflow-hidden rounded-xl p-0 transition-opacity duration-150',
                       col.size,
                       dim ? 'opacity-50' : 'opacity-100',
                     )}
                     onMouseEnter={() => setActive(item.id)}
                     onFocus={() => setActive(item.id)}
                   >
-                    <img
+                    <MediaImage
                       src={item.image}
                       alt={item.name}
-                      draggable={false}
+                      fill
                       className={cn(
-                        'pointer-events-none h-full w-full object-cover transition-[filter] duration-150',
+                        'pointer-events-none object-cover transition-[filter] duration-150',
                         on ? 'grayscale-0 brightness-100' : 'grayscale brightness-[0.77]',
                       )}
+                      sizes="172px"
                     />
                   </button>
                 );

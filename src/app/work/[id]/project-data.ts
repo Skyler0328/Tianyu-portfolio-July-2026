@@ -153,6 +153,9 @@ export type ProjectData = {
   subtitle?: string;
   /** Supporting line shown under the subtitle. */
   description?: string;
+  /** Optional demo / motion reel URL (e.g. Vimeo). */
+  videoUrl?: string;
+  videoLabel?: string;
   metadata: ProjectMetadata;
   content: ProjectContentItem[];
 };
@@ -645,6 +648,8 @@ export const MOCK_PROJECTS: Record<string, ProjectData> = {
     subtitle: 'Market-driven UX for custom bottled water on WeChat',
     description:
       'A consumer mini program that lowers MOQ and price barriers for personalized water — from scenario research through customize, checkout, and referral growth.',
+    videoUrl: 'https://vimeo.com/805996585',
+    videoLabel: 'Figma motion demo — customize flow',
     metadata: {
       role: 'UX Designer',
       team: '5-person product team + Canvas (outsourcing materials/interfaces)',
@@ -807,6 +812,53 @@ export const MOCK_PROJECTS: Record<string, ProjectData> = {
                 cardBg: '#FFF8F0',
                 width: 2400,
                 height: 1350,
+              },
+            ],
+          },
+        ],
+      },
+      {
+        type: 'section',
+        title: 'Menu design',
+        description:
+          'Food menus and seasonal posters extend the brand into daily operations — pairing dish photography with playful type, while milk-tea series posters keep the IP characters and packaging in the same visual language.',
+        mediaGroups: [
+          {
+            variant: 'stack',
+            images: [
+              {
+                src: '/work/daily-more-menu-01.jpg',
+                alt: 'Daily More food menu with noodle and rice sections',
+                cardBg: '#F7F3EB',
+                width: 1600,
+                height: 1035,
+              },
+              {
+                src: '/work/daily-more-menu-03.jpg',
+                alt: 'Daily More build-a-noodle-bowl menu and lunch combo',
+                cardBg: '#F7F3EB',
+                width: 1600,
+                height: 1035,
+              },
+            ],
+          },
+          {
+            title: 'Seasonal & series posters',
+            variant: 'grid',
+            images: [
+              {
+                src: '/work/daily-more-thanksgiving.jpg',
+                alt: 'Daily More Thanksgiving Day promotional poster with brand characters',
+                cardBg: '#F4E8D8',
+                width: 1282,
+                height: 1600,
+              },
+              {
+                src: '/work/daily-more-milk-tea-series.jpg',
+                alt: 'Daily More Milk Tea Series poster with caramel, ube, and taro drinks',
+                cardBg: '#3D4A2E',
+                width: 1035,
+                height: 1600,
               },
             ],
           },
