@@ -119,10 +119,22 @@ export type ProjectChallengeMediaGroup =
       images: ProjectChallengeImage[];
     };
 
+export type ProjectSectionInsight = {
+  title: string;
+  body: string;
+};
+
 export type ProjectSectionBlock = {
   type: 'section';
+  /** Optional chapter label shown above the title, e.g. "Chapter 1". */
+  eyebrow?: string;
   title: string;
+  /** Supporting question / line under the chapter title. */
+  subtitle?: string;
   description?: string;
+  /** Dashed placeholder frame until a diagram asset is ready. */
+  diagramPlaceholder?: string;
+  insights?: ProjectSectionInsight[];
   items?: ProjectSectionItem[];
   /** Top-level media for gallery-style sections (no numbered challenge items). */
   mediaGroups?: ProjectChallengeMediaGroup[];
@@ -204,12 +216,34 @@ export const MOCK_PROJECTS: Record<string, ProjectData> = {
       },
       {
         type: 'section',
-        title: 'Four Challenges of Designing AI Agents',
+        eyebrow: 'Chapter 1',
+        title: 'Understanding the Product',
         items: [
           {
-            title: 'Agent Autonomy',
+            title: 'Users',
             description:
-              'How might we increase agent efficiency without making developers feel they had lost control?',
+              'Primary users are developers, operators, and QA engineers working inside IDEs. A large share of adoption comes from B2B enterprise buyers who purchase Copilot for teams — so the experience must serve both individual practitioners and organizational buyers who care about control, clarity, and scale.',
+            bullets: [
+              'Developers writing and reviewing code day to day',
+              'Operators and QA validating changes in real workflows',
+              'Enterprise teams purchasing and deploying Copilot at scale',
+            ],
+          },
+          {
+            title: 'Typical Workflow',
+            description:
+              'How developers collaborate with GitHub Copilot across a coding task — from understanding goal and context through plan, implement, test, iterate, and ship — with retry and rollback paths when things go wrong.',
+            diagram: {
+              src: '/work/copilot-typical-workflow.jpg',
+              alt: 'Typical workflow of GitHub Copilot and related UX challenges',
+              width: 2000,
+              height: 1843,
+            },
+          },
+          {
+            title: 'AI Capability',
+            description:
+              'Selective autonomy: increase agent efficiency without making developers feel they have lost control. Critical information stays visible; non-critical detail can collapse while the agent runs, and expand on demand — with full detail opening by default when something fails.',
             balance: {
               left: 'More autonomy',
               right: 'More predictability',
@@ -258,35 +292,32 @@ export const MOCK_PROJECTS: Record<string, ProjectData> = {
                   },
                 ],
               },
-            ],
-            insight:
-              'We selectively reveal agent content to users: information that is not critical while the agent is running is collapsed to improve screen efficiency, while users can manually expand it to inspect details. When an error occurs, the full details expand by default so users can locate the issue.',
-          },
-          {
-            title: 'Context Understanding',
-            description:
-              'How should AI systems expose and manage context without overwhelming users or losing transparency?',
-            media: {
-              before: {
-                src: '/work/agent-autonomy-before.png',
-                alt: 'Previous file change experience before the Context Understanding redesign',
+              {
+                title: 'Context Understanding',
+                variant: 'transition',
+                before: {
+                  src: '/work/agent-autonomy-before.png',
+                  alt: 'Previous file change experience before the Context Understanding redesign',
+                  cardBg: '#F3F3F3',
+                },
+                after: [
+                  {
+                    src: '/work/agent-autonomy-after-1.svg',
+                    alt: 'Redesigned multi-file context experience, first state',
+                    cardBg: '#F3F3F3',
+                  },
+                  {
+                    src: '/work/agent-autonomy-after-2.svg',
+                    alt: 'Redesigned multi-file context experience, second state',
+                    cardBg: '#F3F3F3',
+                  },
+                  {
+                    src: '/work/agent-autonomy-after-3.svg',
+                    alt: 'Redesigned multi-file context experience, third state',
+                    cardBg: '#F3F3F3',
+                  },
+                ],
               },
-              after: [
-                {
-                  src: '/work/agent-autonomy-after-1.svg',
-                  alt: 'Redesigned multi-file context experience, first state',
-                },
-                {
-                  src: '/work/agent-autonomy-after-2.svg',
-                  alt: 'Redesigned multi-file context experience, second state',
-                },
-                {
-                  src: '/work/agent-autonomy-after-3.svg',
-                  alt: 'Redesigned multi-file context experience, third state',
-                },
-              ],
-            },
-            mediaGroups: [
               {
                 title: 'Context Window Awareness',
                 variant: 'videos',
@@ -307,7 +338,40 @@ export const MOCK_PROJECTS: Record<string, ProjectData> = {
               'Context Window Awareness',
               'Context control',
             ],
+            insight:
+              'We selectively reveal agent content to users: information that is not critical while the agent is running is collapsed to improve screen efficiency, while users can manually expand it to inspect details. When an error occurs, the full details expand by default so users can locate the issue.',
           },
+        ],
+      },
+      {
+        type: 'section',
+        eyebrow: 'Chapter 2',
+        title: 'Beyond Happy Path: Building Trust in AI Coding',
+        subtitle:
+          'When AI is powerful, how do we design for mistakes, uncertainty, and human control?',
+        description:
+          'Traditional software workflows are largely linear, but AI coding is full of uncertainty. The agent may fail, need to retry, or roll back — so the experience has to give developers more control. AI accelerates coding, but it also amplifies uncertainty.',
+        diagramPlaceholder: 'AI coding workflow diagram — placeholder',
+        insights: [
+          {
+            title: "Developers don't follow one path",
+            body: 'Multiple files. Multiple tasks. Multiple AI conversations.',
+          },
+          {
+            title: 'AI can make mistakes faster',
+            body: 'Faster generation ≠ faster confidence.',
+          },
+          {
+            title: 'Developers need control points',
+            body: 'Review. Modify. Undo. Switch context.',
+          },
+        ],
+      },
+      {
+        type: 'section',
+        eyebrow: 'Chapter 3',
+        title: 'Core Feature Design',
+        items: [
           {
             title: 'Cost Transparency',
             diagram: {
@@ -349,10 +413,12 @@ export const MOCK_PROJECTS: Record<string, ProjectData> = {
               },
             ],
           },
-          {
-            title: 'Failure & Uncertainty',
-          },
         ],
+      },
+      {
+        type: 'section',
+        eyebrow: 'Chapter 4',
+        title: 'Continuous UX Improvements',
       },
       {
         type: 'section',
@@ -907,3 +973,13 @@ export const MOCK_PROJECTS: Record<string, ProjectData> = {
     ],
   },
 };
+
+/**
+ * Former Four Challenges media kept for redistribution into Chapters 1–4.
+ * Not rendered until placement is decided.
+ */
+export const COPILOT_CHALLENGE_STASH: ProjectSectionItem[] = [
+  {
+    title: 'Failure & Uncertainty',
+  },
+];

@@ -35,8 +35,6 @@ const labelText =
   'font-mono text-xs font-medium uppercase tracking-[0.14em] text-[#888]';
 const imageCard =
   'overflow-hidden rounded-2xl border border-[#E8E8E8] bg-white shadow-[0_12px_40px_-28px_rgba(0,0,0,0.35)]';
-const agentChallengesTitle = 'Four Challenges of Designing AI Agents';
-
 function vimeoEmbedSrc(url: string) {
   const match = url.match(/vimeo\.com\/(?:video\/)?(\d+)/);
   return match ? `https://player.vimeo.com/video/${match[1]}` : null;
@@ -314,7 +312,11 @@ function ChallengeMediaGroup({ group }: { group: ProjectChallengeMediaGroup }) {
             className="w-full"
             fillCard
           />
-          <div className="grid grid-cols-1 items-stretch gap-4 md:grid-cols-2 md:gap-5">
+          <div
+            className={`grid grid-cols-1 items-stretch gap-4 md:gap-5 ${
+              group.after.length >= 3 ? 'md:grid-cols-3' : 'md:grid-cols-2'
+            }`}
+          >
             {group.after.map((image) => (
               <ChallengeImageFrame
                 key={image.src}
@@ -428,19 +430,62 @@ function ChallengeMediaGroup({ group }: { group: ProjectChallengeMediaGroup }) {
 }
 
 function ProjectSection({ block }: { block: ProjectSectionBlock }) {
-  const isAgentChallenges = block.title === agentChallengesTitle;
   const hasItems = Boolean(block.items?.length);
   const hasMediaGroups = Boolean(block.mediaGroups?.length);
+  const hasInsights = Boolean(block.insights?.length);
 
-  if (!hasItems && !hasMediaGroups && !block.description) {
+  if (
+    !hasItems &&
+    !hasMediaGroups &&
+    !hasInsights &&
+    !block.description &&
+    !block.subtitle &&
+    !block.diagramPlaceholder &&
+    !block.eyebrow
+  ) {
     return null;
   }
 
   return (
     <div className="w-full">
+      {block.eyebrow ? (
+        <p className={`${labelText} mb-3`}>{block.eyebrow}</p>
+      ) : null}
       <h2 className={sectionTitle}>{block.title}</h2>
+      {block.subtitle ? (
+        <p className="mt-4 max-w-3xl text-lg font-medium leading-snug tracking-[-0.01em] text-[#333] md:text-xl">
+          {block.subtitle}
+        </p>
+      ) : null}
       {block.description ? (
         <p className={`mt-4 max-w-3xl ${bodyText}`}>{block.description}</p>
+      ) : null}
+
+      {block.diagramPlaceholder ? (
+        <div className="mt-10 flex aspect-[16/9] w-full items-center justify-center rounded-2xl border border-dashed border-[#C8C8C8] bg-[#F3F3F3] px-6 text-center">
+          <p className="font-mono text-xs font-medium uppercase tracking-[0.14em] text-[#888] md:text-sm">
+            {block.diagramPlaceholder}
+          </p>
+        </div>
+      ) : null}
+
+      {hasInsights ? (
+        <ol className="mt-12 grid gap-8 md:grid-cols-3 md:gap-6">
+          {block.insights!.map((insight, index) => (
+            <li
+              key={insight.title}
+              className="border-t border-[#E8E8E8] pt-6 md:border-t-0 md:border-l md:pl-6 md:pt-0 first:md:border-l-0 first:md:pl-0"
+            >
+              <p className="font-mono text-xs font-medium uppercase tracking-[0.14em] text-[#888]">
+                Insight {String(index + 1).padStart(2, '0')}
+              </p>
+              <h3 className="mt-3 text-lg font-semibold tracking-[-0.02em] text-[#111] md:text-xl">
+                {insight.title}
+              </h3>
+              <p className={`mt-3 ${bodyText}`}>{insight.body}</p>
+            </li>
+          ))}
+        </ol>
       ) : null}
 
       {hasMediaGroups && !hasItems ? (
@@ -454,7 +499,7 @@ function ProjectSection({ block }: { block: ProjectSectionBlock }) {
         </div>
       ) : null}
 
-      {isAgentChallenges && hasItems ? (
+      {hasItems ? (
         <ol className="mt-12 flex flex-col gap-16 md:gap-20">
           {block.items!.map((item, index) => {
             if (typeof item === 'string') return null;
