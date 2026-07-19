@@ -1,10 +1,12 @@
 'use client';
 
 import Link from 'next/link';
+import { useEffect, useRef, type RefObject } from 'react';
 import { motion } from 'framer-motion';
 import { IconArrowLeft, IconArrowRight } from '@tabler/icons-react';
 
 import { MediaImage } from '@/components/ui/media-image';
+import { ProjectItemMetrics } from '@/components/work/ProjectItemMetrics';
 import type {
   ProjectChallengeImage,
   ProjectChallengeMediaGroup,
@@ -243,6 +245,417 @@ function ChallengeImageFrame({
   );
 }
 
+function useVideoPlaybackRate(
+  videoRef: RefObject<HTMLVideoElement | null>,
+  playbackRate?: number,
+) {
+  useEffect(() => {
+    const el = videoRef.current;
+    if (!el || !playbackRate) return;
+    el.playbackRate = playbackRate;
+  }, [videoRef, playbackRate]);
+}
+
+function SharedVideoPairCard({ videos }: { videos: ProjectChallengeVideo[] }) {
+  return (
+    <ImageCard
+      className="mx-auto w-full max-w-xl p-3 md:max-w-2xl md:p-4"
+      style={{ backgroundColor: '#FFFFFF' }}
+    >
+      <div className="grid grid-cols-2 items-stretch gap-2 md:gap-3">
+        {videos.map((video) => {
+          const bg = video.cardBg ?? '#1E1E1E';
+          return (
+            <SharedVideoCell key={video.src} video={video} cardBg={bg} />
+          );
+        })}
+      </div>
+    </ImageCard>
+  );
+}
+
+function SharedVideoCell({
+  video,
+  cardBg,
+}: {
+  video: ProjectChallengeVideo;
+  cardBg: string;
+}) {
+  const videoRef = useRef<HTMLVideoElement>(null);
+  useVideoPlaybackRate(videoRef, video.playbackRate);
+
+  return (
+    <div
+      className="flex items-center justify-center overflow-hidden rounded-xl"
+      style={{ backgroundColor: cardBg }}
+    >
+      <video
+        ref={videoRef}
+        src={video.src}
+        aria-label={video.alt}
+        width={video.width}
+        height={video.height}
+        className="h-auto max-h-[min(52vh,420px)] w-full object-contain"
+        style={{ backgroundColor: cardBg }}
+        onLoadedMetadata={(event) => {
+          if (video.playbackRate) {
+            event.currentTarget.playbackRate = video.playbackRate;
+          }
+        }}
+        autoPlay
+        muted
+        loop
+        playsInline
+        preload="metadata"
+      />
+    </div>
+  );
+}
+
+function MatchedHeightImagePair({
+  group,
+}: {
+  group: Extract<ProjectChallengeMediaGroup, { variant: 'grid' }>;
+}) {
+  const [left, right] = group.images;
+  const leftBg = left.cardBg ?? '#F3F3F3';
+  const rightBg = right.cardBg ?? '#F3F3F3';
+  const compact = Boolean(group.compact);
+
+  return (
+    <div className={`space-y-4 ${compact ? 'mx-auto w-full max-w-3xl' : ''}`}>
+      {group.title ? <h4 className={groupTitle}>{group.title}</h4> : null}
+      <ImageCard
+        className={`w-full ${compact ? 'p-2 md:p-2.5' : 'p-3 md:p-4'}`}
+        style={{ backgroundColor: '#FFFFFF' }}
+      >
+        <div
+          className={`grid grid-cols-1 md:grid-cols-2 ${
+            compact ? 'gap-2 md:gap-2.5' : 'gap-3 md:gap-4'
+          }`}
+        >
+          {/* h-0 + min-h-full: don't drive row height; scale to match the right image */}
+          <div
+            className={`relative flex items-center justify-center overflow-hidden rounded-xl md:h-0 md:min-h-full ${
+              compact ? 'max-md:min-h-[180px]' : 'max-md:min-h-[280px]'
+            }`}
+            style={{ backgroundColor: leftBg }}
+          >
+            <MediaImage
+              src={left.src}
+              alt={left.alt}
+              width={left.width ?? 1600}
+              height={left.height ?? 900}
+              className={
+                compact
+                  ? 'max-h-[min(260px,55vw)] w-auto max-w-full object-contain md:h-full md:max-h-full'
+                  : 'max-h-[min(420px,70vw)] w-auto max-w-full object-contain md:h-full md:max-h-full'
+              }
+              sizes="(max-width: 768px) 100vw, 40vw"
+            />
+          </div>
+          <div
+            className="overflow-hidden rounded-xl"
+            style={{ backgroundColor: rightBg }}
+          >
+            <MediaImage
+              src={right.src}
+              alt={right.alt}
+              width={right.width ?? 1600}
+              height={right.height ?? 900}
+              className="h-auto w-full object-contain"
+              sizes="(max-width: 768px) 100vw, 50vw"
+            />
+          </div>
+        </div>
+      </ImageCard>
+    </div>
+  );
+}
+
+function ImageCaptionMediaGroup({
+  group,
+}: {
+  group: Extract<ProjectChallengeMediaGroup, { variant: 'imageCaption' }>;
+}) {
+  const { image, caption, thumbs } = group;
+  const imageBg = image.cardBg ?? '#F3F3F3';
+
+  return (
+    <div className="space-y-4">
+      {group.title ? <h4 className={groupTitle}>{group.title}</h4> : null}
+      <ImageCard className="w-full p-3 md:p-4" style={{ backgroundColor: '#FFFFFF' }}>
+        <div className="flex flex-col gap-4 md:gap-5">
+          <div className="grid grid-cols-1 items-center gap-5 md:grid-cols-[minmax(0,1.15fr)_minmax(0,0.85fr)] md:gap-8">
+            <div
+              className="overflow-hidden rounded-xl"
+              style={{ backgroundColor: imageBg }}
+            >
+              <MediaImage
+                src={image.src}
+                alt={image.alt}
+                width={image.width ?? 1600}
+                height={image.height ?? 900}
+                className="h-auto w-full object-contain"
+                sizes="(max-width: 768px) 100vw, 55vw"
+              />
+            </div>
+            <p className={`max-w-md ${bodyText} md:text-xl`}>{caption}</p>
+          </div>
+          {thumbs?.length ? (
+            <div className="grid grid-cols-1 gap-3 sm:grid-cols-3 md:gap-4">
+              {thumbs.map((thumb) => (
+                <div key={thumb.src} className="min-w-0">
+                  <div
+                    className="overflow-hidden rounded-lg"
+                    style={{ backgroundColor: thumb.cardBg ?? '#F3F3F3' }}
+                  >
+                    <MediaImage
+                      src={thumb.src}
+                      alt={thumb.alt}
+                      width={thumb.width ?? 1600}
+                      height={thumb.height ?? 900}
+                      className="h-auto w-full object-contain"
+                      sizes="(max-width: 640px) 100vw, 33vw"
+                    />
+                  </div>
+                  <p className="mt-2 text-center text-xs font-medium text-[#555] md:text-sm">
+                    {thumb.alt}
+                  </p>
+                </div>
+              ))}
+            </div>
+          ) : null}
+        </div>
+      </ImageCard>
+    </div>
+  );
+}
+
+function SplitMediaGroup({
+  group,
+}: {
+  group: Extract<ProjectChallengeMediaGroup, { variant: 'split' }>;
+}) {
+  const { image, video } = group;
+  const videoRef = useRef<HTMLVideoElement>(null);
+  useVideoPlaybackRate(videoRef, video.playbackRate);
+  const imageBg = image.cardBg ?? '#F3F3F3';
+  const videoBg = video.cardBg ?? '#1E1E1E';
+
+  return (
+    <div className="space-y-4">
+      {group.title ? <h4 className={groupTitle}>{group.title}</h4> : null}
+      <ImageCard className="w-full p-3 md:p-4" style={{ backgroundColor: '#FFFFFF' }}>
+        <div className="grid grid-cols-1 items-stretch gap-3 md:grid-cols-[minmax(0,1fr)_minmax(160px,28%)] md:gap-4">
+          <div
+            className="overflow-hidden rounded-xl"
+            style={{ backgroundColor: imageBg }}
+          >
+            <MediaImage
+              src={image.src}
+              alt={image.alt}
+              width={image.width ?? 1600}
+              height={image.height ?? 900}
+              className="h-auto w-full object-contain"
+              sizes="(max-width: 768px) 100vw, 70vw"
+            />
+          </div>
+          <div
+            className="flex min-h-[280px] items-center justify-center overflow-hidden rounded-xl md:min-h-0"
+            style={{ backgroundColor: videoBg }}
+          >
+            <video
+              ref={videoRef}
+              src={video.src}
+              aria-label={video.alt}
+              width={video.width}
+              height={video.height}
+              className="h-full max-h-[70vh] w-auto max-w-full object-contain md:max-h-none"
+              style={{ backgroundColor: videoBg }}
+              onLoadedMetadata={(event) => {
+                if (video.playbackRate) {
+                  event.currentTarget.playbackRate = video.playbackRate;
+                }
+              }}
+              autoPlay
+              muted
+              loop
+              playsInline
+              preload="metadata"
+            />
+          </div>
+        </div>
+      </ImageCard>
+    </div>
+  );
+}
+
+function CompositeMediaGroup({
+  group,
+}: {
+  group: Extract<ProjectChallengeMediaGroup, { variant: 'composite' }>;
+}) {
+  const { image, overlayVideo } = group;
+  const cardBg = image.cardBg ?? '#F3F3F3';
+  const videoRef = useRef<HTMLVideoElement>(null);
+  useVideoPlaybackRate(videoRef, overlayVideo.playbackRate);
+  const { left, top, width, height } = overlayVideo.frame;
+
+  return (
+    <div className="space-y-4">
+      {group.title ? <h4 className={groupTitle}>{group.title}</h4> : null}
+      <ImageCard className="w-full" style={{ backgroundColor: cardBg }}>
+        <div
+          className="relative w-full overflow-hidden"
+          style={{
+            aspectRatio: `${image.width ?? 16} / ${image.height ?? 9}`,
+            backgroundColor: cardBg,
+          }}
+        >
+          <MediaImage
+            src={image.src}
+            alt={image.alt}
+            fill
+            className="object-contain"
+            sizes="(max-width: 768px) 100vw, 1180px"
+          />
+          <div
+            className="absolute overflow-hidden rounded-[clamp(4px,0.55vw,10px)] shadow-[0_8px_28px_-16px_rgba(0,0,0,0.55)]"
+            style={{
+              left: `${left}%`,
+              top: `${top}%`,
+              width: `${width}%`,
+              height: `${height}%`,
+              backgroundColor: overlayVideo.cardBg ?? '#1E1E1E',
+            }}
+          >
+            <video
+              ref={videoRef}
+              src={overlayVideo.src}
+              aria-label={overlayVideo.alt}
+              className="h-full w-full object-cover"
+              style={{ backgroundColor: overlayVideo.cardBg ?? '#1E1E1E' }}
+              onLoadedMetadata={(event) => {
+                if (overlayVideo.playbackRate) {
+                  event.currentTarget.playbackRate = overlayVideo.playbackRate;
+                }
+              }}
+              autoPlay
+              muted
+              loop
+              playsInline
+              preload="metadata"
+            />
+          </div>
+        </div>
+      </ImageCard>
+    </div>
+  );
+}
+
+function FeaturedGridMediaGroup({
+  group,
+}: {
+  group: Extract<ProjectChallengeMediaGroup, { variant: 'featuredGrid' }>;
+}) {
+  const featuredVideo = group.featuredVideo;
+  const featuredImage = group.featured;
+  const featuredVideoRef = useRef<HTMLVideoElement>(null);
+  useVideoPlaybackRate(featuredVideoRef, featuredVideo?.playbackRate);
+
+  const enlargeThumbs = Boolean(group.enlargeThumbs);
+
+  return (
+    <div className="space-y-4">
+      {group.title ? <h4 className={groupTitle}>{group.title}</h4> : null}
+      {group.description ? (
+        <p className={`max-w-3xl ${bodyText}`}>{group.description}</p>
+      ) : null}
+      <ImageCard
+        className={enlargeThumbs ? 'p-1.5 md:p-2' : 'p-3 md:p-4'}
+        style={{ backgroundColor: '#FFFFFF' }}
+      >
+        <div
+          className={`flex flex-col ${
+            enlargeThumbs ? 'gap-1.5 md:gap-2' : 'gap-3 md:gap-4'
+          }`}
+        >
+          {featuredVideo ? (
+            <div
+              className="overflow-hidden rounded-xl"
+              style={{ backgroundColor: featuredVideo.cardBg ?? '#1E1E1E' }}
+            >
+              <video
+                ref={featuredVideoRef}
+                src={featuredVideo.src}
+                aria-label={featuredVideo.alt}
+                width={featuredVideo.width}
+                height={featuredVideo.height}
+                className="h-auto w-full object-contain"
+                style={{ backgroundColor: featuredVideo.cardBg ?? '#1E1E1E' }}
+                onLoadedMetadata={(event) => {
+                  if (featuredVideo.playbackRate) {
+                    event.currentTarget.playbackRate =
+                      featuredVideo.playbackRate;
+                  }
+                }}
+                autoPlay
+                muted
+                loop
+                playsInline
+                preload="metadata"
+              />
+            </div>
+          ) : featuredImage ? (
+            <div
+              className="overflow-hidden rounded-xl"
+              style={{ backgroundColor: featuredImage.cardBg ?? '#F3F3F3' }}
+            >
+              <MediaImage
+                src={featuredImage.src}
+                alt={featuredImage.alt}
+                width={featuredImage.width ?? 1600}
+                height={featuredImage.height ?? 900}
+                className="h-auto w-full object-contain"
+                sizes="(max-width: 768px) 100vw, 1180px"
+              />
+            </div>
+          ) : null}
+          <div
+            className={`grid grid-cols-1 sm:grid-cols-3 ${
+              enlargeThumbs
+                ? 'gap-1.5 sm:gap-2 md:mx-[-2.5%] md:w-[105%]'
+                : 'gap-3 md:gap-4'
+            }`}
+          >
+            {group.images.map((image) => (
+              <div key={image.src} className="min-w-0">
+                <div
+                  className="overflow-hidden rounded-lg"
+                  style={{ backgroundColor: image.cardBg ?? '#F3F3F3' }}
+                >
+                  <MediaImage
+                    src={image.src}
+                    alt={image.alt}
+                    width={image.width ?? 1600}
+                    height={image.height ?? 900}
+                    className="h-auto w-full object-contain"
+                    sizes="(max-width: 640px) 100vw, 33vw"
+                  />
+                </div>
+                <p className="mt-2 text-center text-xs font-medium text-[#555] md:text-sm">
+                  {image.alt}
+                </p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </ImageCard>
+    </div>
+  );
+}
+
 function ChallengeVideoFrame({
   video,
   className = '',
@@ -252,8 +665,10 @@ function ChallengeVideoFrame({
   className?: string;
   fillHeight?: boolean;
 }) {
+  const videoRef = useRef<HTMLVideoElement>(null);
   const cardBg = video.cardBg ?? '#1E1E1E';
   const naturalFit = video.fit === 'natural';
+  useVideoPlaybackRate(videoRef, video.playbackRate);
 
   return (
     <ImageCard
@@ -273,6 +688,7 @@ function ChallengeVideoFrame({
         style={{ backgroundColor: cardBg }}
       >
         <video
+          ref={videoRef}
           src={video.src}
           aria-label={video.alt}
           width={video.width}
@@ -289,6 +705,11 @@ function ChallengeVideoFrame({
             ...(naturalFit && video.width
               ? { width: 'auto', maxWidth: `min(100%, ${video.width}px)` }
               : undefined),
+          }}
+          onLoadedMetadata={(event) => {
+            if (video.playbackRate) {
+              event.currentTarget.playbackRate = video.playbackRate;
+            }
           }}
           autoPlay
           muted
@@ -307,11 +728,13 @@ function ChallengeMediaGroup({ group }: { group: ProjectChallengeMediaGroup }) {
       <div className="space-y-4">
         <h4 className={groupTitle}>{group.title}</h4>
         <div className="flex flex-col gap-4 md:gap-5">
-          <ChallengeImageFrame
-            image={group.before}
-            className="w-full"
-            fillCard
-          />
+          {group.before ? (
+            <ChallengeImageFrame
+              image={group.before}
+              className="w-full"
+              fillCard
+            />
+          ) : null}
           <div
             className={`grid grid-cols-1 items-stretch gap-4 md:gap-5 ${
               group.after.length >= 3 ? 'md:grid-cols-3' : 'md:grid-cols-2'
@@ -349,7 +772,9 @@ function ChallengeMediaGroup({ group }: { group: ProjectChallengeMediaGroup }) {
               className="w-full"
             />
           ))}
-          {isPair ? (
+          {isPair && group.sharedCard ? (
+            <SharedVideoPairCard videos={group.videos} />
+          ) : isPair ? (
             <div className="grid grid-cols-1 items-stretch gap-4 md:grid-cols-2 md:gap-5">
               {group.videos.map((video) => (
                 <ChallengeVideoFrame
@@ -378,6 +803,27 @@ function ChallengeMediaGroup({ group }: { group: ProjectChallengeMediaGroup }) {
   }
 
   if (group.variant === 'stack') {
+    if (group.borderless) {
+      return (
+        <div className="space-y-4">
+          {group.title ? <h4 className={groupTitle}>{group.title}</h4> : null}
+          <div className="flex flex-col gap-4 md:gap-5">
+            {group.images.map((image) => (
+              <MediaImage
+                key={image.src}
+                src={image.src}
+                alt={image.alt}
+                width={image.width ?? 1600}
+                height={image.height ?? 900}
+                className="h-auto w-full object-contain"
+                sizes="(max-width: 768px) 100vw, 1180px"
+              />
+            ))}
+          </div>
+        </div>
+      );
+    }
+
     return (
       <div className="space-y-4">
         {group.title ? <h4 className={groupTitle}>{group.title}</h4> : null}
@@ -394,39 +840,47 @@ function ChallengeMediaGroup({ group }: { group: ProjectChallengeMediaGroup }) {
     );
   }
 
+  if (group.variant === 'imageCaption') {
+    return <ImageCaptionMediaGroup group={group} />;
+  }
+
+  if (group.variant === 'composite') {
+    return <CompositeMediaGroup group={group} />;
+  }
+
+  if (group.variant === 'split') {
+    return <SplitMediaGroup group={group} />;
+  }
+
   if (group.variant === 'featuredGrid') {
+    return <FeaturedGridMediaGroup group={group} />;
+  }
+
+  if (group.variant === 'grid') {
+    if (group.matchHeight && group.images.length === 2) {
+      return <MatchedHeightImagePair group={group} />;
+    }
+
+    const gridColumns =
+      group.images.length >= 4
+        ? 'md:grid-cols-2 lg:grid-cols-4'
+        : group.images.length === 3
+          ? 'md:grid-cols-3'
+          : 'md:grid-cols-2';
+
     return (
       <div className="space-y-4">
-        <h4 className={groupTitle}>{group.title}</h4>
-        <div className="grid gap-4">
-          <ChallengeImageFrame image={group.featured} />
-          <div className="grid gap-4 md:grid-cols-3">
-            {group.images.map((image) => (
-              <ChallengeImageFrame key={image.src} image={image} />
-            ))}
-          </div>
+        {group.title ? <h4 className={groupTitle}>{group.title}</h4> : null}
+        <div className={`grid grid-cols-1 items-start gap-4 ${gridColumns}`}>
+          {group.images.map((image) => (
+            <ChallengeImageFrame key={image.src} image={image} />
+          ))}
         </div>
       </div>
     );
   }
 
-  const gridColumns =
-    group.images.length >= 4
-      ? 'md:grid-cols-2 lg:grid-cols-4'
-      : group.images.length === 3
-        ? 'md:grid-cols-3'
-        : 'md:grid-cols-2';
-
-  return (
-    <div className="space-y-4">
-      <h4 className={groupTitle}>{group.title}</h4>
-      <div className={`grid gap-4 ${gridColumns}`}>
-        {group.images.map((image) => (
-          <ChallengeImageFrame key={image.src} image={image} />
-        ))}
-      </div>
-    </div>
-  );
+  return null;
 }
 
 function ProjectSection({ block }: { block: ProjectSectionBlock }) {
@@ -441,6 +895,7 @@ function ProjectSection({ block }: { block: ProjectSectionBlock }) {
     !block.description &&
     !block.subtitle &&
     !block.diagramPlaceholder &&
+    !block.diagram &&
     !block.eyebrow
   ) {
     return null;
@@ -453,7 +908,13 @@ function ProjectSection({ block }: { block: ProjectSectionBlock }) {
       ) : null}
       <h2 className={sectionTitle}>{block.title}</h2>
       {block.subtitle ? (
-        <p className="mt-4 max-w-3xl text-lg font-medium leading-snug tracking-[-0.01em] text-[#333] md:text-xl">
+        <p
+          className={
+            block.subtitleNowrap
+              ? 'mt-4 overflow-x-auto whitespace-nowrap text-lg font-medium leading-snug tracking-[-0.01em] text-[#333] md:text-xl'
+              : 'mt-4 max-w-3xl text-lg font-medium leading-snug tracking-[-0.01em] text-[#333] md:text-xl'
+          }
+        >
           {block.subtitle}
         </p>
       ) : null}
@@ -461,7 +922,37 @@ function ProjectSection({ block }: { block: ProjectSectionBlock }) {
         <p className={`mt-4 max-w-3xl ${bodyText}`}>{block.description}</p>
       ) : null}
 
-      {block.diagramPlaceholder ? (
+      {block.diagram ? (
+        <div
+          className={
+            block.diagram.fit === 'natural'
+              ? 'relative left-1/2 mt-10 flex w-screen max-w-[100vw] -translate-x-1/2 justify-center px-4'
+              : 'mt-10 w-full overflow-hidden rounded-2xl border border-[#E8E8E8] bg-white shadow-[0_12px_40px_-28px_rgba(0,0,0,0.35)]'
+          }
+        >
+          <MediaImage
+            src={block.diagram.src}
+            alt={block.diagram.alt}
+            width={block.diagram.width ?? 1600}
+            height={block.diagram.height ?? 900}
+            className={
+              block.diagram.fit === 'natural'
+                ? 'h-auto w-auto max-w-full object-contain'
+                : 'h-auto w-full object-contain'
+            }
+            style={
+              block.diagram.fit === 'natural' && block.diagram.width
+                ? { maxWidth: `min(100%, ${block.diagram.width}px)` }
+                : undefined
+            }
+            sizes={
+              block.diagram.fit === 'natural'
+                ? `(max-width: 768px) 100vw, ${block.diagram.width ?? 1180}px`
+                : '(max-width: 768px) 100vw, 1180px'
+            }
+          />
+        </div>
+      ) : block.diagramPlaceholder ? (
         <div className="mt-10 flex aspect-[16/9] w-full items-center justify-center rounded-2xl border border-dashed border-[#C8C8C8] bg-[#F3F3F3] px-6 text-center">
           <p className="font-mono text-xs font-medium uppercase tracking-[0.14em] text-[#888] md:text-sm">
             {block.diagramPlaceholder}
@@ -500,7 +991,13 @@ function ProjectSection({ block }: { block: ProjectSectionBlock }) {
       ) : null}
 
       {hasItems ? (
-        <ol className="mt-12 flex flex-col gap-16 md:gap-20">
+        <ol
+          className={
+            block.itemsLayout === 'continuous'
+              ? 'mt-10 flex flex-col gap-8 md:gap-10'
+              : 'mt-12 flex flex-col gap-16 md:gap-20'
+          }
+        >
           {block.items!.map((item, index) => {
             if (typeof item === 'string') return null;
 
@@ -513,20 +1010,33 @@ function ProjectSection({ block }: { block: ProjectSectionBlock }) {
               mediaGroups,
               insight,
               bullets,
+              metrics,
+              afterInsight,
             } = item;
 
             return (
-              <li key={title} className="border-t border-[#E8E8E8] pt-12 md:pt-16">
+              <li
+                key={title}
+                className={
+                  block.itemsLayout === 'continuous'
+                    ? undefined
+                    : 'border-t border-[#E8E8E8] pt-12 md:pt-16'
+                }
+              >
                 <h3 className={challengeTitle}>
-                  <span className="mr-3 font-mono text-xs font-medium uppercase tracking-[0.12em] text-[#888]">
-                    {String(index + 1).padStart(2, '0')}
-                  </span>
+                  {block.itemsLayout === 'continuous' ? null : (
+                    <span className="mr-3 font-mono text-xs font-medium uppercase tracking-[0.12em] text-[#888]">
+                      {String(index + 1).padStart(2, '0')}
+                    </span>
+                  )}
                   {title}
                 </h3>
 
                 {description ? (
                   <p className={`mt-4 max-w-3xl ${bodyText}`}>{description}</p>
                 ) : null}
+
+                {metrics ? <ProjectItemMetrics metrics={metrics} /> : null}
 
                 {balance ? (
                   <div
@@ -539,14 +1049,33 @@ function ProjectSection({ block }: { block: ProjectSectionBlock }) {
                 ) : null}
 
                 {diagram ? (
-                  <div className="mt-8 w-full">
+                  <div
+                    className={
+                      diagram.fit === 'natural'
+                        ? 'relative left-1/2 mt-8 flex w-screen max-w-[100vw] -translate-x-1/2 justify-center px-4'
+                        : 'mt-8 w-full'
+                    }
+                  >
                     <MediaImage
                       src={diagram.src}
                       alt={diagram.alt}
                       width={diagram.width ?? 1600}
                       height={diagram.height ?? 900}
-                      className="h-auto w-full object-contain"
-                      sizes="(max-width: 768px) 100vw, 1180px"
+                      className={
+                        diagram.fit === 'natural'
+                          ? 'h-auto w-auto max-w-full object-contain'
+                          : 'h-auto w-full object-contain'
+                      }
+                      style={
+                        diagram.fit === 'natural' && diagram.width
+                          ? { maxWidth: `min(100%, ${diagram.width}px)` }
+                          : undefined
+                      }
+                      sizes={
+                        diagram.fit === 'natural'
+                          ? `(max-width: 768px) 100vw, ${diagram.width ?? 1180}px`
+                          : '(max-width: 768px) 100vw, 1180px'
+                      }
                     />
                   </div>
                 ) : null}
@@ -601,6 +1130,20 @@ function ProjectSection({ block }: { block: ProjectSectionBlock }) {
 
                 {insight ? (
                   <p className={`mt-8 max-w-3xl ${bodyText}`}>{insight}</p>
+                ) : null}
+
+                {afterInsight ? (
+                  <div className="mt-10 space-y-4">
+                    <h4 className={groupTitle}>{afterInsight.title}</h4>
+                    <div className="space-y-10">
+                      {afterInsight.mediaGroups.map((group, index) => (
+                        <ChallengeMediaGroup
+                          key={group.title ?? `after-insight-${index}`}
+                          group={group}
+                        />
+                      ))}
+                    </div>
+                  </div>
                 ) : null}
               </li>
             );

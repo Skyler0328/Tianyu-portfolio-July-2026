@@ -27,6 +27,37 @@ export type ProjectPlaceholderBlock = {
   description: string;
 };
 
+export type ProjectMetricStat = {
+  value: string;
+  label: string;
+  /** Visual emphasis for growth / decline figures. */
+  tone?: 'positive' | 'negative' | 'neutral';
+};
+
+export type ProjectMetricSeries = {
+  name: string;
+  data: number[];
+  color: string;
+};
+
+export type ProjectMetricChart = {
+  title: string;
+  caption?: string;
+  categories: string[];
+  series: ProjectMetricSeries[];
+  /** Start Y at 0 (absolute MAU). Default false = fit data range. */
+  beginAtZero?: boolean;
+  /** How Y-axis tick labels are formatted. */
+  valueFormat?: 'compact' | 'index';
+};
+
+export type ProjectItemMetrics = {
+  stats: ProjectMetricStat[];
+  /** Rendered side-by-side on desktop. */
+  charts: ProjectMetricChart[];
+  footnote?: string;
+};
+
 export type ProjectSectionItem =
   | string
   | {
@@ -43,7 +74,14 @@ export type ProjectSectionItem =
       diagram?: ProjectChallengeImage;
       mediaGroups?: ProjectChallengeMediaGroup[];
       insight?: string;
+      /** Small heading + media shown after the insight paragraph. */
+      afterInsight?: {
+        title: string;
+        mediaGroups: ProjectChallengeMediaGroup[];
+      };
       bullets?: string[];
+      /** Optional KPI strip + charts (e.g. Chapter 1 · Users). */
+      metrics?: ProjectItemMetrics;
     };
 
 export type ProjectChallengeImage = {
@@ -81,25 +119,40 @@ export type ProjectChallengeVideo = {
    * card can still fill the row with matching background.
    */
   fit?: 'natural' | 'fill';
+  /** HTML video playback rate (e.g. 1.5). */
+  playbackRate?: number;
 };
 
 export type ProjectChallengeMediaGroup =
   | {
       title: string;
       variant: 'transition';
-      before: ProjectChallengeImage;
+      before?: ProjectChallengeImage;
       after: ProjectChallengeImage[];
     }
   | {
-      title: string;
+      title?: string;
       variant: 'grid';
       images: ProjectChallengeImage[];
+      /**
+       * For 2-up rows: put both images in one card and match heights
+       * (later image drives row height; earlier ones scale to fit).
+       */
+      matchHeight?: boolean;
+      /** Constrain the row to a narrower max width (smaller presentation). */
+      compact?: boolean;
     }
   | {
-      title: string;
+      title?: string;
+      description?: string;
       variant: 'featuredGrid';
-      featured: ProjectChallengeImage;
+      /** Full-width image above the thumbnail row. */
+      featured?: ProjectChallengeImage;
+      /** Full-width video above the thumbnail row (takes precedence over `featured`). */
+      featuredVideo?: ProjectChallengeVideo;
       images: ProjectChallengeImage[];
+      /** Slightly larger thumbnail row (tighter card padding / gaps). */
+      enlargeThumbs?: boolean;
     }
   | {
       title: string;
@@ -112,11 +165,41 @@ export type ProjectChallengeMediaGroup =
       /** Full-width static images shown after `featured`, before the video grid. */
       images?: ProjectChallengeImage[];
       videos: ProjectChallengeVideo[];
+      /** When true with 2 videos: one shared card, constrained width (smaller). */
+      sharedCard?: boolean;
     }
   | {
       title?: string;
       variant: 'stack';
       images: ProjectChallengeImage[];
+      /** Render images without card chrome (no border / shadow). */
+      borderless?: boolean;
+    }
+  | {
+      title?: string;
+      variant: 'composite';
+      /** Base art that defines the card aspect ratio / height. */
+      image: ProjectChallengeImage;
+      /** Video inset into a percentage frame of the base image. */
+      overlayVideo: ProjectChallengeVideo & {
+        /** Percentage rect within the image (0–100). Scales with the card. */
+        frame: { left: number; top: number; width: number; height: number };
+      };
+    }
+  | {
+      title?: string;
+      /** Image left + video right in a single card / one row. */
+      variant: 'split';
+      image: ProjectChallengeImage;
+      video: ProjectChallengeVideo;
+    }
+  | {
+      title?: string;
+      /** Image + caption text in one card, optional thumb row below. */
+      variant: 'imageCaption';
+      image: ProjectChallengeImage;
+      caption: string;
+      thumbs?: ProjectChallengeImage[];
     };
 
 export type ProjectSectionInsight = {
@@ -131,11 +214,20 @@ export type ProjectSectionBlock = {
   title: string;
   /** Supporting question / line under the chapter title. */
   subtitle?: string;
+  /** Keep subtitle on a single line (no wrap). */
+  subtitleNowrap?: boolean;
   description?: string;
   /** Dashed placeholder frame until a diagram asset is ready. */
   diagramPlaceholder?: string;
+  /** Optional full-width diagram under the section intro. */
+  diagram?: ProjectChallengeImage;
   insights?: ProjectSectionInsight[];
   items?: ProjectSectionItem[];
+  /**
+   * `continuous` = no dividers, tighter gaps between numbered items
+   * (e.g. Chapter 1). Default keeps separated feature blocks.
+   */
+  itemsLayout?: 'divided' | 'continuous';
   /** Top-level media for gallery-style sections (no numbered challenge items). */
   mediaGroups?: ProjectChallengeMediaGroup[];
 };
@@ -198,52 +290,137 @@ export const MOCK_PROJECTS: Record<string, ProjectData> = {
       },
       {
         type: 'section',
-        title: "Collecting User's Feedback",
-        mediaGroups: [
-          {
-            variant: 'stack',
-            images: [
-              {
-                src: '/work/users-pain-point.png',
-                alt: "User pain points from research interviews",
-                cardBg: '#1A1A1A',
-                width: 3300,
-                height: 2367,
-              },
-            ],
-          },
-        ],
-      },
-      {
-        type: 'section',
         eyebrow: 'Chapter 1',
         title: 'Understanding the Product',
+        itemsLayout: 'continuous',
         items: [
           {
             title: 'Users',
             description:
               'Primary users are developers, operators, and QA engineers working inside IDEs. A large share of adoption comes from B2B enterprise buyers who purchase Copilot for teams — so the experience must serve both individual practitioners and organizational buyers who care about control, clarity, and scale.',
-            bullets: [
-              'Developers writing and reviewing code day to day',
-              'Operators and QA validating changes in real workflows',
-              'Enterprise teams purchasing and deploying Copilot at scale',
-            ],
+            metrics: {
+              stats: [
+                {
+                  value: '1.41M',
+                  label: 'IntelliJ · Jul 2026',
+                },
+                {
+                  value: '+12.8%',
+                  label: 'IntelliJ · 13-mo change',
+                  tone: 'positive',
+                },
+                {
+                  value: '79.1K',
+                  label: 'Eclipse · Jul 2026',
+                },
+                {
+                  value: '+177.5%',
+                  label: 'Eclipse · 13-mo change',
+                  tone: 'positive',
+                },
+              ],
+              charts: [
+                {
+                  title: 'MAU trend',
+                  caption: 'Monthly active users · Jul 2025 – Jul 2026',
+                  categories: [
+                    '2025-07',
+                    '2025-08',
+                    '2025-09',
+                    '2025-10',
+                    '2025-11',
+                    '2025-12',
+                    '2026-01',
+                    '2026-02',
+                    '2026-03',
+                    '2026-04',
+                    '2026-05',
+                    '2026-06',
+                    '2026-07',
+                  ],
+                  beginAtZero: true,
+                  valueFormat: 'compact',
+                  series: [
+                    {
+                      name: 'IntelliJ',
+                      color: '#3B82F6',
+                      data: [
+                        1_250_000, 1_350_000, 1_450_000, 1_522_417, 1_548_000,
+                        1_565_000, 1_558_000, 1_545_000, 1_525_000, 1_505_000,
+                        1_488_000, 1_469_800, 1_410_000,
+                      ],
+                    },
+                    {
+                      name: 'Eclipse',
+                      color: '#0D7C6F',
+                      data: [
+                        28_500, 34_000, 40_500, 46_464, 51_200, 56_000, 60_800,
+                        65_200, 69_400, 73_000, 76_000, 78_741, 79_080,
+                      ],
+                    },
+                  ],
+                },
+                {
+                  title: 'Indexed growth',
+                  caption: 'Relative change · Jul 2025 = 100',
+                  categories: [
+                    '2025-07',
+                    '2025-08',
+                    '2025-09',
+                    '2025-10',
+                    '2025-11',
+                    '2025-12',
+                    '2026-01',
+                    '2026-02',
+                    '2026-03',
+                    '2026-04',
+                    '2026-05',
+                    '2026-06',
+                    '2026-07',
+                  ],
+                  beginAtZero: false,
+                  valueFormat: 'index',
+                  series: [
+                    {
+                      name: 'IntelliJ',
+                      color: '#3B82F6',
+                      data: [
+                        100, 108, 116, 121.8, 123.8, 125.2, 124.6, 123.6, 122,
+                        120.4, 119, 117.6, 112.8,
+                      ],
+                    },
+                    {
+                      name: 'Eclipse',
+                      color: '#0D7C6F',
+                      data: [
+                        100, 119.3, 142.1, 163, 179.6, 196.5, 213.3, 228.8,
+                        243.5, 256.1, 266.7, 276.3, 277.5,
+                      ],
+                    },
+                  ],
+                },
+              ],
+              footnote:
+                'Anchored to Oct 2025 plugin MAU and Jul 2026 Usage Numbers; intervening months interpolated with public Copilot growth context.',
+            },
           },
           {
             title: 'Typical Workflow',
             description:
               'How developers collaborate with GitHub Copilot across a coding task — from understanding goal and context through plan, implement, test, iterate, and ship — with retry and rollback paths when things go wrong.',
             diagram: {
-              src: '/work/copilot-typical-workflow.jpg',
-              alt: 'Typical workflow of GitHub Copilot and related UX challenges',
-              width: 2000,
-              height: 1843,
+              src: '/work/ai-coding-flow.png',
+              alt: 'AI coding flow diagram for GitHub Copilot',
+              width: 680,
+              height: 680,
+              fit: 'natural',
+              cardBg: 'transparent',
             },
           },
           {
             title: 'AI Capability',
             description:
-              'Selective autonomy: increase agent efficiency without making developers feel they have lost control. Critical information stays visible; non-critical detail can collapse while the agent runs, and expand on demand — with full detail opening by default when something fails.',
+              'We selectively reveal agent content to users: information that is not critical while the agent is running is collapsed to improve screen efficiency, while users can manually expand it to inspect details. When an error occurs, the full details expand by default so users can locate the issue.',
             balance: {
               left: 'More autonomy',
               right: 'More predictability',
@@ -252,17 +429,9 @@ export const MOCK_PROJECTS: Record<string, ProjectData> = {
               {
                 title: 'Sub-agent Design',
                 variant: 'transition',
-                before: {
-                  src: '/work/subagent-old.png?v=3',
-                  alt: 'Previous sub-agent design before the redesign',
-                  cardBg: '#D9D9D9',
-                  width: 2944,
-                  height: 1716,
-                  fit: 'natural',
-                },
                 after: [
                   {
-                    src: '/work/subagent-expand.png?v=2',
+                    src: '/work/subagent-expand.png?v=3',
                     alt: 'Expanded sub-agent design after the redesign',
                     cardBg: '#CCE2E0',
                     width: 978,
@@ -281,65 +450,64 @@ export const MOCK_PROJECTS: Record<string, ProjectData> = {
               },
               {
                 title: 'Thinking Process',
-                variant: 'stack',
-                images: [
-                  {
-                    src: '/work/thinking-process.png',
-                    alt: 'Thinking process states: running, finished, and expand on click',
-                    cardBg: '#E1EAE9',
-                    width: 6534,
-                    height: 3456,
-                  },
-                ],
-              },
-              {
-                title: 'Context Understanding',
-                variant: 'transition',
-                before: {
-                  src: '/work/agent-autonomy-before.png',
-                  alt: 'Previous file change experience before the Context Understanding redesign',
-                  cardBg: '#F3F3F3',
+                variant: 'composite',
+                image: {
+                  src: '/work/thinking-process.png',
+                  alt: 'Thinking process states: running, finished, and expand on click',
+                  cardBg: '#CCE2E0',
+                  width: 6534,
+                  height: 3456,
                 },
-                after: [
-                  {
-                    src: '/work/agent-autonomy-after-1.svg',
-                    alt: 'Redesigned multi-file context experience, first state',
-                    cardBg: '#F3F3F3',
+                overlayVideo: {
+                  src: '/work/record-thinking.mp4',
+                  alt: 'Thinking process recording in the editor chat panel',
+                  cardBg: '#1E1E1E',
+                  width: 580,
+                  height: 1000,
+                  frame: {
+                    left: 70.53,
+                    top: 15.7,
+                    width: 23.69,
+                    height: 77.2,
                   },
-                  {
-                    src: '/work/agent-autonomy-after-2.svg',
-                    alt: 'Redesigned multi-file context experience, second state',
-                    cardBg: '#F3F3F3',
-                  },
-                  {
-                    src: '/work/agent-autonomy-after-3.svg',
-                    alt: 'Redesigned multi-file context experience, third state',
-                    cardBg: '#F3F3F3',
-                  },
-                ],
+                },
               },
               {
-                title: 'Context Window Awareness',
-                variant: 'videos',
-                videos: [
-                  {
-                    src: '/work/record-context-window.mp4',
-                    alt: 'Context window awareness recording showing token usage breakdown',
-                    cardBg: '#DCE8E7',
-                    width: 782,
-                    height: 1474,
-                    fit: 'natural',
-                  },
-                ],
+                title: 'Context Understanding + Awareness',
+                variant: 'split',
+                image: {
+                  src: '/work/context-understanding.png',
+                  alt: 'Context understanding before and after: compact multi-file context in chat',
+                  cardBg: '#CCE2E0',
+                  width: 4164,
+                  height: 3456,
+                },
+                video: {
+                  src: '/work/record-context-window.mp4',
+                  alt: 'Context window awareness recording showing token usage breakdown',
+                  cardBg: '#DCE8E7',
+                  width: 424,
+                  height: 800,
+                },
               },
             ],
-            bullets: [
-              'Context Explainability',
-              'Context Window Awareness',
-              'Context control',
-            ],
-            insight:
-              'We selectively reveal agent content to users: information that is not critical while the agent is running is collapsed to improve screen efficiency, while users can manually expand it to inspect details. When an error occurs, the full details expand by default so users can locate the issue.',
+            afterInsight: {
+              title: "Collecting User's Feedback",
+              mediaGroups: [
+                {
+                  variant: 'stack',
+                  images: [
+                    {
+                      src: '/work/users-pain-point.png',
+                      alt: "User pain points from research interviews",
+                      cardBg: '#1A1A1A',
+                      width: 3300,
+                      height: 2367,
+                    },
+                  ],
+                },
+              ],
+            },
           },
         ],
       },
@@ -349,9 +517,15 @@ export const MOCK_PROJECTS: Record<string, ProjectData> = {
         title: 'Beyond Happy Path: Building Trust in AI Coding',
         subtitle:
           'When AI is powerful, how do we design for mistakes, uncertainty, and human control?',
+        subtitleNowrap: true,
         description:
           'Traditional software workflows are largely linear, but AI coding is full of uncertainty. The agent may fail, need to retry, or roll back — so the experience has to give developers more control. AI accelerates coding, but it also amplifies uncertainty.',
-        diagramPlaceholder: 'AI coding workflow diagram — placeholder',
+        diagram: {
+          src: '/work/agent-ux-flow.png',
+          alt: 'Agent UX flow diagram for failure, retry, and human control paths',
+          width: 6144,
+          height: 2808,
+        },
         insights: [
           {
             title: "Developers don't follow one path",
@@ -364,6 +538,27 @@ export const MOCK_PROJECTS: Record<string, ProjectData> = {
           {
             title: 'Developers need control points',
             body: 'Review. Modify. Undo. Switch context.',
+          },
+        ],
+        mediaGroups: [
+          {
+            variant: 'stack',
+            images: [
+              {
+                src: '/work/error.png?v=2',
+                alt: 'Error handling experience in AI coding workflows',
+                cardBg: '#F3F3F3',
+                width: 2200,
+                height: 1164,
+              },
+              {
+                src: '/work/rollback-retry.png',
+                alt: 'Rollback and retry controls for AI coding workflows',
+                cardBg: '#F3F3F3',
+                width: 2200,
+                height: 1164,
+              },
+            ],
           },
         ],
       },
@@ -391,6 +586,27 @@ export const MOCK_PROJECTS: Record<string, ProjectData> = {
                 },
                 images: [
                   {
+                    src: '/work/tbb-flow.png',
+                    alt: 'Token-based billing flow for cost transparency',
+                    cardBg: '#F3F3F3',
+                    width: 4976,
+                    height: 2128,
+                  },
+                  {
+                    src: '/work/token-saving-tips.png',
+                    alt: 'Token saving tips for managing Copilot usage cost',
+                    cardBg: '#F3F3F3',
+                    width: 5686,
+                    height: 2106,
+                  },
+                  {
+                    src: '/work/tbb-notifications.png',
+                    alt: 'Token-based billing notifications and usage alerts',
+                    cardBg: '#F3F3F3',
+                    width: 5686,
+                    height: 4088,
+                  },
+                  {
                     src: '/work/indicator-explore.png',
                     alt: 'Usage indicator design exploration and in-product mockup',
                     cardBg: '#F7F8F8',
@@ -398,16 +614,107 @@ export const MOCK_PROJECTS: Record<string, ProjectData> = {
                     height: 582,
                   },
                 ],
+                sharedCard: true,
                 videos: [
                   {
                     src: '/work/record-session-usage.mp4',
                     alt: 'Session usage recording for cost transparency',
                     cardBg: '#1E1E1E',
+                    width: 283,
+                    height: 400,
                   },
                   {
                     src: '/work/record-session-view.mp4',
                     alt: 'Session view recording for cost transparency',
                     cardBg: '#1E1E1E',
+                    width: 189,
+                    height: 400,
+                  },
+                ],
+              },
+            ],
+          },
+          {
+            title: 'NES (Nest Edit Suggestions)',
+            description:
+              'A Code Completion capability that surfaces next-edit suggestions directly in the editor — so the main interaction loop stays inside the coding surface, not a separate chat panel.',
+            mediaGroups: [
+              {
+                variant: 'featuredGrid',
+                enlargeThumbs: true,
+                featuredVideo: {
+                  src: '/work/recording-eclipse-nes.mp4',
+                  alt: 'Eclipse NES recording: next edit suggestions in the editor',
+                  cardBg: '#1E1E1E',
+                  playbackRate: 1.5,
+                },
+                images: [
+                  {
+                    src: '/work/nes-delete.png',
+                    alt: 'Delete',
+                    cardBg: '#1B1B1B',
+                    width: 2474,
+                    height: 1314,
+                  },
+                  {
+                    src: '/work/nes-multiple-line.png',
+                    alt: 'Replace',
+                    cardBg: '#1B1B1B',
+                    width: 2508,
+                    height: 1328,
+                  },
+                  {
+                    src: '/work/nes-add.png',
+                    alt: 'Add',
+                    cardBg: '#1B1B1B',
+                    width: 2508,
+                    height: 1328,
+                  },
+                ],
+              },
+              {
+                variant: 'grid',
+                matchHeight: true,
+                images: [
+                  {
+                    src: '/work/nes-color-contrast.png?v=2',
+                    alt: 'NES color contrast exploration',
+                    cardBg: '#F3F3F3',
+                    width: 1560,
+                    height: 2184,
+                  },
+                  {
+                    src: '/work/nes-components.png',
+                    alt: 'NES component states and variants',
+                    cardBg: '#F3F3F3',
+                    width: 2476,
+                    height: 2214,
+                  },
+                ],
+              },
+            ],
+          },
+          {
+            title: 'AI Model Management',
+            description:
+              'BYOK (Bring Your Own Key) lets developers use their own models inside Copilot — including domestic LLMs — via personal API keys and custom endpoints, so teams can choose the model that fits their workflow, compliance, and cost needs.',
+            mediaGroups: [
+              {
+                variant: 'stack',
+                images: [
+                  {
+                    src: '/work/byok.png',
+                    alt: 'Bring Your Own Key model management in Copilot',
+                    cardBg: '#F3F3F3',
+                    width: 5686,
+                    height: 2040,
+                  },
+                  {
+                    src: '/work/custom-endpoint.png',
+                    alt: 'Custom endpoint configuration for BYOK models',
+                    cardBg: '#F3F3F3',
+                    width: 2843,
+                    height: 1853,
                   },
                 ],
               },
@@ -418,11 +725,7 @@ export const MOCK_PROJECTS: Record<string, ProjectData> = {
       {
         type: 'section',
         eyebrow: 'Chapter 4',
-        title: 'Continuous UX Improvements',
-      },
-      {
-        type: 'section',
-        title: 'UI System Design & Visual',
+        title: 'UI System Design, Visual Quality & Accessibility',
         mediaGroups: [
           {
             variant: 'stack',
@@ -441,19 +744,120 @@ export const MOCK_PROJECTS: Record<string, ProjectData> = {
                 width: 2200,
                 height: 1164,
               },
+            ],
+          },
+        ],
+      },
+      {
+        type: 'section',
+        title: 'Design for Eclipse Quick Start — prepare for opensource',
+        mediaGroups: [
+          {
+            variant: 'stack',
+            borderless: true,
+            images: [
               {
-                src: '/work/eclipse-ui-dark-theme.jpg',
-                alt: 'Eclipse Copilot UI dark theme',
-                cardBg: '#1E1E1E',
-                width: 1200,
-                height: 652,
+                src: '/work/quick-start-flow.png?v=2',
+                alt: 'Eclipse Copilot Quick Start onboarding flow',
+                cardBg: 'transparent',
+                width: 6355,
+                height: 1156,
               },
+            ],
+          },
+          {
+            variant: 'imageCaption',
+            image: {
+              src: '/work/quick-start-light-mode.png',
+              alt: 'Eclipse Copilot Quick Start guide modal in light mode',
+              cardBg: '#F3F3F3',
+              width: 890,
+              height: 592,
+            },
+            caption:
+              'This guidance window automatically pops up for first-time Eclipse users.',
+            thumbs: [
+              {
+                src: '/work/quick-start-agent.png',
+                alt: 'Agent',
+                cardBg: '#FFFFFF',
+                width: 500,
+                height: 287,
+              },
+              {
+                src: '/work/quick-start-ask.png',
+                alt: 'Ask',
+                cardBg: '#FFFFFF',
+                width: 500,
+                height: 287,
+              },
+              {
+                src: '/work/quick-start-nes.png',
+                alt: 'NES',
+                cardBg: '#FFFFFF',
+                width: 500,
+                height: 287,
+              },
+            ],
+          },
+        ],
+      },
+      {
+        type: 'section',
+        title: 'Shipped on JetBrains Marketplace',
+        description:
+          'Official plugin website screenshots featuring the product UI I designed — Agent, Ask, and Code Completion — as shown to users on the JetBrains Marketplace listing.',
+        mediaGroups: [
+          {
+            variant: 'featuredGrid',
+            featured: {
+              src: '/work/copilot-plugin-website.jpg',
+              alt: 'JetBrains Marketplace plugin website featuring Copilot UI',
+              cardBg: '#F5F5F5',
+              width: 1600,
+              height: 866,
+            },
+            images: [
+              {
+                src: '/work/copilot-agent.jpg',
+                alt: 'Agent',
+                cardBg: '#1B1B1B',
+                width: 1600,
+                height: 900,
+              },
+              {
+                src: '/work/copilot-ask.jpg',
+                alt: 'Ask',
+                cardBg: '#1B1B1B',
+                width: 1600,
+                height: 900,
+              },
+              {
+                src: '/work/copilot-code-completion.jpg',
+                alt: 'Code Completion',
+                cardBg: '#1B1B1B',
+                width: 1600,
+                height: 900,
+              },
+            ],
+          },
+          {
+            variant: 'grid',
+            matchHeight: true,
+            images: [
               {
                 src: '/work/eclipse-poster.png',
                 alt: 'Eclipse Copilot visual poster',
                 cardBg: '#0C022F',
                 width: 2560,
                 height: 1440,
+              },
+              {
+                src: '/work/eclipse-ui-dark-theme.jpg',
+                alt: 'Eclipse Copilot UI dark theme',
+                cardBg: '#1E1E1E',
+                width: 1200,
+                height: 652,
               },
             ],
           },

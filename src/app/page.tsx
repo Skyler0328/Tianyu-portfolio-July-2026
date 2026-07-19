@@ -32,10 +32,8 @@ type FeaturedCase = {
   period: string;
   headline: string;
   description: string;
-  disciplines: string[];
-  myRole: string;
   href: string;
-  previews: { src: string; alt: string; label: string }[];
+  hero: { src: string; alt: string; width: number; height: number };
 };
 
 type ProjectCard = {
@@ -57,33 +55,13 @@ const featuredCase: FeaturedCase = {
   headline: 'Designing AI experiences for developers',
   description:
     'Designed GitHub Copilot across Eclipse and IntelliJ, improving how developers collaborate with AI through intuitive interaction patterns, transparent feedback, and resilient workflows.',
-  disciplines: [
-    'UI/UX Design',
-    'Prototyping',
-    'Human-AI Interaction',
-    'Design Systems',
-    'Research',
-  ],
-  myRole:
-    'Owned UX design for GitHub Copilot in Eclipse and contributed to IntelliJ experiences, partnering closely with PMs, researchers, and engineers from strategy through launch.',
   href: '/work/github-copilot',
-  previews: [
-    {
-      src: '/copilot-before.png',
-      alt: 'Copilot interface before redesign',
-      label: 'Agent workflow',
-    },
-    {
-      src: '/copilot-pressbutton.png',
-      alt: 'Copilot cost transparency UI',
-      label: 'Cost transparency',
-    },
-    {
-      src: '/copilot-after.png',
-      alt: 'Copilot interface after redesign',
-      label: 'Failure recovery',
-    },
-  ],
+  hero: {
+    src: '/work/copilot-home-hero.png',
+    alt: 'GitHub Copilot for IDEs case study hero',
+    width: 3210,
+    height: 1434,
+  },
 };
 
 const projectCards: ProjectCard[] = [
@@ -95,7 +73,7 @@ const projectCards: ProjectCard[] = [
     description:
       'Research-led redesign for activation and conversion in a radiomics SaaS.',
     href: '/work/raymics-cloud',
-    image: '/work/raymics-cloud-hero.png',
+    image: '/work/raymics-cloud-cover.png',
   },
   {
     id: 'raymics-enterprise',
@@ -105,7 +83,7 @@ const projectCards: ProjectCard[] = [
     description:
       'Extending the SaaS design system to hospital deployment and multi-institution AI.',
     href: '/work/raymics-enterprise',
-    image: '/work/raymics-enterprise-hero.png',
+    image: '/work/raymics-enterprise-cover.png',
   },
   {
     id: 'rou-water',
@@ -115,7 +93,7 @@ const projectCards: ProjectCard[] = [
     description:
       'Market-driven UX for custom bottled water — lower MOQ, DIY labels, and referral growth.',
     href: '/work/rou-water',
-    image: '/work/rou-water-hero.png',
+    image: '/work/rou-water-cover.jpg',
     videoUrl: 'https://vimeo.com/805996585',
   },
   {
@@ -126,7 +104,7 @@ const projectCards: ProjectCard[] = [
     description:
       'Vintage cartoon logo and visual system for a Thai street food & milk tea restaurant.',
     href: '/work/daily-more',
-    image: '/work/daily-more-hero.png',
+    image: '/work/daily-more-cover.png',
   },
 ];
 
@@ -155,45 +133,16 @@ function FeaturedWorkCard({ project }: { project: FeaturedCase }) {
           {project.description}
         </p>
 
-        <div className="mb-10 grid gap-8 md:grid-cols-2">
-          <div>
-            <p className="mb-3 font-mono text-xs font-medium uppercase tracking-[0.14em] text-[#888]">
-              Disciplines
-            </p>
-            <p className="text-sm leading-relaxed text-[#333] md:text-base">
-              {project.disciplines.join(' · ')}
-            </p>
-          </div>
-          <div>
-            <p className="mb-3 font-mono text-xs font-medium uppercase tracking-[0.14em] text-[#888]">
-              My Role
-            </p>
-            <p className="text-sm leading-relaxed text-[#333] md:text-base">
-              {project.myRole}
-            </p>
-          </div>
-        </div>
-
-        <div className="mb-10 grid gap-4 md:grid-cols-3">
-          {project.previews.map((preview) => (
-            <div
-              key={preview.label}
-              className="overflow-hidden rounded-xl border border-[#E8E8E8] bg-white shadow-[0_12px_40px_-28px_rgba(0,0,0,0.35)]"
-            >
-              <div className="relative aspect-[16/10] overflow-hidden bg-[#F3F3F3]">
-                <MediaImage
-                  src={preview.src}
-                  alt={preview.alt}
-                  fill
-                  className="object-cover object-right transition-transform duration-500 group-hover:scale-[1.02]"
-                  sizes="(max-width: 768px) 100vw, 33vw"
-                />
-              </div>
-              <p className="px-4 py-3 text-sm font-medium text-[#333]">
-                {preview.label}
-              </p>
-            </div>
-          ))}
+        <div className="mb-10 overflow-hidden rounded-2xl border border-[#E8E8E8] bg-white shadow-[0_12px_40px_-28px_rgba(0,0,0,0.35)]">
+          <MediaImage
+            src={project.hero.src}
+            alt={project.hero.alt}
+            width={project.hero.width}
+            height={project.hero.height}
+            className="h-auto w-full object-cover transition-transform duration-500 group-hover:scale-[1.01]"
+            sizes="(max-width: 768px) 100vw, 1180px"
+            priority
+          />
         </div>
 
         <span className="inline-flex items-center gap-2 font-mono text-sm text-[#111] transition-colors group-hover:text-[#0D7C6F]">
@@ -296,13 +245,13 @@ function CompactProjectCard({ project }: { project: ProjectCard }) {
   return (
     <article className="group flex h-full flex-col overflow-hidden rounded-2xl border border-[#E8E8E8] bg-white shadow-[0_16px_48px_-36px_rgba(0,0,0,0.45)] transition-transform duration-300 hover:-translate-y-1">
       <Link href={project.href} className="flex min-h-0 flex-1 flex-col">
-        <div className="relative aspect-[4/3] overflow-hidden bg-[#F3F3F3]">
+        <div className="relative aspect-[16/9] overflow-hidden bg-[#F3F3F3]">
           <MediaImage
             src={project.image}
             alt={project.title}
             fill
-            className="object-cover transition-transform duration-500 group-hover:scale-[1.03]"
-            sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+            className="object-cover object-center transition-transform duration-500 group-hover:scale-[1.02]"
+            sizes="(max-width: 768px) 100vw, 50vw"
           />
         </div>
         <div className="flex flex-1 flex-col p-5 pb-3 md:p-6 md:pb-3">
@@ -410,11 +359,11 @@ export default function HomePage() {
         <FeaturedWorkCard project={featuredCase} />
 
         <div className="border-t border-[#E8E8E8] py-14 md:py-20">
-          <div className="mx-auto w-full max-w-[1180px] px-4 sm:px-6 md:px-8 lg:px-10">
+          <div className="mx-auto w-full max-w-[1400px] px-4 sm:px-6 md:px-8 lg:px-10">
             <p className="mb-8 font-mono text-xs font-medium uppercase tracking-[0.14em] text-[#888]">
               More Projects
             </p>
-            <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:gap-8">
+            <div className="grid grid-cols-1 gap-6 md:grid-cols-2 md:gap-8 lg:gap-10">
               {projectCards.map((project) => (
                 <CompactProjectCard key={project.id} project={project} />
               ))}
