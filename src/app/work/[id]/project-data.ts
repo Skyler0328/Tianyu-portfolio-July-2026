@@ -282,7 +282,7 @@ export const MOCK_PROJECTS: Record<string, ProjectData> = {
     content: [
       {
         type: 'image',
-        src: '/work/hero-image.png',
+        src: '/work/hero-image.jpg',
         alt: 'GitHub Copilot for IDEs hero',
         layout: 'full',
         width: 3968,
@@ -409,7 +409,7 @@ export const MOCK_PROJECTS: Record<string, ProjectData> = {
             description:
               'How developers collaborate with GitHub Copilot across a coding task — from understanding goal and context through plan, implement, test, iterate, and ship — with retry and rollback paths when things go wrong.',
             diagram: {
-              src: '/work/ai-coding-flow.png',
+              src: '/work/ai-coding-flow.webp',
               alt: 'AI coding flow diagram for GitHub Copilot',
               width: 680,
               height: 680,
@@ -452,7 +452,7 @@ export const MOCK_PROJECTS: Record<string, ProjectData> = {
                 title: 'Thinking Process',
                 variant: 'composite',
                 image: {
-                  src: '/work/thinking-process.png',
+                  src: '/work/thinking-process.jpg',
                   alt: 'Thinking process states: running, finished, and expand on click',
                   cardBg: '#CCE2E0',
                   width: 6534,
@@ -476,7 +476,7 @@ export const MOCK_PROJECTS: Record<string, ProjectData> = {
                 title: 'Context Understanding + Awareness',
                 variant: 'split',
                 image: {
-                  src: '/work/context-understanding.png',
+                  src: '/work/context-understanding.jpg',
                   alt: 'Context understanding before and after: compact multi-file context in chat',
                   cardBg: '#CCE2E0',
                   width: 4164,
@@ -498,7 +498,7 @@ export const MOCK_PROJECTS: Record<string, ProjectData> = {
                   variant: 'stack',
                   images: [
                     {
-                      src: '/work/users-pain-point.png',
+                      src: '/work/users-pain-point.jpg',
                       alt: "User pain points from research interviews",
                       cardBg: '#1A1A1A',
                       width: 3300,
@@ -521,7 +521,7 @@ export const MOCK_PROJECTS: Record<string, ProjectData> = {
         description:
           'Traditional software workflows are largely linear, but AI coding is full of uncertainty. The agent may fail, need to retry, or roll back — so the experience has to give developers more control. AI accelerates coding, but it also amplifies uncertainty.',
         diagram: {
-          src: '/work/agent-ux-flow.png',
+          src: '/work/agent-ux-flow.jpg',
           alt: 'Agent UX flow diagram for failure, retry, and human control paths',
           width: 6144,
           height: 2808,
@@ -545,14 +545,14 @@ export const MOCK_PROJECTS: Record<string, ProjectData> = {
             variant: 'stack',
             images: [
               {
-                src: '/work/error.png?v=2',
+                src: '/work/error.webp',
                 alt: 'Error handling experience in AI coding workflows',
                 cardBg: '#F3F3F3',
                 width: 2200,
                 height: 1164,
               },
               {
-                src: '/work/rollback-retry.png',
+                src: '/work/rollback-retry.webp',
                 alt: 'Rollback and retry controls for AI coding workflows',
                 cardBg: '#F3F3F3',
                 width: 2200,
@@ -570,7 +570,7 @@ export const MOCK_PROJECTS: Record<string, ProjectData> = {
           {
             title: 'Cost Transparency',
             diagram: {
-              src: '/work/cost-token-billing-ux-flow.png',
+              src: '/work/cost-token-billing-ux-flow.webp',
               alt: 'Cost changed to token-based billing UX flow diagram',
               width: 2578,
               height: 1630,
@@ -586,28 +586,28 @@ export const MOCK_PROJECTS: Record<string, ProjectData> = {
                 },
                 images: [
                   {
-                    src: '/work/tbb-flow.png',
+                    src: '/work/tbb-flow.jpg',
                     alt: 'Token-based billing flow for cost transparency',
                     cardBg: '#F3F3F3',
                     width: 4976,
                     height: 2128,
                   },
                   {
-                    src: '/work/token-saving-tips.png',
+                    src: '/work/token-saving-tips.jpg',
                     alt: 'Token saving tips for managing Copilot usage cost',
                     cardBg: '#F3F3F3',
                     width: 5686,
                     height: 2106,
                   },
                   {
-                    src: '/work/tbb-notifications.png',
+                    src: '/work/tbb-notifications.jpg',
                     alt: 'Token-based billing notifications and usage alerts',
                     cardBg: '#F3F3F3',
                     width: 5686,
                     height: 4088,
                   },
                   {
-                    src: '/work/indicator-explore.png',
+                    src: '/work/indicator-explore.jpg',
                     alt: 'Usage indicator design exploration and in-product mockup',
                     cardBg: '#F7F8F8',
                     width: 1100,
@@ -650,21 +650,21 @@ export const MOCK_PROJECTS: Record<string, ProjectData> = {
                 },
                 images: [
                   {
-                    src: '/work/nes-delete.png',
+                    src: '/work/nes-delete.jpg',
                     alt: 'Delete',
                     cardBg: '#1B1B1B',
                     width: 2474,
                     height: 1314,
                   },
                   {
-                    src: '/work/nes-multiple-line.png',
+                    src: '/work/nes-multiple-line.jpg',
                     alt: 'Replace',
                     cardBg: '#1B1B1B',
                     width: 2508,
                     height: 1328,
                   },
                   {
-                    src: '/work/nes-add.png',
+                    src: '/work/nes-add.jpg',
                     alt: 'Add',
                     cardBg: '#1B1B1B',
                     width: 2508,
@@ -677,14 +677,14 @@ export const MOCK_PROJECTS: Record<string, ProjectData> = {
                 matchHeight: true,
                 images: [
                   {
-                    src: '/work/nes-color-contrast.png?v=2',
+                    src: '/work/nes-color-contrast.webp',
                     alt: 'NES color contrast exploration',
                     cardBg: '#F3F3F3',
                     width: 1560,
                     height: 2184,
                   },
                   {
-                    src: '/work/nes-components.png',
+                    src: '/work/nes-components.jpg',
                     alt: 'NES component states and variants',
                     cardBg: '#F3F3F3',
                     width: 2476,
@@ -703,14 +703,14 @@ export const MOCK_PROJECTS: Record<string, ProjectData> = {
                 variant: 'stack',
                 images: [
                   {
-                    src: '/work/byok.png',
+                    src: '/work/byok.jpg',
                     alt: 'Bring Your Own Key model management in Copilot',
                     cardBg: '#F3F3F3',
                     width: 5686,
                     height: 2040,
                   },
                   {
-                    src: '/work/custom-endpoint.png',
+                    src: '/work/custom-endpoint.jpg',
                     alt: 'Custom endpoint configuration for BYOK models',
                     cardBg: '#F3F3F3',
                     width: 2843,
@@ -731,14 +731,14 @@ export const MOCK_PROJECTS: Record<string, ProjectData> = {
             variant: 'stack',
             images: [
               {
-                src: '/work/eclipse-icons.png',
+                src: '/work/eclipse-icons.webp',
                 alt: 'Eclipse Copilot icon system',
                 cardBg: '#D9D9D9',
-                width: 3300,
-                height: 1746,
+                width: 2400,
+                height: 1270,
               },
               {
-                src: '/work/eclipse-ui-levelup.png',
+                src: '/work/eclipse-ui-levelup.jpg',
                 alt: 'Eclipse Copilot UI level-up screens',
                 cardBg: '#E1EAE9',
                 width: 2200,
@@ -757,7 +757,7 @@ export const MOCK_PROJECTS: Record<string, ProjectData> = {
             borderless: true,
             images: [
               {
-                src: '/work/quick-start-flow.png?v=2',
+                src: '/work/quick-start-flow.webp',
                 alt: 'Eclipse Copilot Quick Start onboarding flow',
                 cardBg: 'transparent',
                 width: 6355,
@@ -846,7 +846,7 @@ export const MOCK_PROJECTS: Record<string, ProjectData> = {
             matchHeight: true,
             images: [
               {
-                src: '/work/eclipse-poster.png',
+                src: '/work/eclipse-poster.jpg',
                 alt: 'Eclipse Copilot visual poster',
                 cardBg: '#0C022F',
                 width: 2560,
@@ -924,7 +924,7 @@ export const MOCK_PROJECTS: Record<string, ProjectData> = {
                 height: 3672,
               },
               {
-                src: '/work/raymics-cloud-usability.png',
+                src: '/work/raymics-cloud-usability.webp',
                 alt: 'Usability test process, tasks, and affinity mapping',
                 cardBg: '#F7F8FA',
                 width: 3840,
@@ -951,7 +951,7 @@ export const MOCK_PROJECTS: Record<string, ProjectData> = {
             variant: 'stack',
             images: [
               {
-                src: '/work/raymics-cloud-strategy.png',
+                src: '/work/raymics-cloud-strategy.webp',
                 alt: 'Design strategy across onboarding, ease of use, payment, and new features',
                 cardBg: '#F3F5F8',
                 width: 3840,
@@ -1033,7 +1033,7 @@ export const MOCK_PROJECTS: Record<string, ProjectData> = {
             variant: 'stack',
             images: [
               {
-                src: '/work/raymics-enterprise-stakeholders.png',
+                src: '/work/raymics-enterprise-stakeholders.webp',
                 alt: 'Complex stakeholder system across on-prem, Fusion nodes, and permissions',
                 cardBg: '#FFFFFF',
                 width: 3840,
@@ -1344,7 +1344,7 @@ export const MOCK_PROJECTS: Record<string, ProjectData> = {
             variant: 'stack',
             images: [
               {
-                src: '/work/daily-more-applications.png',
+                src: '/work/daily-more-applications.webp',
                 alt: 'Logo applied on cups, food, neon, and restaurant interior',
                 cardBg: '#FFFFFF',
                 width: 2400,

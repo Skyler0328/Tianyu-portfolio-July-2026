@@ -124,7 +124,13 @@ function ImageCard({
   );
 }
 
-function ProjectImage({ block }: { block: ProjectImageBlock }) {
+function ProjectImage({
+  block,
+  priority = false,
+}: {
+  block: ProjectImageBlock;
+  priority?: boolean;
+}) {
   return (
     <ImageCard className={block.layout === 'centered' ? 'mx-auto max-w-3xl' : ''}>
       <div className="overflow-hidden bg-[#F3F3F3]">
@@ -135,6 +141,7 @@ function ProjectImage({ block }: { block: ProjectImageBlock }) {
           height={block.height ?? 900}
           className="h-auto w-full object-cover"
           sizes="(max-width: 768px) 100vw, 1180px"
+          priority={priority}
         />
       </div>
     </ImageCard>
@@ -1259,6 +1266,10 @@ export function WorkProjectView({ project }: { project: ProjectData }) {
         ) : null}
         {project.content.map((item, index) => {
           const key = `${project.id}-${index}-${item.type}`;
+          const isLcpImage =
+            item.type === 'image' &&
+            project.content.findIndex((entry) => entry.type === 'image') ===
+              index;
 
           if (item.type === 'text') {
             return (
@@ -1306,6 +1317,15 @@ export function WorkProjectView({ project }: { project: ProjectData }) {
               >
                 <ProjectFindings block={item} />
               </motion.section>
+            );
+          }
+
+          // LCP hero: no fade-in delay; preload with priority.
+          if (isLcpImage) {
+            return (
+              <section key={key} className={pageRail}>
+                <ProjectImage block={item} priority />
+              </section>
             );
           }
 
