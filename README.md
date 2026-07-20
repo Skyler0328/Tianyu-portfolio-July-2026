@@ -1,6 +1,6 @@
 # Tianyu-portfolio-July-2026
 
-First version of my online portfolio — Product Designer focused on human-AI interaction.
+First time vibe coding project & my first online portfolio. Celebrate!
 
 ## Getting Started
 
