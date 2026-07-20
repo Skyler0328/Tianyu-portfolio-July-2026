@@ -154,8 +154,8 @@ export type ProjectChallengeMediaGroup =
       variant: 'grid';
       images: ProjectChallengeImage[];
       /**
-       * For 2-up rows: put both images in one card and match heights
-       * (later image drives row height; earlier ones scale to fit).
+       * For 2+ images: put all in one card with equal gaps.
+       * Portrait rows keep a shared visual height via max-height.
        */
       matchHeight?: boolean;
       /** Constrain the row to a narrower max width (smaller presentation). */
@@ -301,11 +301,11 @@ export const MOCK_PROJECTS: Record<string, ProjectData> = {
     content: [
       {
         type: 'image',
-        src: '/work/hero-image.jpg',
+        src: '/work/hero-image.png?v=3',
         alt: 'GitHub Copilot for IDEs hero',
         layout: 'full',
-        width: 3968,
-        height: 2518,
+        width: 2644,
+        height: 1434,
       },
       {
         type: 'section',
@@ -445,11 +445,11 @@ export const MOCK_PROJECTS: Record<string, ProjectData> = {
                 title: 'Context Understanding + Awareness',
                 variant: 'split',
                 image: {
-                  src: '/work/context-understanding.jpg',
+                  src: '/work/context-understanding.png',
                   alt: 'Context understanding before and after: compact multi-file context in chat',
                   cardBg: '#CCE2E0',
-                  width: 4164,
-                  height: 3456,
+                  width: 2776,
+                  height: 2304,
                 },
                 video: {
                   src: '/work/record-context-window.mp4',
@@ -467,11 +467,11 @@ export const MOCK_PROJECTS: Record<string, ProjectData> = {
                   variant: 'stack',
                   images: [
                     {
-                      src: '/work/users-pain-point.jpg',
+                      src: '/work/users-pain-point.png',
                       alt: "User pain points from research interviews",
                       cardBg: '#1A1A1A',
-                      width: 3300,
-                      height: 2367,
+                      width: 2200,
+                      height: 1112,
                     },
                   ],
                 },
@@ -576,11 +576,11 @@ export const MOCK_PROJECTS: Record<string, ProjectData> = {
                     height: 4088,
                   },
                   {
-                    src: '/work/indicator-explore.jpg',
+                    src: '/work/indicator-explore.png',
                     alt: 'Usage indicator design exploration and in-product mockup',
                     cardBg: '#F7F8F8',
-                    width: 1100,
-                    height: 582,
+                    width: 2200,
+                    height: 1164,
                   },
                 ],
                 sharedCard: true,
@@ -707,10 +707,10 @@ export const MOCK_PROJECTS: Record<string, ProjectData> = {
                 height: 1270,
               },
               {
-                src: '/work/eclipse-ui-levelup.jpg',
+                src: '/work/eclipse-ui-levelup.png',
                 alt: 'Eclipse Copilot UI level-up screens',
                 cardBg: '#E1EAE9',
-                width: 2200,
+                width: 2070,
                 height: 1164,
               },
             ],
@@ -1128,6 +1128,13 @@ export const MOCK_PROJECTS: Record<string, ProjectData> = {
                 width: 2400,
                 height: 1350,
               },
+              {
+                src: '/work/rou-water-p08.png',
+                alt: 'Product positioning: customization, share desire, brand, and scalable app screens',
+                cardBg: '#F5F5F5',
+                width: 2400,
+                height: 1900,
+              },
             ],
           },
         ],
@@ -1179,6 +1186,26 @@ export const MOCK_PROJECTS: Record<string, ProjectData> = {
                 src: '/work/rou-water-customize.png',
                 alt: 'Customize, checkout, and purchase-success screens',
                 cardBg: '#F7F8FA',
+                width: 2400,
+                height: 1350,
+              },
+            ],
+          },
+        ],
+      },
+      {
+        type: 'section',
+        title: 'Visual system',
+        description:
+          'Blue as the primary brand color for water, with a bright green accent for CTAs and alerts — modern enough for younger users while keeping the interface calm and readable.',
+        mediaGroups: [
+          {
+            variant: 'stack',
+            images: [
+              {
+                src: '/work/rou-water-p16.png',
+                alt: 'Color system with brand blues, green accent, and bottle selection screen',
+                cardBg: '#FFFFFF',
                 width: 2400,
                 height: 1350,
               },
@@ -1284,18 +1311,27 @@ export const MOCK_PROJECTS: Record<string, ProjectData> = {
           {
             title: 'Seasonal & series posters',
             variant: 'grid',
+            matchHeight: true,
+            compact: true,
             images: [
               {
-                src: '/work/daily-more-thanksgiving.jpg',
+                src: '/work/daily-more-thanksgiving.png?v=2',
                 alt: 'Daily More Thanksgiving Day promotional poster with brand characters',
                 cardBg: '#F4E8D8',
                 width: 1282,
                 height: 1600,
               },
               {
-                src: '/work/daily-more-milk-tea-series.jpg',
+                src: '/work/daily-more-milk-tea-series.jpg?v=2',
                 alt: 'Daily More Milk Tea Series poster with caramel, ube, and taro drinks',
                 cardBg: '#3D4A2E',
+                width: 1035,
+                height: 1600,
+              },
+              {
+                src: '/work/daily-more-salted-cheese-series.jpg?v=1',
+                alt: 'Daily More Salted Cheese Milk Foam Series poster with peach oolong and double berry',
+                cardBg: '#E8A878',
                 width: 1035,
                 height: 1600,
               },

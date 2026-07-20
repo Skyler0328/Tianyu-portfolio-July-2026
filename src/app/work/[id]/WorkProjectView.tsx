@@ -324,56 +324,51 @@ function MatchedHeightImagePair({
 }: {
   group: Extract<ProjectChallengeMediaGroup, { variant: 'grid' }>;
 }) {
-  const [left, right] = group.images;
-  const leftBg = left.cardBg ?? '#F3F3F3';
-  const rightBg = right.cardBg ?? '#F3F3F3';
+  const images = group.images;
   const compact = Boolean(group.compact);
+  const cols =
+    images.length >= 3
+      ? 'md:grid-cols-3'
+      : 'md:grid-cols-2';
 
   return (
-    <div className={`space-y-4 ${compact ? 'mx-auto w-full max-w-3xl' : ''}`}>
+    <div className="w-full space-y-4">
       {group.title ? <h4 className={groupTitle}>{group.title}</h4> : null}
       <ImageCard
-        className={`w-full ${compact ? 'p-2 md:p-2.5' : 'p-3 md:p-4'}`}
+        className={`w-full ${compact ? 'p-2.5 md:p-3' : 'p-3 md:p-4'}`}
         style={{ backgroundColor: '#FFFFFF' }}
       >
         <div
-          className={`grid grid-cols-1 md:grid-cols-2 ${
-            compact ? 'gap-2 md:gap-2.5' : 'gap-3 md:gap-4'
+          className={`grid grid-cols-1 items-stretch ${cols} ${
+            compact ? 'gap-2.5 md:gap-3' : 'gap-3 md:gap-4'
           }`}
         >
-          {/* h-0 + min-h-full: don't drive row height; scale to match the right image */}
-          <div
-            className={`relative flex items-center justify-center overflow-hidden rounded-xl md:h-0 md:min-h-full ${
-              compact ? 'max-md:min-h-[180px]' : 'max-md:min-h-[280px]'
-            }`}
-            style={{ backgroundColor: leftBg }}
-          >
-            <MediaImage
-              src={left.src}
-              alt={left.alt}
-              width={left.width ?? 1600}
-              height={left.height ?? 900}
-              className={
-                compact
-                  ? 'max-h-[min(260px,55vw)] w-auto max-w-full object-contain md:h-full md:max-h-full'
-                  : 'max-h-[min(420px,70vw)] w-auto max-w-full object-contain md:h-full md:max-h-full'
-              }
-              sizes="(max-width: 768px) 100vw, 40vw"
-            />
-          </div>
-          <div
-            className="overflow-hidden rounded-xl"
-            style={{ backgroundColor: rightBg }}
-          >
-            <MediaImage
-              src={right.src}
-              alt={right.alt}
-              width={right.width ?? 1600}
-              height={right.height ?? 900}
-              className="h-auto w-full object-contain"
-              sizes="(max-width: 768px) 100vw, 50vw"
-            />
-          </div>
+          {images.map((image) => (
+            <div
+              key={image.src}
+              className={`flex min-h-0 items-center justify-center overflow-hidden rounded-xl ${
+                compact ? 'max-md:min-h-[160px]' : 'max-md:min-h-[240px]'
+              }`}
+              style={{ backgroundColor: image.cardBg ?? '#F3F3F3' }}
+            >
+              <MediaImage
+                src={image.src}
+                alt={image.alt}
+                width={image.width ?? 1600}
+                height={image.height ?? 900}
+                className={
+                  compact
+                    ? 'h-auto max-h-[min(280px,58vw)] w-full object-contain md:max-h-[340px]'
+                    : 'h-auto max-h-[min(480px,70vw)] w-full object-contain md:max-h-none'
+                }
+                sizes={
+                  images.length >= 3
+                    ? '(max-width: 768px) 100vw, 33vw'
+                    : '(max-width: 768px) 100vw, 50vw'
+                }
+              />
+            </div>
+          ))}
         </div>
       </ImageCard>
     </div>
@@ -864,7 +859,7 @@ function ChallengeMediaGroup({ group }: { group: ProjectChallengeMediaGroup }) {
   }
 
   if (group.variant === 'grid') {
-    if (group.matchHeight && group.images.length === 2) {
+    if (group.matchHeight && group.images.length >= 2) {
       return <MatchedHeightImagePair group={group} />;
     }
 

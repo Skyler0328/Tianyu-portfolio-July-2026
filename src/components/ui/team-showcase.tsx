@@ -19,12 +19,6 @@ const ITEMS: ShowcaseItem[] = [
     image: '/beyond/sketch-portrait.jpg',
   },
   {
-    id: 'personal',
-    name: 'Traveling',
-    role: 'Life outside the screen',
-    image: '/beyond/personal-aquarium.jpg',
-  },
-  {
     id: 'diving',
     name: 'Scuba Diving',
     role: 'Underwater exploration & stillness',
@@ -46,7 +40,7 @@ const ITEMS: ShowcaseItem[] = [
     id: 'brand',
     name: 'SIXSEEDS Festival',
     role: 'Bread Bank pop-up · +70% day sales',
-    image: '/beyond/sixseeds-festival.png',
+    image: '/beyond/sixseeds-festival.png?v=2',
   },
   {
     id: 'lemur',
@@ -62,26 +56,54 @@ const ITEMS: ShowcaseItem[] = [
   },
 ];
 
-const COLS = [
-  { offset: 'mt-0', size: 'h-[120px] w-[110px] sm:h-[140px] sm:w-[130px] md:h-[165px] md:w-[155px]' },
-  { offset: 'mt-[48px] sm:mt-[56px] md:mt-[68px]', size: 'h-[132px] w-[122px] sm:h-[155px] sm:w-[145px] md:h-[182px] md:w-[172px]' },
-  { offset: 'mt-[22px] sm:mt-[26px] md:mt-[32px]', size: 'h-[125px] w-[115px] sm:h-[146px] sm:w-[136px] md:h-[172px] md:w-[162px]' },
+/** Max 2 images per column; extra columns grow to the right. */
+const PER_COLUMN = 2;
+
+const COL_STYLES = [
+  {
+    offset: 'mt-0',
+    size: 'h-[120px] w-[110px] sm:h-[140px] sm:w-[130px] md:h-[165px] md:w-[155px]',
+  },
+  {
+    offset: 'mt-[48px] sm:mt-[56px] md:mt-[68px]',
+    size: 'h-[132px] w-[122px] sm:h-[155px] sm:w-[145px] md:h-[182px] md:w-[172px]',
+  },
+  {
+    offset: 'mt-[22px] sm:mt-[26px] md:mt-[32px]',
+    size: 'h-[125px] w-[115px] sm:h-[146px] sm:w-[136px] md:h-[172px] md:w-[162px]',
+  },
+  {
+    offset: 'mt-[36px] sm:mt-[42px] md:mt-[52px]',
+    size: 'h-[120px] w-[110px] sm:h-[140px] sm:w-[130px] md:h-[165px] md:w-[155px]',
+  },
 ] as const;
+
+function chunkItems<T>(items: T[], size: number): T[][] {
+  const columns: T[][] = [];
+  for (let i = 0; i < items.length; i += size) {
+    columns.push(items.slice(i, i + size));
+  }
+  return columns;
+}
 
 export default function TeamShowcase({ members = ITEMS }: { members?: ShowcaseItem[] }) {
   const [active, setActive] = useState<string | null>(null);
+  const columns = chunkItems(members, PER_COLUMN);
 
   return (
     <div
       className="mx-auto flex w-full max-w-5xl select-none flex-col items-start gap-8 md:flex-row md:gap-10 lg:gap-14"
       onMouseLeave={() => setActive(null)}
     >
-      <div className="flex shrink-0 gap-2 overflow-x-auto md:gap-3">
-        {COLS.map((col, colIndex) => (
-          <div key={colIndex} className={cn('flex flex-col gap-2 md:gap-3', col.offset)}>
-            {members
-              .filter((_, i) => i % 3 === colIndex)
-              .map((item) => {
+      <div className="flex shrink-0 gap-2 overflow-x-auto pb-1 md:gap-3">
+        {columns.map((column, colIndex) => {
+          const style = COL_STYLES[colIndex % COL_STYLES.length];
+          return (
+            <div
+              key={colIndex}
+              className={cn('flex flex-col gap-2 md:gap-3', style.offset)}
+            >
+              {column.map((item) => {
                 const on = active === item.id;
                 const dim = active !== null && !on;
                 return (
@@ -90,7 +112,7 @@ export default function TeamShowcase({ members = ITEMS }: { members?: ShowcaseIt
                     type="button"
                     className={cn(
                       'relative shrink-0 overflow-hidden rounded-xl p-0 transition-opacity duration-150',
-                      col.size,
+                      style.size,
                       dim ? 'opacity-50' : 'opacity-100',
                     )}
                     onMouseEnter={() => setActive(item.id)}
@@ -109,8 +131,9 @@ export default function TeamShowcase({ members = ITEMS }: { members?: ShowcaseIt
                   </button>
                 );
               })}
-          </div>
-        ))}
+            </div>
+          );
+        })}
       </div>
 
       <ul className="flex w-full flex-1 flex-col gap-4 sm:grid sm:grid-cols-2 md:flex md:flex-col md:gap-5">

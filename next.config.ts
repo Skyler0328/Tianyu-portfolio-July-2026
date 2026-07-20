@@ -8,6 +8,12 @@ const nextConfig: NextConfig = {
         hostname: "images.unsplash.com",
       },
     ],
+    // Omit `search` so cache-busting query strings (?v=…) are allowed.
+    localPatterns: [
+      {
+        pathname: "/**",
+      },
+    ],
   },
 };
 

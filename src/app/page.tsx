@@ -9,10 +9,15 @@ import {
   IconDownload,
   IconDownloadFilled,
   IconMailFilled,
+  IconCopy,
+  IconCheck,
 } from '@tabler/icons-react';
 import { MediaImage } from '@/components/ui/media-image';
 import TeamShowcase from '@/components/ui/team-showcase';
 import { PortraitHero } from '@/components/PortraitHero';
+import { useEffect, useRef, useState } from 'react';
+
+const CONTACT_EMAIL = 'wutianyu156@gmail.com';
 
 const easeOut = [0.22, 1, 0.36, 1] as const;
 
@@ -57,7 +62,7 @@ const featuredCase: FeaturedCase = {
     'Designed GitHub Copilot across Eclipse and IntelliJ, improving how developers collaborate with AI through intuitive interaction patterns, transparent feedback, and resilient workflows.',
   href: '/work/github-copilot',
   hero: {
-    src: '/work/copilot-home-hero.png',
+    src: '/work/copilot-home-hero.png?v=3',
     alt: 'GitHub Copilot for IDEs case study hero',
     width: 3210,
     height: 1434,
@@ -290,6 +295,105 @@ function CompactProjectCard({ project }: { project: ProjectCard }) {
   );
 }
 
+function EmailContactButton() {
+  const [open, setOpen] = useState(false);
+  const [copied, setCopied] = useState(false);
+  const rootRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (!open) return;
+
+    const onPointerDown = (event: PointerEvent) => {
+      if (!rootRef.current?.contains(event.target as Node)) {
+        setOpen(false);
+      }
+    };
+    const onKeyDown = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') setOpen(false);
+    };
+
+    document.addEventListener('pointerdown', onPointerDown);
+    document.addEventListener('keydown', onKeyDown);
+    return () => {
+      document.removeEventListener('pointerdown', onPointerDown);
+      document.removeEventListener('keydown', onKeyDown);
+    };
+  }, [open]);
+
+  useEffect(() => {
+    if (!copied) return;
+    const timer = window.setTimeout(() => setCopied(false), 1800);
+    return () => window.clearTimeout(timer);
+  }, [copied]);
+
+  const copyEmail = async () => {
+    try {
+      await navigator.clipboard.writeText(CONTACT_EMAIL);
+      setCopied(true);
+    } catch {
+      // Fallback for older browsers / denied clipboard
+      const input = document.createElement('input');
+      input.value = CONTACT_EMAIL;
+      document.body.appendChild(input);
+      input.select();
+      document.execCommand('copy');
+      document.body.removeChild(input);
+      setCopied(true);
+    }
+  };
+
+  return (
+    <div ref={rootRef} className="relative">
+      <button
+        type="button"
+        onClick={() => setOpen((value) => !value)}
+        aria-expanded={open}
+        aria-haspopup="dialog"
+        className="inline-flex items-center gap-2 text-sm font-medium text-[#111] transition-opacity hover:opacity-60"
+      >
+        <IconMailFilled className="h-5 w-5" aria-hidden />
+        Email
+      </button>
+
+      {open ? (
+        <div
+          role="dialog"
+          aria-label="Email address"
+          className="absolute bottom-[calc(100%+12px)] left-1/2 z-20 w-[min(18.5rem,calc(100vw-2rem))] -translate-x-1/2 rounded-2xl border border-[#E8E8E8] bg-white p-4 shadow-[0_16px_40px_-24px_rgba(0,0,0,0.35)]"
+        >
+          <p className="font-mono text-[10px] font-medium uppercase tracking-[0.14em] text-[#888]">
+            Email
+          </p>
+          <div className="mt-2 flex items-center gap-2">
+            <p className="min-w-0 flex-1 break-all text-sm font-medium tracking-[-0.01em] text-[#111]">
+              {CONTACT_EMAIL}
+            </p>
+            <button
+              type="button"
+              onClick={copyEmail}
+              aria-label={copied ? 'Copied' : 'Copy email'}
+              title={copied ? 'Copied' : 'Copy'}
+              className="inline-flex shrink-0 items-center gap-1 text-xs font-medium text-[#888] transition-colors hover:text-[#111]"
+            >
+              {copied ? (
+                <>
+                  <IconCheck className="h-3.5 w-3.5 text-[#0D7C6F]" stroke={1.8} aria-hidden />
+                  <span className="text-[#0D7C6F]">Copied</span>
+                </>
+              ) : (
+                <>
+                  <IconCopy className="h-3.5 w-3.5" stroke={1.8} aria-hidden />
+                  <span>Copy</span>
+                </>
+              )}
+            </button>
+          </div>
+        </div>
+      ) : null}
+    </div>
+  );
+}
+
 export default function HomePage() {
   return (
     <motion.main
@@ -336,9 +440,10 @@ export default function HomePage() {
             </h1>
             <div className="mt-8 max-w-3xl space-y-6 text-lg leading-relaxed text-[#555] md:text-xl md:leading-relaxed">
               <p>
-                I&apos;m a Product Designer with 4+ years experience. My work
-                focuses on human-AI interaction, intelligent workflows, and
-                AI-native experiences for complex systems.
+                I&apos;m a Product Designer with 4+ years of experience. My work
+                spans UX, UI, and visual design, with a focus on human–AI
+                interaction, intelligent workflows, and AI-native experiences
+                for complex systems.
               </p>
               <p>
                 I enjoy turning complex ideas into products people can
@@ -416,13 +521,7 @@ export default function HomePage() {
               <IconBrandLinkedinFilled className="h-5 w-5" aria-hidden />
               LinkedIn
             </a>
-            <a
-              href="mailto:wutianyu156@gmail.com"
-              className="inline-flex items-center gap-2 text-sm font-medium text-[#111] transition-opacity hover:opacity-60"
-            >
-              <IconMailFilled className="h-5 w-5" aria-hidden />
-              Email
-            </a>
+            <EmailContactButton />
             <a
               href="/resume.pdf"
               download="Tianyu-Wu-Resume.pdf"
