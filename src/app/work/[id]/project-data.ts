@@ -30,6 +30,8 @@ export type ProjectPlaceholderBlock = {
 export type ProjectMetricStat = {
   value: string;
   label: string;
+  /** Optional secondary line under the value (e.g. platform names). */
+  detail?: string;
   /** Visual emphasis for growth / decline figures. */
   tone?: 'positive' | 'negative' | 'neutral';
 };
@@ -40,16 +42,33 @@ export type ProjectMetricSeries = {
   color: string;
 };
 
-export type ProjectMetricChart = {
+export type ProjectMetricLineChart = {
+  type?: 'line';
   title: string;
   caption?: string;
   categories: string[];
   series: ProjectMetricSeries[];
-  /** Start Y at 0 (absolute MAU). Default false = fit data range. */
+  /** Start Y at 0. Default false = fit data range. */
   beginAtZero?: boolean;
   /** How Y-axis tick labels are formatted. */
   valueFormat?: 'compact' | 'index';
 };
+
+export type ProjectMetricShareSlice = {
+  name: string;
+  /** Share of 100 (percent). */
+  value: number;
+  color: string;
+};
+
+export type ProjectMetricShareChart = {
+  type: 'share';
+  title: string;
+  caption?: string;
+  slices: ProjectMetricShareSlice[];
+};
+
+export type ProjectMetricChart = ProjectMetricLineChart | ProjectMetricShareChart;
 
 export type ProjectItemMetrics = {
   stats: ProjectMetricStat[];
@@ -301,107 +320,57 @@ export const MOCK_PROJECTS: Record<string, ProjectData> = {
             metrics: {
               stats: [
                 {
-                  value: '1.41M',
-                  label: 'IntelliJ · Jul 2026',
+                  value: '20M+',
+                  label: 'GitHub Copilot users worldwide',
                 },
                 {
-                  value: '+12.8%',
-                  label: 'IntelliJ · 13-mo change',
-                  tone: 'positive',
+                  value: '90%',
+                  label: 'Fortune 100 adoption',
                 },
                 {
-                  value: '79.1K',
-                  label: 'Eclipse · Jul 2026',
-                },
-                {
-                  value: '+177.5%',
-                  label: 'Eclipse · 13-mo change',
-                  tone: 'positive',
+                  value: 'Cross-platform',
+                  label: 'Supported IDEs',
+                  detail: 'VS Code · IntelliJ · Visual Studio · Xcode · Eclipse',
                 },
               ],
               charts: [
                 {
-                  title: 'MAU trend',
-                  caption: 'Monthly active users · Jul 2025 – Jul 2026',
+                  type: 'line',
+                  title: 'Copilot user scale',
+                  caption:
+                    'Cumulative all-time users · public Microsoft / GitHub milestones',
                   categories: [
-                    '2025-07',
-                    '2025-08',
-                    '2025-09',
-                    '2025-10',
-                    '2025-11',
-                    '2025-12',
-                    '2026-01',
-                    '2026-02',
-                    '2026-03',
-                    '2026-04',
-                    '2026-05',
-                    '2026-06',
-                    '2026-07',
+                    'Dec 2022',
+                    'Early 2024',
+                    'Apr 2025',
+                    'Jul 2025',
                   ],
                   beginAtZero: true,
                   valueFormat: 'compact',
                   series: [
                     {
-                      name: 'IntelliJ',
-                      color: '#3B82F6',
-                      data: [
-                        1_250_000, 1_350_000, 1_450_000, 1_522_417, 1_548_000,
-                        1_565_000, 1_558_000, 1_545_000, 1_525_000, 1_505_000,
-                        1_488_000, 1_469_800, 1_410_000,
-                      ],
-                    },
-                    {
-                      name: 'Eclipse',
+                      name: 'All-time users',
                       color: '#0D7C6F',
-                      data: [
-                        28_500, 34_000, 40_500, 46_464, 51_200, 56_000, 60_800,
-                        65_200, 69_400, 73_000, 76_000, 78_741, 79_080,
-                      ],
+                      data: [1_000_000, 3_750_000, 15_000_000, 20_000_000],
                     },
                   ],
                 },
                 {
-                  title: 'Indexed growth',
-                  caption: 'Relative change · Jul 2025 = 100',
-                  categories: [
-                    '2025-07',
-                    '2025-08',
-                    '2025-09',
-                    '2025-10',
-                    '2025-11',
-                    '2025-12',
-                    '2026-01',
-                    '2026-02',
-                    '2026-03',
-                    '2026-04',
-                    '2026-05',
-                    '2026-06',
-                    '2026-07',
-                  ],
-                  beginAtZero: false,
-                  valueFormat: 'index',
-                  series: [
-                    {
-                      name: 'IntelliJ',
-                      color: '#3B82F6',
-                      data: [
-                        100, 108, 116, 121.8, 123.8, 125.2, 124.6, 123.6, 122,
-                        120.4, 119, 117.6, 112.8,
-                      ],
-                    },
-                    {
-                      name: 'Eclipse',
-                      color: '#0D7C6F',
-                      data: [
-                        100, 119.3, 142.1, 163, 179.6, 196.5, 213.3, 228.8,
-                        243.5, 256.1, 266.7, 276.3, 277.5,
-                      ],
-                    },
+                  type: 'share',
+                  title: 'IDE footprint among Copilot platforms',
+                  caption:
+                    'Relative share of Stack Overflow 2025 IDE usage among Copilot-supported editors (normalized). Official Copilot MAU by IDE is not published.',
+                  slices: [
+                    { name: 'VS Code', value: 51, color: '#0D7C6F' },
+                    { name: 'Visual Studio', value: 19, color: '#3B82F6' },
+                    { name: 'IntelliJ', value: 18, color: '#6366F1' },
+                    { name: 'Xcode', value: 7, color: '#94A3B8' },
+                    { name: 'Eclipse', value: 5, color: '#CBD5E1' },
                   ],
                 },
               ],
               footnote:
-                'Anchored to Oct 2025 plugin MAU and Jul 2026 Usage Numbers; intervening months interpolated with public Copilot growth context.',
+                'Sources: Microsoft earnings / TechCrunch (20M+ all-time users, Jul 2025; 90% Fortune 100); GitHub public milestones (1M Dec 2022, 15M Apr 2025). IDE bars use Stack Overflow Developer Survey 2025 usage among Copilot-supported IDEs, normalized to 100% — a public proxy for relative footprint, not internal plugin MAU.',
             },
           },
           {

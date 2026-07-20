@@ -2,10 +2,10 @@
 
 import { useState, type PointerEvent } from 'react';
 
-import type { ProjectMetricChart } from '@/app/work/[id]/project-data';
+import type { ProjectMetricLineChart } from '@/app/work/[id]/project-data';
 
 type LineTrendChartProps = {
-  chart: ProjectMetricChart;
+  chart: ProjectMetricLineChart;
   className?: string;
 };
 

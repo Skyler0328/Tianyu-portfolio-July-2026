@@ -2,6 +2,7 @@
 
 import type { ProjectItemMetrics } from '@/app/work/[id]/project-data';
 import { LineTrendChart } from '@/components/work/LineTrendChart';
+import { ShareBarChart } from '@/components/work/ShareBarChart';
 
 const toneClass: Record<
   NonNullable<ProjectItemMetrics['stats'][number]['tone']>,
@@ -28,6 +29,11 @@ export function SectionItemMetrics({ metrics }: { metrics: ProjectItemMetrics })
             >
               {stat.value}
             </dd>
+            {stat.detail ? (
+              <p className="mt-2 text-xs leading-relaxed text-[#666] md:text-sm">
+                {stat.detail}
+              </p>
+            ) : null}
           </div>
         ))}
       </dl>
@@ -38,7 +44,11 @@ export function SectionItemMetrics({ metrics }: { metrics: ProjectItemMetrics })
             key={chart.title}
             className="rounded-2xl border border-[#E8E8E8] bg-white px-4 py-4 shadow-[0_12px_40px_-28px_rgba(0,0,0,0.35)] md:px-5 md:py-5"
           >
-            <LineTrendChart chart={chart} />
+            {chart.type === 'share' ? (
+              <ShareBarChart chart={chart} />
+            ) : (
+              <LineTrendChart chart={chart} />
+            )}
           </div>
         ))}
       </div>
