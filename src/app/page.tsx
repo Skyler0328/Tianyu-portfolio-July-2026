@@ -88,7 +88,7 @@ const projectCards: ProjectCard[] = [
     description:
       'Extending the SaaS design system to hospital deployment and multi-institution AI.',
     href: '/work/raymics-enterprise',
-    image: '/work/raymics-enterprise-cover.png',
+    image: '/work/raymics-enterprise-cover.png?v=2',
   },
   {
     id: 'rou-water',
@@ -98,7 +98,7 @@ const projectCards: ProjectCard[] = [
     description:
       'Market-driven UX for custom bottled water — lower MOQ, DIY labels, and referral growth.',
     href: '/work/rou-water',
-    image: '/work/rou-water-cover.jpg',
+    image: '/work/rou-water-cover.jpg?v=2',
     videoUrl: 'https://vimeo.com/805996585',
   },
   {
@@ -343,15 +343,15 @@ function EmailContactButton() {
   };
 
   return (
-    <div ref={rootRef} className="relative">
+    <div ref={rootRef} className="relative inline-flex items-center">
       <button
         type="button"
         onClick={() => setOpen((value) => !value)}
         aria-expanded={open}
         aria-haspopup="dialog"
-        className="inline-flex items-center gap-2 text-sm font-medium text-[#111] transition-opacity hover:opacity-60"
+        className="inline-flex items-center gap-2 border-0 bg-transparent p-0 text-sm font-medium leading-none text-[#111] transition-opacity hover:opacity-60"
       >
-        <IconMailFilled className="h-5 w-5" aria-hidden />
+        <IconMailFilled className="h-5 w-5 shrink-0" aria-hidden />
         Email
       </button>
 
@@ -507,27 +507,27 @@ export default function HomePage() {
               href="https://github.com/Skyler0328"
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 text-sm font-medium text-[#111] transition-opacity hover:opacity-60"
+              className="inline-flex items-center gap-2 text-sm font-medium leading-none text-[#111] transition-opacity hover:opacity-60"
             >
-              <IconBrandGithubFilled className="h-5 w-5" aria-hidden />
+              <IconBrandGithubFilled className="h-5 w-5 shrink-0" aria-hidden />
               GitHub
             </a>
             <a
               href="https://www.linkedin.com/in/tianyuwu-adventure/"
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 text-sm font-medium text-[#111] transition-opacity hover:opacity-60"
+              className="inline-flex items-center gap-2 text-sm font-medium leading-none text-[#111] transition-opacity hover:opacity-60"
             >
-              <IconBrandLinkedinFilled className="h-5 w-5" aria-hidden />
+              <IconBrandLinkedinFilled className="h-5 w-5 shrink-0" aria-hidden />
               LinkedIn
             </a>
             <EmailContactButton />
             <a
               href="/resume.pdf"
               download="Tianyu-Wu-Resume.pdf"
-              className="inline-flex items-center gap-2 text-sm font-medium text-[#111] transition-opacity hover:opacity-60"
+              className="inline-flex items-center gap-2 text-sm font-medium leading-none text-[#111] transition-opacity hover:opacity-60"
             >
-              <IconDownloadFilled className="h-5 w-5" aria-hidden />
+              <IconDownloadFilled className="h-5 w-5 shrink-0" aria-hidden />
               Resume
             </a>
           </div>

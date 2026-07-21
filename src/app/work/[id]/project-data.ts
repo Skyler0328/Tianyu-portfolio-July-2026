@@ -850,11 +850,11 @@ export const MOCK_PROJECTS: Record<string, ProjectData> = {
     content: [
       {
         type: 'image',
-        src: '/work/raymics-cloud-hero.png',
+        src: '/work/raymics-cloud-p01.png',
         alt: 'Raymics Cloud medical AI SaaS hero on laptop and phone',
         layout: 'full',
-        width: 3840,
-        height: 2160,
+        width: 2304,
+        height: 1296,
       },
       {
         type: 'section',
@@ -866,11 +866,11 @@ export const MOCK_PROJECTS: Record<string, ProjectData> = {
             variant: 'stack',
             images: [
               {
-                src: '/work/raymics-cloud-ecosystem.png',
-                alt: 'Raymics product ecosystem, timeline, and stakeholder map',
+                src: '/work/raymics-cloud-p02.png',
+                alt: 'Project overview: business, role, timeline, and stakeholder map',
                 cardBg: '#F7F8FA',
-                width: 3840,
-                height: 2160,
+                width: 2304,
+                height: 1296,
               },
             ],
           },
@@ -886,25 +886,25 @@ export const MOCK_PROJECTS: Record<string, ProjectData> = {
             variant: 'stack',
             images: [
               {
-                src: '/work/raymics-cloud-research.png',
+                src: '/work/raymics-cloud-p03.png',
                 alt: 'Personas, journey maps, and post-launch funnel metrics',
                 cardBg: '#FFFFFF',
-                width: 3840,
-                height: 3672,
+                width: 2304,
+                height: 2204,
               },
               {
-                src: '/work/raymics-cloud-usability.webp',
-                alt: 'Usability test process, tasks, and affinity mapping',
+                src: '/work/raymics-cloud-p04.png',
+                alt: 'Usability test goals, tasks, synthesis, and stakeholder sync',
                 cardBg: '#F7F8FA',
-                width: 3840,
-                height: 2160,
+                width: 2304,
+                height: 1296,
               },
               {
-                src: '/work/raymics-cloud-findings.png',
+                src: '/work/raymics-cloud-p05.png',
                 alt: 'Usability test conclusions prioritized by severity',
                 cardBg: '#FFFFFF',
-                width: 3840,
-                height: 2160,
+                width: 2304,
+                height: 1296,
               },
             ],
           },
@@ -920,11 +920,11 @@ export const MOCK_PROJECTS: Record<string, ProjectData> = {
             variant: 'stack',
             images: [
               {
-                src: '/work/raymics-cloud-strategy.webp',
+                src: '/work/raymics-cloud-p06.png',
                 alt: 'Design strategy across onboarding, ease of use, payment, and new features',
                 cardBg: '#F3F5F8',
-                width: 3840,
-                height: 7394,
+                width: 2304,
+                height: 4437,
               },
             ],
           },
@@ -932,34 +932,206 @@ export const MOCK_PROJECTS: Record<string, ProjectData> = {
       },
       {
         type: 'section',
-        title: 'Ease of use & membership',
+        title: 'Onboarding',
         description:
-          'Horizontal navigation gave way to a vertical rail better suited to a multi-module tool, with critical membership and resource info brought above the fold. Membership cards use color and avatar frames to make Basic vs Premium and active / expired / not-purchased states scannable.',
+          'We shortened the first-run path and redesigned onboarding so new users reach an aha moment faster — with self-led tutorials and a clearer free-trial entry.',
         mediaGroups: [
           {
             variant: 'stack',
             images: [
               {
-                src: '/work/raymics-cloud-ease-nav.png',
-                alt: 'Before and after dashboard navigation and resource cards',
+                src: '/work/raymics-cloud-p07.png',
+                alt: 'Onboarding redesign: old flow versus first revised flow',
                 cardBg: '#FFFFFF',
-                width: 3840,
-                height: 2160,
+                width: 2304,
+                height: 2775,
               },
               {
-                src: '/work/raymics-cloud-membership.png',
-                alt: 'Membership system states: not purchased, active, and expired',
+                src: '/work/raymics-cloud-p08.png',
+                alt: 'New onboarding with aha moment, tutorials, and free trial',
                 cardBg: '#F7F8FA',
-                width: 3840,
-                height: 2160,
+                width: 2304,
+                height: 2457,
               },
             ],
           },
         ],
       },
       {
-        type: 'text',
-        body: 'Cloud became the design-language anchor for the rest of the Raymics suite — including hospital on-premises deployment and federated learning — so researchers could move between products without relearning the system.',
+        type: 'section',
+        title: 'Ease of use',
+        description:
+          'Horizontal navigation gave way to a vertical rail better suited to a multi-module tool. Membership cards, status cues, and in-app help made expert workflows easier to scan and recover from.',
+        mediaGroups: [
+          {
+            variant: 'stack',
+            images: [
+              {
+                src: '/work/raymics-cloud-p09.png',
+                alt: 'Ease of use: vertical navigation and dashboard layout redesign',
+                cardBg: '#FFFFFF',
+                width: 2304,
+                height: 1296,
+              },
+              {
+                src: '/work/raymics-cloud-p10.png',
+                alt: 'Membership system design with Basic vs Premium and status states',
+                cardBg: '#F7F8FA',
+                width: 2304,
+                height: 1296,
+              },
+              {
+                src: '/work/raymics-cloud-p11.png',
+                alt: 'Status cues, in-app help, and data visualization improvements',
+                cardBg: '#FFFFFF',
+                width: 2304,
+                height: 3100,
+              },
+            ],
+          },
+        ],
+      },
+      {
+        type: 'section',
+        title: 'Payment & membership',
+        description:
+          'We clarified pricing, shortened the purchase path, and redesigned payment cards so Basic, Premium, and Enterprise options were easier to compare and buy.',
+        mediaGroups: [
+          {
+            variant: 'stack',
+            images: [
+              {
+                src: '/work/raymics-cloud-p12.png',
+                alt: 'Payment optimization: pricing strategy and shorter purchase path',
+                cardBg: '#F7F8FA',
+                width: 2304,
+                height: 1520,
+              },
+              {
+                src: '/work/raymics-cloud-p13.png',
+                alt: 'Shortened payment path with fewer clicks and in-page login',
+                cardBg: '#FFFFFF',
+                width: 2304,
+                height: 1296,
+              },
+              {
+                src: '/work/raymics-cloud-p14.png',
+                alt: 'Competitive study of SaaS pricing and comparison pages',
+                cardBg: '#F7F8FA',
+                width: 2304,
+                height: 1296,
+              },
+              {
+                src: '/work/raymics-cloud-p15.png',
+                alt: 'Payment card redesign with membership tiers and benefits comparison',
+                cardBg: '#FFFFFF',
+                width: 2304,
+                height: 2474,
+              },
+            ],
+          },
+        ],
+      },
+      {
+        type: 'section',
+        title: 'New features',
+        description:
+          'Based on usability feedback, we added custom research charts and reports so users could prepare journal-ready visuals without leaving the product.',
+        mediaGroups: [
+          {
+            variant: 'stack',
+            images: [
+              {
+                src: '/work/raymics-cloud-p16.png',
+                alt: 'Custom research charts and reports feature for journals',
+                cardBg: '#F7F8FA',
+                width: 2304,
+                height: 1854,
+              },
+              {
+                src: '/work/raymics-cloud-p17.png',
+                alt: 'Custom report UI with chart editing and Excel export',
+                cardBg: '#FFFFFF',
+                width: 2304,
+                height: 1296,
+              },
+            ],
+          },
+        ],
+      },
+      {
+        type: 'section',
+        title: 'Cross-product & other surfaces',
+        description:
+          'We connected SaaS, the marketing site, and community surfaces, and shipped supporting pages plus H5 mobile flows so the experience stayed coherent across channels.',
+        mediaGroups: [
+          {
+            variant: 'stack',
+            images: [
+              {
+                src: '/work/raymics-cloud-p18.png',
+                alt: 'Cross-product navigation between SaaS, website, and community',
+                cardBg: '#F7F8FA',
+                width: 2304,
+                height: 1296,
+              },
+              {
+                src: '/work/raymics-cloud-p19.png',
+                alt: 'Other pages: trial, datasets, projects, and training report',
+                cardBg: '#FFFFFF',
+                width: 2304,
+                height: 1551,
+              },
+              {
+                src: '/work/raymics-cloud-p20.png',
+                alt: 'H5 mobile screens for payment, landing, community, and profile',
+                cardBg: '#F7F8FA',
+                width: 2304,
+                height: 1551,
+              },
+            ],
+          },
+        ],
+      },
+      {
+        type: 'section',
+        title: 'Design system',
+        description:
+          'Cloud became the design-language anchor for the rest of the Raymics suite — including hospital on-premises deployment and federated learning — so researchers could move between products without relearning the system.',
+        mediaGroups: [
+          {
+            variant: 'stack',
+            images: [
+              {
+                src: '/work/raymics-cloud-p21.png',
+                alt: 'UI kit and design guidelines for Raymics Cloud',
+                cardBg: '#FFFFFF',
+                width: 2304,
+                height: 1778,
+              },
+            ],
+          },
+        ],
+      },
+      {
+        type: 'section',
+        title: 'Results',
+        description:
+          'After optimization, retention, onboarding completion, and payment behavior moved in the right direction — and follow-up interviews confirmed we had addressed several of the problems users raised.',
+        mediaGroups: [
+          {
+            variant: 'stack',
+            images: [
+              {
+                src: '/work/raymics-cloud-p22.png',
+                alt: 'User behavior key results after the Cloud redesign',
+                cardBg: '#F3F5F8',
+                width: 2304,
+                height: 1296,
+              },
+            ],
+          },
+        ],
       },
     ],
   },
@@ -980,11 +1152,11 @@ export const MOCK_PROJECTS: Record<string, ProjectData> = {
     content: [
       {
         type: 'image',
-        src: '/work/raymics-enterprise-hero.png',
+        src: '/work/raymics-enterprise-p01.png',
         alt: 'Raymics Fusion on-premises and federated learning platform hero',
         layout: 'full',
-        width: 3840,
-        height: 2160,
+        width: 2304,
+        height: 1296,
       },
       {
         type: 'section',
@@ -1002,11 +1174,11 @@ export const MOCK_PROJECTS: Record<string, ProjectData> = {
             variant: 'stack',
             images: [
               {
-                src: '/work/raymics-enterprise-stakeholders.webp',
+                src: '/work/raymics-enterprise-p02.png',
                 alt: 'Complex stakeholder system across on-prem, Fusion nodes, and permissions',
                 cardBg: '#FFFFFF',
-                width: 3840,
-                height: 2160,
+                width: 2304,
+                height: 1296,
               },
             ],
           },
@@ -1022,18 +1194,32 @@ export const MOCK_PROJECTS: Record<string, ProjectData> = {
             variant: 'stack',
             images: [
               {
-                src: '/work/raymics-enterprise-ia.png',
-                alt: 'Information architecture wireframes and process flowchart',
+                src: '/work/raymics-enterprise-p03.png',
+                alt: 'Information architecture wireframes across five main navigation processes',
                 cardBg: '#F7F8FA',
-                width: 3840,
-                height: 2160,
+                width: 2304,
+                height: 1296,
               },
               {
-                src: '/work/raymics-enterprise-frontpage.png',
-                alt: 'On-premises front page with data warehouse, workflow, and training table',
+                src: '/work/raymics-enterprise-p04.png',
+                alt: 'On-premises front page with stats, usage flow, and quick entries',
                 cardBg: '#FFFFFF',
-                width: 3840,
-                height: 2160,
+                width: 2304,
+                height: 1296,
+              },
+              {
+                src: '/work/raymics-enterprise-p05.png',
+                alt: 'Role permissions page for apply, audit, and access management',
+                cardBg: '#F7F8FA',
+                width: 2304,
+                height: 1296,
+              },
+              {
+                src: '/work/raymics-enterprise-p06.png',
+                alt: 'AI model training UI from prep through aggregate results',
+                cardBg: '#FFFFFF',
+                width: 2304,
+                height: 1296,
               },
             ],
           },
@@ -1049,11 +1235,11 @@ export const MOCK_PROJECTS: Record<string, ProjectData> = {
             variant: 'stack',
             images: [
               {
-                src: '/work/raymics-enterprise-ds-reuse.png',
-                alt: 'Design system reuse across on-prem dashboard and federated learning batch flows',
+                src: '/work/raymics-enterprise-p07.png',
+                alt: 'Design system reuse and consistency across SaaS surfaces',
                 cardBg: '#F3F5F8',
-                width: 3840,
-                height: 3362,
+                width: 2304,
+                height: 2018,
               },
             ],
           },
@@ -1061,7 +1247,7 @@ export const MOCK_PROJECTS: Record<string, ProjectData> = {
       },
       {
         type: 'section',
-        title: 'Results',
+        title: 'On-prem & federated results',
         description:
           'Locally deployed products supported million-level hospital contracts. Batch processing improved operation efficiency and reduced errors. Reusing Cloud components shortened development.',
         mediaGroups: [
@@ -1069,11 +1255,148 @@ export const MOCK_PROJECTS: Record<string, ProjectData> = {
             variant: 'stack',
             images: [
               {
-                src: '/work/raymics-enterprise-results.png',
+                src: '/work/raymics-enterprise-p08.png',
                 alt: 'Feedback and key results for on-prem and federated products',
                 cardBg: '#FFFFFF',
-                width: 3840,
-                height: 2160,
+                width: 2304,
+                height: 1296,
+              },
+            ],
+          },
+        ],
+      },
+      {
+        type: 'section',
+        title: 'Supporting product lines',
+        description:
+          'Beyond on-prem and federated learning, the suite also needed coherent desktop tools, community, and website surfaces — so researchers could move between products without relearning the system.',
+        mediaGroups: [
+          {
+            variant: 'stack',
+            images: [
+              {
+                src: '/work/raymics-enterprise-p09.png',
+                alt: 'Supporting product lines hero for desktop tools, community, and website',
+                cardBg: '#F7F8FA',
+                width: 2304,
+                height: 1296,
+              },
+              {
+                src: '/work/raymics-enterprise-p10.png',
+                alt: 'Medical data processing tool overview: position, cores, and references',
+                cardBg: '#FFFFFF',
+                width: 2304,
+                height: 1296,
+              },
+              {
+                src: '/work/raymics-enterprise-p11.png',
+                alt: 'Build frames for navigation hierarchy and scalable dashboard layout',
+                cardBg: '#F7F8FA',
+                width: 2304,
+                height: 1296,
+              },
+              {
+                src: '/work/raymics-enterprise-p12.png',
+                alt: 'Landing page design comparing card versus table display',
+                cardBg: '#FFFFFF',
+                width: 2304,
+                height: 1296,
+              },
+              {
+                src: '/work/raymics-enterprise-p13.png',
+                alt: 'Prototype collage of dashboard, forms, and modules',
+                cardBg: '#F7F8FA',
+                width: 2304,
+                height: 1296,
+              },
+              {
+                src: '/work/raymics-enterprise-p14.png',
+                alt: 'Main process workflow from import through ROI, desensitize, and upload',
+                cardBg: '#FFFFFF',
+                width: 2304,
+                height: 1296,
+              },
+            ],
+          },
+        ],
+      },
+      {
+        type: 'section',
+        title: 'Medical community',
+        description:
+          'We designed a 0–1 medical community with a clear information architecture, consistent grids and navigation, and social interactions that connected back to the product suite.',
+        mediaGroups: [
+          {
+            variant: 'stack',
+            images: [
+              {
+                src: '/work/raymics-enterprise-p15.png',
+                alt: 'Medical community 0–1 information architecture',
+                cardBg: '#F7F8FA',
+                width: 2304,
+                height: 1296,
+              },
+              {
+                src: '/work/raymics-enterprise-p16.png',
+                alt: 'Community design detail with 3-column grid and consistent top nav',
+                cardBg: '#FFFFFF',
+                width: 2304,
+                height: 1296,
+              },
+              {
+                src: '/work/raymics-enterprise-p17.png',
+                alt: 'Community hover states, social actions, and cross-product switching',
+                cardBg: '#F7F8FA',
+                width: 2304,
+                height: 1296,
+              },
+              {
+                src: '/work/raymics-enterprise-p18.png',
+                alt: 'Editing, post, and save-draft process for community content',
+                cardBg: '#FFFFFF',
+                width: 2304,
+                height: 1296,
+              },
+              {
+                src: '/work/raymics-enterprise-p19.png',
+                alt: 'AI tool-assisted design workflow with Cursor, v0, and Claude',
+                cardBg: '#F3F5F8',
+                width: 2304,
+                height: 2952,
+              },
+              {
+                src: '/work/raymics-enterprise-p20.png',
+                alt: 'Launched community pages on desktop and mobile',
+                cardBg: '#FFFFFF',
+                width: 2304,
+                height: 1500,
+              },
+            ],
+          },
+        ],
+      },
+      {
+        type: 'section',
+        title: 'Official website',
+        description:
+          'The official site IA and launched pages — home, products, pricing, and mega-menu — presented the enterprise suite as one coherent brand story.',
+        mediaGroups: [
+          {
+            variant: 'stack',
+            images: [
+              {
+                src: '/work/raymics-enterprise-p21.png',
+                alt: 'Official website information architecture',
+                cardBg: '#F7F8FA',
+                width: 2304,
+                height: 1296,
+              },
+              {
+                src: '/work/raymics-enterprise-p22.png',
+                alt: 'Official website launched pages: home, products, pricing, and mega-menu',
+                cardBg: '#FFFFFF',
+                width: 2304,
+                height: 2028,
               },
             ],
           },

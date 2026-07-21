@@ -11,7 +11,7 @@ export function PortraitHero({
     <div className="mx-auto w-[220px] shrink-0 sm:w-[240px] md:mx-0 md:w-full md:justify-self-end">
       <div className="relative aspect-square w-full overflow-hidden rounded-[1.75rem] bg-[#EDEDED] md:rounded-[2rem]">
         <MediaImage
-          src={`${src}?v=4`}
+          src={`${src}?v=5`}
           alt={alt}
           fill
           priority
