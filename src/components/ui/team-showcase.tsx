@@ -31,6 +31,12 @@ const ITEMS: ShowcaseItem[] = [
     image: '/beyond/landscape-analysis.jpg',
   },
   {
+    id: 'spatial',
+    name: 'Spatial Thinking & Analysis',
+    role: 'Helped me understand how location shapes behavior',
+    image: '/beyond/spatial-analysis.png',
+  },
+  {
     id: 'graphic',
     name: 'Graphic Composition',
     role: 'Form, structure & visual systems',
