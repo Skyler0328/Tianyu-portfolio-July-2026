@@ -55,8 +55,8 @@ type ProjectCard = {
 const featuredCase: FeaturedCase = {
   id: 'github-copilot',
   company: 'Microsoft',
-  role: 'UX Designer, GitHub Copilot for IDEs',
-  period: 'May 2025 → Present',
+  role: 'Product Designer, GitHub Copilot for IDEs',
+  period: 'May 2025 → July 31, 2026',
   headline: 'Designing AI experiences for developers',
   description:
     'Designed GitHub Copilot across Eclipse and IntelliJ, improving how developers collaborate with AI through intuitive interaction patterns, transparent feedback, and resilient workflows.',
@@ -232,10 +232,11 @@ function RoleMarquees() {
       <MarqueeStrip
         items={[
           'GitHub Copilot',
+          'AI Products',
+          'Developer Tools',
           'SaaS',
-          'Vibe Coding Tool',
-          'Brand Design',
           'Web',
+          'Visual Design',
         ]}
         size="sm"
         separator
@@ -419,7 +420,7 @@ export default function HomePage() {
             </a>
             <a
               href="/resume.pdf"
-              download="Tianyu-Wu-Resume.pdf"
+              download="Tianyu_Product Design.pdf"
               className="inline-flex items-center gap-1.5 rounded-full border border-[#D8D8D8] px-3 py-1.5 font-medium text-[#111] transition-colors hover:border-[#111] hover:bg-white"
             >
               <IconDownload className="h-4 w-4" stroke={1.8} aria-hidden />
@@ -440,14 +441,12 @@ export default function HomePage() {
             </h1>
             <div className="mt-8 max-w-3xl space-y-6 text-lg leading-relaxed text-[#555] md:text-xl md:leading-relaxed">
               <p>
-                I&apos;m a Product Designer with 4+ years of experience. My work
-                spans UX, UI, and visual design, with a focus on human–AI
-                interaction, intelligent workflows, and AI-native experiences
-                for complex systems.
-              </p>
-              <p>
-                I enjoy turning complex ideas into products people can
-                understand, trust, and love to use.
+                I&apos;m a Product Designer with 4+ years of experience designing
+                AI-powered products, SaaS platforms, and complex digital
+                workflows. I bring 8 years of design experience across digital,
+                spatial, and visual disciplines, with a focus on human–AI
+                interaction and turning complex technology into clear,
+                trustworthy experiences.
               </p>
             </div>
           </div>
@@ -524,7 +523,7 @@ export default function HomePage() {
             <EmailContactButton />
             <a
               href="/resume.pdf"
-              download="Tianyu-Wu-Resume.pdf"
+              download="Tianyu_Product Design.pdf"
               className="inline-flex items-center gap-2 text-sm font-medium leading-none text-[#111] transition-opacity hover:opacity-60"
             >
               <IconDownloadFilled className="h-5 w-5 shrink-0" aria-hidden />

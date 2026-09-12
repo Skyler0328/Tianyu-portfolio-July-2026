@@ -292,9 +292,9 @@ export const MOCK_PROJECTS: Record<string, ProjectData> = {
     description:
       'I worked on the Copilot plugins for Eclipse and IntelliJ, and will walk through the design process across both.',
     metadata: {
-      role: 'UX Designer',
+      role: 'Product Designer',
       team: 'Cross-functional team of designers, researchers, PMs, and engineers',
-      duration: 'May 2025 – Present',
+      duration: 'May 2025 – July 31, 2026',
       impact:
         '· Defined cross-platform design strategy for Copilot experiences across Eclipse and IntelliJ\n· Owned UX design for GitHub Copilot in Eclipse\n· Contributed to IntelliJ experiences alongside fellow designers\n· Designed agent-driven workflows, context management, and failure recovery experiences\n· Partnered with engineers through implementation and launch.',
     },
