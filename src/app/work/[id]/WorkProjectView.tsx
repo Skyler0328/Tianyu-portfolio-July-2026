@@ -1018,21 +1018,23 @@ function ProjectSection({ block }: { block: ProjectSectionBlock }) {
 
             return (
               <li
-                key={title}
+                key={title ?? `item-${index}`}
                 className={
                   block.itemsLayout === 'continuous'
                     ? undefined
                     : 'border-t border-[#E8E8E8] pt-12 md:pt-16'
                 }
               >
-                <h3 className={challengeTitle}>
-                  {block.itemsLayout === 'continuous' ? null : (
-                    <span className="mr-3 font-mono text-xs font-medium uppercase tracking-[0.12em] text-[#888]">
-                      {String(index + 1).padStart(2, '0')}
-                    </span>
-                  )}
-                  {title}
-                </h3>
+                {title ? (
+                  <h3 className={challengeTitle}>
+                    {block.itemsLayout === 'continuous' ? null : (
+                      <span className="mr-3 font-mono text-xs font-medium uppercase tracking-[0.12em] text-[#888]">
+                        {String(index + 1).padStart(2, '0')}
+                      </span>
+                    )}
+                    {title}
+                  </h3>
+                ) : null}
 
                 {description ? (
                   <p className={`mt-4 max-w-3xl ${bodyText}`}>{description}</p>
@@ -1120,7 +1122,13 @@ function ProjectSection({ block }: { block: ProjectSectionBlock }) {
                 ) : null}
 
                 {mediaGroups ? (
-                  <div className="mt-8 space-y-10">
+                  <div
+                    className={
+                      title || description || balance
+                        ? 'mt-8 space-y-10'
+                        : 'space-y-10'
+                    }
+                  >
                     {mediaGroups.map((group) => (
                       <ChallengeMediaGroup
                         key={group.title ?? group.variant}

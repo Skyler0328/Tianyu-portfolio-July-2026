@@ -80,7 +80,7 @@ export type ProjectItemMetrics = {
 export type ProjectSectionItem =
   | string
   | {
-      title: string;
+      title?: string;
       description?: string;
       balance?: {
         left: string;
@@ -387,13 +387,6 @@ export const MOCK_PROJECTS: Record<string, ProjectData> = {
             },
           },
           {
-            title: 'AI Capability',
-            description:
-              'We selectively reveal agent content to users: information that is not critical while the agent is running is collapsed to improve screen efficiency, while users can manually expand it to inspect details. When an error occurs, the full details expand by default so users can locate the issue.',
-            balance: {
-              left: 'More autonomy',
-              right: 'More predictability',
-            },
             mediaGroups: [
               {
                 title: 'Sub-agent Design',
