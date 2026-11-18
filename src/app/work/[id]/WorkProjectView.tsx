@@ -908,7 +908,7 @@ function ProjectSection({ block }: { block: ProjectSectionBlock }) {
       {block.eyebrow ? (
         <p className={`${labelText} mb-3`}>{block.eyebrow}</p>
       ) : null}
-      <h2 className={sectionTitle}>{block.title}</h2>
+      {block.title ? <h2 className={sectionTitle}>{block.title}</h2> : null}
       {block.subtitle ? (
         <p
           className={
@@ -982,7 +982,13 @@ function ProjectSection({ block }: { block: ProjectSectionBlock }) {
       ) : null}
 
       {hasMediaGroups && !hasItems ? (
-        <div className="mt-10 space-y-10 md:mt-12">
+        <div
+          className={
+            block.title || block.eyebrow || block.description || block.subtitle
+              ? 'mt-10 space-y-10 md:mt-12'
+              : 'space-y-10'
+          }
+        >
           {block.mediaGroups!.map((group, index) => (
             <ChallengeMediaGroup
               key={group.title ?? `media-group-${index}`}

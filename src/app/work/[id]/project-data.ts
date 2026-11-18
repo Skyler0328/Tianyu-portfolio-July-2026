@@ -230,7 +230,7 @@ export type ProjectSectionBlock = {
   type: 'section';
   /** Optional chapter label shown above the title, e.g. "Chapter 1". */
   eyebrow?: string;
-  title: string;
+  title?: string;
   /** Supporting question / line under the chapter title. */
   subtitle?: string;
   /** Keep subtitle on a single line (no wrap). */
@@ -300,12 +300,62 @@ export const MOCK_PROJECTS: Record<string, ProjectData> = {
     },
     content: [
       {
-        type: 'image',
-        src: '/work/hero-image.png?v=3',
-        alt: 'GitHub Copilot for IDEs hero',
-        layout: 'full',
-        width: 2644,
-        height: 1434,
+        type: 'section',
+        mediaGroups: [
+          {
+            variant: 'featuredGrid',
+            featured: {
+              src: '/work/copilot-plugin-website.jpg',
+              alt: 'JetBrains Marketplace plugin website featuring Copilot UI',
+              cardBg: '#F5F5F5',
+              width: 1600,
+              height: 866,
+            },
+            images: [
+              {
+                src: '/work/copilot-agent.jpg',
+                alt: 'Agent',
+                cardBg: '#1B1B1B',
+                width: 1600,
+                height: 900,
+              },
+              {
+                src: '/work/copilot-ask.jpg',
+                alt: 'Ask',
+                cardBg: '#1B1B1B',
+                width: 1600,
+                height: 900,
+              },
+              {
+                src: '/work/copilot-code-completion.jpg',
+                alt: 'Code Completion',
+                cardBg: '#1B1B1B',
+                width: 1600,
+                height: 900,
+              },
+            ],
+          },
+          {
+            variant: 'grid',
+            matchHeight: true,
+            images: [
+              {
+                src: '/work/eclipse-poster.jpg',
+                alt: 'Eclipse Copilot visual poster',
+                cardBg: '#0C022F',
+                width: 2560,
+                height: 1440,
+              },
+              {
+                src: '/work/eclipse-ui-dark-theme.jpg',
+                alt: 'Eclipse Copilot UI dark theme',
+                cardBg: '#1E1E1E',
+                width: 1200,
+                height: 652,
+              },
+            ],
+          },
+        ],
       },
       {
         type: 'section',
@@ -314,9 +364,6 @@ export const MOCK_PROJECTS: Record<string, ProjectData> = {
         itemsLayout: 'continuous',
         items: [
           {
-            title: 'Users',
-            description:
-              'Primary users are developers, operators, and QA engineers working inside IDEs. A large share of adoption comes from B2B enterprise buyers who purchase Copilot for teams — so the experience must serve both individual practitioners and organizational buyers who care about control, clarity, and scale.',
             metrics: {
               stats: [
                 {
@@ -374,19 +421,7 @@ export const MOCK_PROJECTS: Record<string, ProjectData> = {
             },
           },
           {
-            title: 'Typical Workflow',
-            description:
-              'How developers collaborate with GitHub Copilot across a coding task — from understanding goal and context through plan, implement, test, iterate, and ship — with retry and rollback paths when things go wrong.',
-            diagram: {
-              src: '/work/ai-coding-flow.webp',
-              alt: 'AI coding flow diagram for GitHub Copilot',
-              width: 680,
-              height: 680,
-              fit: 'natural',
-              cardBg: 'transparent',
-            },
-          },
-          {
+            title: 'AI Capability',
             mediaGroups: [
               {
                 title: 'Sub-agent Design',
@@ -435,6 +470,19 @@ export const MOCK_PROJECTS: Record<string, ProjectData> = {
                 },
               },
               {
+                title: "Collecting User's Feedback",
+                variant: 'stack',
+                images: [
+                  {
+                    src: '/work/users-pain-point.png',
+                    alt: "User pain points from research interviews",
+                    cardBg: '#1A1A1A',
+                    width: 2200,
+                    height: 1112,
+                  },
+                ],
+              },
+              {
                 title: 'Context Understanding + Awareness',
                 variant: 'split',
                 image: {
@@ -453,23 +501,6 @@ export const MOCK_PROJECTS: Record<string, ProjectData> = {
                 },
               },
             ],
-            afterInsight: {
-              title: "Collecting User's Feedback",
-              mediaGroups: [
-                {
-                  variant: 'stack',
-                  images: [
-                    {
-                      src: '/work/users-pain-point.png',
-                      alt: "User pain points from research interviews",
-                      cardBg: '#1A1A1A',
-                      width: 2200,
-                      height: 1112,
-                    },
-                  ],
-                },
-              ],
-            },
           },
         ],
       },
@@ -759,67 +790,6 @@ export const MOCK_PROJECTS: Record<string, ProjectData> = {
                 cardBg: '#FFFFFF',
                 width: 500,
                 height: 287,
-              },
-            ],
-          },
-        ],
-      },
-      {
-        type: 'section',
-        title: 'Shipped on JetBrains Marketplace',
-        description:
-          'Official plugin website screenshots featuring the product UI I designed — Agent, Ask, and Code Completion — as shown to users on the JetBrains Marketplace listing.',
-        mediaGroups: [
-          {
-            variant: 'featuredGrid',
-            featured: {
-              src: '/work/copilot-plugin-website.jpg',
-              alt: 'JetBrains Marketplace plugin website featuring Copilot UI',
-              cardBg: '#F5F5F5',
-              width: 1600,
-              height: 866,
-            },
-            images: [
-              {
-                src: '/work/copilot-agent.jpg',
-                alt: 'Agent',
-                cardBg: '#1B1B1B',
-                width: 1600,
-                height: 900,
-              },
-              {
-                src: '/work/copilot-ask.jpg',
-                alt: 'Ask',
-                cardBg: '#1B1B1B',
-                width: 1600,
-                height: 900,
-              },
-              {
-                src: '/work/copilot-code-completion.jpg',
-                alt: 'Code Completion',
-                cardBg: '#1B1B1B',
-                width: 1600,
-                height: 900,
-              },
-            ],
-          },
-          {
-            variant: 'grid',
-            matchHeight: true,
-            images: [
-              {
-                src: '/work/eclipse-poster.jpg',
-                alt: 'Eclipse Copilot visual poster',
-                cardBg: '#0C022F',
-                width: 2560,
-                height: 1440,
-              },
-              {
-                src: '/work/eclipse-ui-dark-theme.jpg',
-                alt: 'Eclipse Copilot UI dark theme',
-                cardBg: '#1E1E1E',
-                width: 1200,
-                height: 652,
               },
             ],
           },
