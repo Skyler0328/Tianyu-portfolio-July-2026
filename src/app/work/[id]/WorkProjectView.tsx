@@ -439,11 +439,11 @@ function SplitMediaGroup({
 }: {
   group: Extract<ProjectChallengeMediaGroup, { variant: 'split' }>;
 }) {
-  const { image, video } = group;
+  const { image, video, sideImage } = group;
   const videoRef = useRef<HTMLVideoElement>(null);
-  useVideoPlaybackRate(videoRef, video.playbackRate);
+  useVideoPlaybackRate(videoRef, video?.playbackRate);
   const imageBg = image.cardBg ?? '#F3F3F3';
-  const videoBg = video.cardBg ?? '#1E1E1E';
+  const sideBg = sideImage?.cardBg ?? video?.cardBg ?? '#1E1E1E';
 
   return (
     <div className="space-y-4">
@@ -465,27 +465,38 @@ function SplitMediaGroup({
           </div>
           <div
             className="flex min-h-[280px] items-center justify-center overflow-hidden rounded-xl md:min-h-0"
-            style={{ backgroundColor: videoBg }}
+            style={{ backgroundColor: sideBg }}
           >
-            <video
-              ref={videoRef}
-              src={video.src}
-              aria-label={video.alt}
-              width={video.width}
-              height={video.height}
-              className="h-full max-h-[70vh] w-auto max-w-full object-contain md:max-h-none"
-              style={{ backgroundColor: videoBg }}
-              onLoadedMetadata={(event) => {
-                if (video.playbackRate) {
-                  event.currentTarget.playbackRate = video.playbackRate;
-                }
-              }}
-              autoPlay
-              muted
-              loop
-              playsInline
-              preload="metadata"
-            />
+            {sideImage ? (
+              <MediaImage
+                src={sideImage.src}
+                alt={sideImage.alt}
+                width={sideImage.width ?? 800}
+                height={sideImage.height ?? 1200}
+                className="h-full max-h-[70vh] w-auto max-w-full object-contain md:max-h-none"
+                sizes="(max-width: 768px) 100vw, 28vw"
+              />
+            ) : video ? (
+              <video
+                ref={videoRef}
+                src={video.src}
+                aria-label={video.alt}
+                width={video.width}
+                height={video.height}
+                className="h-full max-h-[70vh] w-auto max-w-full object-contain md:max-h-none"
+                style={{ backgroundColor: sideBg }}
+                onLoadedMetadata={(event) => {
+                  if (video.playbackRate) {
+                    event.currentTarget.playbackRate = video.playbackRate;
+                  }
+                }}
+                autoPlay
+                muted
+                loop
+                playsInline
+                preload="metadata"
+              />
+            ) : null}
           </div>
         </div>
       </ImageCard>

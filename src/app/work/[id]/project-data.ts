@@ -207,10 +207,11 @@ export type ProjectChallengeMediaGroup =
     }
   | {
       title?: string;
-      /** Image left + video right in a single card / one row. */
+      /** Image left + video or static image right in a single card / one row. */
       variant: 'split';
       image: ProjectChallengeImage;
-      video: ProjectChallengeVideo;
+      video?: ProjectChallengeVideo;
+      sideImage?: ProjectChallengeImage;
     }
   | {
       title?: string;
@@ -425,23 +426,28 @@ export const MOCK_PROJECTS: Record<string, ProjectData> = {
             mediaGroups: [
               {
                 title: 'Sub-agent Design',
-                variant: 'transition',
-                after: [
+                variant: 'stack',
+                images: [
                   {
-                    src: '/work/subagent-expand.png?v=3',
-                    alt: 'Expanded sub-agent design after the redesign',
-                    cardBg: '#CCE2E0',
-                    width: 978,
-                    height: 1000,
-                    fit: 'natural',
+                    src: '/work/subagent-1.png',
+                    alt: 'Sub-agent design exploration: command duplication and terminal confirmation',
+                    cardBg: '#D9D9D9',
+                    width: 2944,
+                    height: 2174,
                   },
                   {
-                    src: '/work/subagent-finished.png?v=2',
-                    alt: 'Finished sub-agent design after the redesign',
-                    cardBg: '#CCE2E0',
-                    width: 978,
+                    src: '/work/subagent-2.png',
+                    alt: 'Sub-agent design version 2: three chat states for running and completed work',
+                    cardBg: '#DCE8E7',
+                    width: 1590,
+                    height: 1298,
+                  },
+                  {
+                    src: '/work/subagent-3.png',
+                    alt: 'Sub-agent design version 3: concise running and completed states',
+                    cardBg: '#DCE8E7',
+                    width: 1472,
                     height: 1000,
-                    fit: 'natural',
                   },
                 ],
               },
@@ -484,21 +490,16 @@ export const MOCK_PROJECTS: Record<string, ProjectData> = {
               },
               {
                 title: 'Context Understanding + Awareness',
-                variant: 'split',
-                image: {
-                  src: '/work/context-understanding.png',
-                  alt: 'Context understanding before and after: compact multi-file context in chat',
-                  cardBg: '#CCE2E0',
-                  width: 2776,
-                  height: 2304,
-                },
-                video: {
-                  src: '/work/record-context-window.mp4',
-                  alt: 'Context window awareness recording showing token usage breakdown',
-                  cardBg: '#DCE8E7',
-                  width: 424,
-                  height: 800,
-                },
+                variant: 'stack',
+                images: [
+                  {
+                    src: '/work/context-understanding.png?v=2',
+                    alt: 'Context understanding before and after, plus context management in Copilot Chat',
+                    cardBg: '#CCE2E0',
+                    width: 3878,
+                    height: 2304,
+                  },
+                ],
               },
             ],
           },
